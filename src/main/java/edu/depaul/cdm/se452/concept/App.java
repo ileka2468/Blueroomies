@@ -26,9 +26,9 @@ public class App {
 	CommandLineRunner run(UserRoleRepository roleRepo, UserRepository userRepo) {
 		return args -> {
 
-			log.debug("debugg me1");
-			log.error("error me2");
-			log.info("inform me4");
+			log.debug("debugg me");
+			log.error("error me");
+			log.info("inform me");
 			
 			log.atInfo().log("checking adding user");
 			log.atDebug().log("debugging  adding user");

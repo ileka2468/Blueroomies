@@ -13,25 +13,20 @@
 
 ---
 
-## **2. Initial Key Features (Per Team Member)**
+## **2. Initial Key Features (by Developer Focus Area and Feature Group)**
 
-### **William**
-- [Project Focus Area Here (TBD)]
-- [Project Focus Area Here (TBD)]
-
-### **Nathan**
+### **Feature Group: Messaging, Notifications, Agreements**
+##### Developers: Cristian and Matthew
 - [Project Focus Area Here (TBD)]
 - [Project Focus Area Here (TBD)]
 
-### **Russel**
+### **Feature Group: Authentication, Roommate Matching, Search/Filtering**
+##### Developers: William and Nathan
 - [Project Focus Area Here (TBD)]
 - [Project Focus Area Here (TBD)]
 
-### **Cristian**
-- [Project Focus Area Here (TBD)]
-- [Project Focus Area Here (TBD)]
-
-### **Matthew**
+### **Profile Management, Preferences**
+##### Developers: Harshita and Saqib
 - [Project Focus Area Here (TBD)]
 - [Project Focus Area Here (TBD)]
 
@@ -42,9 +37,10 @@
   [GitHub Link to Repository](https://github.com/ileka2468/se452-group-project)
   
 - **Repository Structure**:  
-  - `frontend/`: Contains React components and frontend logic.
-  - `backend/`: Spring Boot code for API endpoints and business logic.
-  - `database/`: SQL scripts and database schema.
+  - `Frontend/`: Contains React components and frontend logic.
+  - `Backend/`:  Spring Boot code for API endpoints and business logic.
+  - `Database/`: SQL seeding scripts and database schema.
+  - `DOcumentation/`: Contains project and meeting documentation.
 
 ---
 

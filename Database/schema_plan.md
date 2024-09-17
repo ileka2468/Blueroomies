@@ -1,6 +1,6 @@
 Database Schema Design Rev.1
 
-![schema](/images/roommate-matcher-schema.png)
+![schema](https://github.com/ileka2468/se452-group-project/blob/db-setup/Database/images/roommate-matcher-schema.png?raw=true)
 
 ### **1. Users Table**:
 - **Description**: Stores user account information for auth.

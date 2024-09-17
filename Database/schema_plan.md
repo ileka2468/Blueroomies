@@ -1,6 +1,6 @@
 Database Schema Design Rev.1
 
-![schema](/images/roomate-matcher-schema.png)
+![schema](/images/roommate-matcher-schema.png)
 
 ### **1. Users Table**:
 - **Description**: Stores user account information for auth.

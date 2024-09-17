@@ -1,5 +1,7 @@
 Database Schema Design Rev.1
 
+![schema](./images/roomate-matcher-schema.png)
+
 ### **1. Users Table**:
 - **Description**: Stores user account information for auth.
 - **Key Fields**:
@@ -33,7 +35,7 @@ Database Schema Design Rev.1
   - `user_id`: Foreign key linking to the `users` table.
   - `is_actively_looking` - bool indicating whether a user is actively looking for a roomate and is in the matchmaking pool.  
   - `bio`: A short description or bio provided by the user.
-  - `budget`, `cleanliness_level`, `sleep_schedule etc...`: Many fields describing the user’s preferences for a living arrangement.
+  - `characteristics`: A JSON column containing the user's atttributes such as `budget`, `cleanliness_level`, `sleep_schedule etc...`
 
 ---
 
@@ -42,7 +44,7 @@ Database Schema Design Rev.1
 - **Key Fields**:
   - `preference_id`: Unique identifier for each preference set (Primary Key).
   - `user_id`: Foreign key linking to the `users` table.
-  - Fields representing the user's roommate preferences ( `preferred_cleanliness_level`, `preferred_budget_min`, `preferred_smoking`) etc....
+  - `pref_characteristics`: A JSON column containing the user's preferred characteristics of their roommate.
 
 
 ---

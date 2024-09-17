@@ -16,19 +16,18 @@
 ## **2. Initial Key Features (by Developer Focus Area and Feature Group)**
 
 ### **Feature Group: Messaging, Notifications, Agreements**
-##### Developers: Cristian and Matthew
-- [Project Focus Area Here (TBD)]
-- [Project Focus Area Here (TBD)]
+##### Developers: Cristian (Backend) and Matthew (Frontend/Database)
+- [Feature Explanation Here (TBD)]
+- [Feature Explanation Here (TBD)]
 
 ### **Feature Group: Authentication, Roommate Matching, Search/Filtering**
-##### Developers: William and Nathan
-- [Project Focus Area Here (TBD)]
-- [Project Focus Area Here (TBD)]
-
+##### Developers: William (Flex) and Nathan (Backend/Database)
+- [Feature Explanation Here (TBD)]
+- [Feature Explanation Here (TBD)]
 ### **Profile Management, Preferences**
-##### Developers: Harshita and Saqib
-- [Project Focus Area Here (TBD)]
-- [Project Focus Area Here (TBD)]
+##### Developers: Harshita (TBD) and Saqib (TBD)
+- [Feature Explanation Here (TBD)]
+- [Feature Explanation Here (TBD)]
 
 ---
 

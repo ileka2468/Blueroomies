@@ -21,7 +21,7 @@
 - [Feature Explanation Here (TBD)]
 
 ### **Feature Group: Authentication, Roommate Matching, Search/Filtering**
-##### Developers: William (Flex) and Nathan (Backend/Database)
+##### Developers: William (Lead/Flex) and Nathan (Backend/Database)
 - [Feature Explanation Here (TBD)]
 - [Feature Explanation Here (TBD)]
 ### **Profile Management, Preferences**

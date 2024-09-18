@@ -8,6 +8,8 @@
 - **Description**: Stores user account information for auth.
 - **Key Fields**:
   - `user_id (SERIAL)`: Unique identifier for each user (Primary Key).
+  - `first_name (VARCHAR)`: The user's first name.
+  - `last_name (VARCHAR)`: The user's last name.
   - `username (VARCHAR)`: The user's username.
   - `password (VARCHAR)`: The hashed password.
   - `enabled (BOOLEAN)`: A boolean saying whether the user's account is active.
@@ -72,7 +74,7 @@
 
 ---
 
-### **8. Notifications Table (Optional)**:
+### **8. Notifications Table**:
 - **Description**: Stores notifications for unread messages.
 - **Key Fields**:
   - `notification_id (SERIAL)`: Unique identifier for each notification (Primary Key).

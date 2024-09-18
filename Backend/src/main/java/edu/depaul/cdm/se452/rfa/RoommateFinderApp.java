@@ -12,5 +12,4 @@ public class RoommateFinderApp {
 	public static void main(String[] args) {
 		SpringApplication.run(RoommateFinderApp.class, args);
 	}
-
 }

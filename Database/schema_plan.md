@@ -27,7 +27,7 @@ Database Schema Design Rev.1
 ---
 
 ### **4. Profiles Table**:
-- **Description**: Contains additional information for each user related to matchmaking.
+- **Description**: Contains additional information for each user for matchmaking.
 - **Key Fields**:
   - `profile_id`: Unique identifier for each profile (Primary Key).
   - `user_id`: Foreign key linking to the `users` table.
@@ -38,7 +38,7 @@ Database Schema Design Rev.1
 ---
 
 ### **5. Preferences Table**:
-- **Description**: Stores each user’s preferences for potential roommates. This table is used by the matching algorithm to find compatible roommates.
+- **Description**: Stores each user’s preferences for **other** potential roommates. This table is used by the matching algorithm to find compatible roommates.
 - **Key Fields**:
   - `preference_id`: Unique identifier for each preference set (Primary Key).
   - `user_id`: Foreign key linking to the `users` table.
@@ -48,11 +48,12 @@ Database Schema Design Rev.1
 ---
 
 ### **6. Roommate Matches Table**:
-- **Description**: This table stores the results of the matching algorithm. It records pairs of users who have been matched based on compatibility, along with a score indicating how well they match.
+- **Description**: This table stores the results of the matching algo it records pairs of users who have been matched and how well they matched.
 - **Key Fields**:
   - `match_id`: Unique identifier for each match (Primary Key).
   - `user_id_1` and `user_id_2`: Foreign keys referencing the `users` table, representing the two users involved in the match.
   - `match_score`: A numerical value representing how compatible the two users are.
+  - `match_ts`: A date representing when the match was made.
 
 ---
 

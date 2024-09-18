@@ -32,10 +32,10 @@ API Endpoint Plan Rev.1
 ### **3.1. Preferences Retrieval and Update**
 
 - **GET** `/api/preferences/me`
-  - **Description**: Retrieve the roommate preferences for the currently authenticated user.
+  - **Description**: Retrieve the roommate preferences for the currently authed user.
 
 - **PUT** `/api/preferences/me`
-  - **Description**: Update the roommate preferences for the currently authenticated user.
+  - **Description**: Update the roommate preferences for the currently authed user.
 
 ---
 
@@ -45,23 +45,20 @@ API Endpoint Plan Rev.1
 ### **4.1. Trigger Matching Algorithm**
 
 - **POST** `/api/matches/run`
-  - **Description**: Triggers the matching algorithm for the currently authenticated user based on their preferences.
-  - **Request Body** (requires json preferences data to be sent from frontend)
+  - **Description**: Triggers the matching algorithm for the currently authed user based on frontend preferences form.
+  - **Request Body** (requires preferences to be sent as json data from frontend)
     ```json
     {
-      "budget": {
-        "min": 500,
-        "max": 1000
-      },
       "cleanliness": "high",
       "smoking": "non-smoker",
       "pets": "yes",
       "noise": "moderate",
-      "proximity": "campus"
+      "proximity": "campus",
+      etc..
     }
     ```
 
-  - **Response**: A list of matches generated in real-time from the algorithm, returned immediately to the frontend for display.
+  - **Response**: Matches generated from the algorithm to the frontend for display.
   
   - **Response Example**:
     ```json
@@ -74,6 +71,7 @@ API Endpoint Plan Rev.1
             "name": "John Doe",
             "bio": "Looking for a quiet roommate.",
             "budget": 900,
+            "oncampus": false,
             "cleanliness": "high",
             "smoking": "non-smoker",
             "pets": "no",
@@ -88,6 +86,7 @@ API Endpoint Plan Rev.1
             "name": "Jane Smith",
             "bio": "Night owl, loves pets.",
             "budget": 700,
+            "oncampus": false,
             "cleanliness": "medium",
             "smoking": "non-smoker",
             "pets": "yes",
@@ -99,10 +98,10 @@ API Endpoint Plan Rev.1
     }
     ```
 
-### **4.2. Retrieve Stored Matches (With Pagination)**
+### **4.2. Retrieve Stored Matches (Unfortunately with Pagination)**
 
 - **POST** `/api/matches`
-  - **Description**: Retrieve a paginated list of stored matches from the `roommate_matches` table for the currently authenticated user. Filters can be applied to refine the results.
+  - **Description**: Retrieve a paginated list of the stored matches from the `roommate_matches` table for the currently authed user. Filters can be applied.
 
 - **Request Body**:
   ```json
@@ -138,6 +137,7 @@ API Endpoint Plan Rev.1
             "name": "John Doe",
             "bio": "Looking for a quiet roommate.",
             "budget": 900,
+            "oncampus": false,
             "cleanliness": "high",
             "smoking": "non-smoker",
             "pets": "no",
@@ -153,6 +153,7 @@ API Endpoint Plan Rev.1
             "name": "Jane Smith",
             "bio": "Night owl, loves pets.",
             "budget": 700,
+            "oncampus": false,
             "cleanliness": "medium",
             "smoking": "non-smoker",
             "pets": "yes",

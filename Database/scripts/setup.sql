@@ -47,6 +47,7 @@ CREATE TABLE Roommate_Matches (
   user_id_1 INT NOT NULL,
   user_id_2 INT NOT NULL,
   match_score NUMERIC NOT NULL,
+  match_ts date NOT NULL,
   FOREIGN KEY (user_id_1) REFERENCES Users(user_id) ON DELETE CASCADE,
   FOREIGN KEY (user_id_2) REFERENCES Users(user_id) ON DELETE CASCADE,
   CHECK (user_id_1 <> user_id_2) -- does not allow someone to be matched with themself

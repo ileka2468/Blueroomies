@@ -26,8 +26,9 @@
 - [Feature Explanation Here (TBD)]
 ### **Profile Management, Preferences**
 ##### Developers: Harshita (TBD) and Saqib (TBD)
-- [Feature Explanation Here (TBD)]
-- [Feature Explanation Here (TBD)]
+- allows users to create, edit, maintain personal profiles including a bio, preferences, etc
+- enables users to select and prioritize their roommate preference categories (ex: cleanliness, sleep schedule, 
+housing location preference, etc); the app uses these categories to suggest potential roommate matches
 
 ---
 

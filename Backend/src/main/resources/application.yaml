@@ -1,8 +1,0 @@
-  profiles:
-    include:
-#     - "user-hardcoded"
-     - "user-database"
-     - "jwt"
-#     - "non-jwt"
-
-  

@@ -167,6 +167,81 @@ API Endpoint Plan Rev.1
 
 ---
 
+## **5. Messaging System 🔒**
+
+### **5.1. Conversations**
+
+- **GET** `/api/conversations`
+  - **Description**: Retrieve a list of conversations for the authenticated user.
+
+- **POST** `/api/conversations`
+  - **Description**: Create a new conversation with a matched user.
+
+### **5.2. Messages**
+
+- **GET** `/api/conversations/{conversation_id}/messages`
+  - **Description**: Retrieve messages in a specific conversation.
+
+- **POST** `/api/conversations/{conversation_id}/messages`
+  - **Description**: Send a message in a specific conversation.
+  
+---
+
+## **6. Notifications 🔒**
+
+### **6.1. Notification Retrieval and Update**
+
+- **GET** `/api/notifications`
+  - **Description**: Retrieve a list of notifications for the authenticated user.
+
+- **PUT** `/api/notifications/{notification_id}/read`
+  - **Description**: Mark a specific notification as read.
+
+---
+
+## **7. Roommate Agreements 🔒**
+
+### **7.1. Agreement Management**
+
+- **POST** `/api/agreements`
+  - **Description**: Create a new roommate agreement with a matched user.
+
+- **GET** `/api/agreements/{agreement_id}`
+  - **Description**: Retrieve a specific roommate agreement.
+
+- **PUT** `/api/agreements/{agreement_id}`
+  - **Description**: Update the content of a roommate agreement.
+
+- **POST** `/api/agreements/{agreement_id}/accept`
+  - **Description**: Accept the roommate agreement.
+
+- **POST** `/api/agreements/{agreement_id}/reject`
+  - **Description**: Reject or request changes to the roommate agreement.
+
+---
+
+## **8. Search and Filtering 🔒**
+
+### **8.1. Search for Users**
+
+- **POST** `/api/search/users`
+  - **Description**: Search for users based on filters provided in the request body.
+
+- **Request Body**:
+  ```json
+  {
+    "filters": {
+      "budget": {
+        "min": 500,
+        "max": 1000
+      },
+      "cleanliness": "high",
+      "smoking": "non-smoker",
+      "pets": "yes"
+    }
+  }
+  ```
+
 ## Key
-- 🔓 = Unprotected route
-- 🔒 = Protected route (requires authenticated user)
+- 🔓 = Unprotected routes
+- 🔒 = Protected routes (requires authenticated user)

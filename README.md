@@ -18,7 +18,7 @@
 ### **Feature Group: Messaging, Notifications, Agreements**
 ##### Developers: Cristian (Backend) and Matthew (Frontend/Database)
 - Matthew - Frontend components for messaging page, agreement page, and notification system.
-- [Feature Explanation Here (TBD)]
+- Cristian - Backend, enabling messaging services between matched users, setting up notifications to    alert users when new matches are found, etc. Creating agreement between users when establishing roommate partnership. Additional features as the project progresses.
 
 ### **Feature Group: Authentication, Roommate Matching, Search/Filtering**
 ##### Developers: William (Lead/Flex) and Nathan (Backend/Database)

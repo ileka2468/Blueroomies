@@ -37,3 +37,6 @@ logs/
 
 ### Mavon directory ###
 .mvn/
+
+## properties file
+src/main/resources/application.properties

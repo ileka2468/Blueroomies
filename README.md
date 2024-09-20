@@ -44,7 +44,7 @@
   - `Frontend/`: Contains React components and frontend logic.
   - `Backend/`: Spring Boot code for API endpoints and business logic.
   - `Database/`: SQL seeding scripts and database schema.
-  - `DOcumentation/`: Contains project and meeting documentation.
+  - `Documentation/`: Contains project and meeting documentation.
 
 ---
 
@@ -82,23 +82,23 @@
 - **Primary Tool**:
   - **Discord Server**: The team will use Discord for communication.
 - **Scheduled Meetings**:
-  - Weekly virtual meetings via #weeklymeetings voice channel in server.
+  - Weekly virtual meetings via '#meeting-voice'channel in discord server.
   - Random popup meetings can be called if something really really bad is occuring and decisions need to be made.
 
 ---
 
 ## **6. Meeting Journal**
 
-We will have 2 meetings per week. Sundays and TBD.
+We will have 2 meetings per week on Thursday(5pm) and Sunday(1pm).
 
 - **Meeting 1**:
   - **Date**: 9/15/2024
   - **Agenda**: Brainstorming app ideas, role assignment, cloning repo, getting repo perms and access.
   - **Outcomes**: Decided on app concept, assigned roles, cloned the starter repo.
 - **Meeting 2**:
-  - **Date**: [TBD]
-  - **Agenda**: Initial feature development progress, deciding database schema.
-  - **Outcomes**: TBD
+  - **Date**: 9/19/2024
+  - **Agenda**: New members introduction, discuss hybrid role system, go over feature groups, recommended IDEs/software, documentation walkthrough, code walkthrough, verify repo access and environment setup.
+  - **Outcomes**: New members introduced, role structure clarified, IDEs/software recommended, basic code reviewed, repo access and environment verified.
 
 More soon...
 
@@ -107,7 +107,7 @@ More soon...
 ## **7. Key Decisions**
 
 - **Editor**:  
-  The team can use whatever IDE's or text-editors they are comfortable with but thre recommended editor will be Intelij **IDEA Community Edition** for Java and Spring Boot code and Visual Studio Code for Frontend/React code.
+  The team can use whatever IDE's or text-editors they are comfortable with but thre recommended editor will be Intelij **IDEA Ultimate Edition** for Java and Spring Boot code and **Visual Studio Code** for Frontend/React code.
 - **Project Scope**:  
   The final project scope includes user authentication, profile management, roommate matching, and messaging.
 

@@ -22,7 +22,7 @@
 
 ### **Feature Group: Authentication, Roommate Matching, Search/Filtering**
 ##### Developers: William (Lead/Flex) and Nathan (Backend/Database)
-- [Feature Explanation Here (TBD)]
+- Nathan - Backend and database configurations/setup. Utilizing statistical models to determine an efficient roommate matching system, and write microservices for server to database interactions for search/filter operations to be utilized by frontend components.
 - [Feature Explanation Here (TBD)]
 ### **Profile Management, Preferences**
 ##### Developers: Harshita (TBD) and Saqib (TBD)

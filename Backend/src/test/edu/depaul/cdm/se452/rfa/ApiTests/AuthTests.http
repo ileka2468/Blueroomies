@@ -1,0 +1,36 @@
+### @name local
+@baseUrl = http://localhost:8080
+
+
+# Test API REGISTER
+POST {{baseUrl}}/api/auth/register
+Content-Type: application/json
+
+{
+  "username":  "Test",
+  "password":  "Test",
+  "firstName": "Test",
+  "lastName":  "Test"
+}
+
+> {%
+    if (response.status !== 200) {
+        throw new Error("Register Test failed: expected status 200, got " + response.status);
+    }
+%}
+
+###
+
+POST {{baseUrl}}/api/auth/login
+Content-Type: application/json
+
+{
+  "username": "Test",
+  "password": "Test"
+}
+
+> {%
+     if (response.status != 200) {
+         throw new Error("Login Test Failed: expected status 200 got " + response.status)
+     }
+  %}

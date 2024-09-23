@@ -5,6 +5,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;
+import java.util.List;
 
 @Getter
 public class UserPrincipal implements UserDetails {
@@ -12,10 +13,10 @@ public class UserPrincipal implements UserDetails {
     private String username;
     private String password;
     private Boolean enabled;
-    private Collection<? extends GrantedAuthority> authorities;
+    private List<? extends GrantedAuthority> authorities;
 
     public UserPrincipal(Integer id, String username, String password, Boolean enabled,
-                         Collection<? extends GrantedAuthority> authorities) {
+                         List<? extends GrantedAuthority> authorities) {
         this.id = id;
         this.username = username;
         this.password = password;

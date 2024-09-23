@@ -31,14 +31,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         if (jwt != null && tokenProvider.validateToken(jwt)) {
             String username = tokenProvider.getUsernameFromJWT(jwt);
-
+            System.out.println("Username: " + username);
             UserDetails userDetails = customUserDetailsService.loadUserByUsername(username);
-
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                     userDetails, null, userDetails.getAuthorities());
-
             authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
 
@@ -48,6 +45,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     // Helper method to get token from request
     private String getJwtFromRequest(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
+        if (bearerToken != null) {
+            System.out.println("TOKEN IS " + bearerToken);
+            System.out.println(bearerToken.startsWith("Bearer "));
+        }
+
         if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
             return bearerToken.substring(7);
         }

@@ -147,4 +147,9 @@ public class AuthController {
 
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Invalid refresh token");
     }
+
+//    @PostMapping("/logout")
+//    public ResponseEntity<?> logout(HttpServletResponse response) {
+//
+//    }
 }

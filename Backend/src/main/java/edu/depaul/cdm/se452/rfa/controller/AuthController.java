@@ -4,20 +4,31 @@ import edu.depaul.cdm.se452.rfa.entity.Role;
 import edu.depaul.cdm.se452.rfa.entity.User;
 import edu.depaul.cdm.se452.rfa.entity.UserRole;
 import edu.depaul.cdm.se452.rfa.entity.UserRoleId;
-import edu.depaul.cdm.se452.rfa.payload.AuthResponse;
+import edu.depaul.cdm.se452.rfa.service.AuthResponse;
 import edu.depaul.cdm.se452.rfa.payload.LoginRequest;
 import edu.depaul.cdm.se452.rfa.payload.RegisterRequest;
+import edu.depaul.cdm.se452.rfa.payload.TokenType;
 import edu.depaul.cdm.se452.rfa.repository.RoleRepository;
 import edu.depaul.cdm.se452.rfa.repository.UserRepository;
 import edu.depaul.cdm.se452.rfa.repository.UserRoleRepository;
 import edu.depaul.cdm.se452.rfa.security.JwtTokenProvider;
+import edu.depaul.cdm.se452.rfa.service.UserPrincipal;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -39,6 +50,9 @@ public class AuthController {
 
     @Autowired
     private JwtTokenProvider tokenProvider;
+
+    @Autowired
+    private UserDetailsService userDetailsService;
 
     // User Registration
     @PostMapping("/register")
@@ -80,7 +94,7 @@ public class AuthController {
 
     // User Login
     @PostMapping("/login")
-    public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest, HttpServletResponse response) {
         try {
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
@@ -89,12 +103,48 @@ public class AuthController {
                     )
             );
 
-            String jwt = tokenProvider.generateToken(authentication);
+            AuthResponse authResponse = tokenProvider.getTokens(authentication);
+            response.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + authResponse.getAccessToken());
+            response.addCookie(authResponse.getRefreshCookie());
 
-            return ResponseEntity.ok(new AuthResponse(jwt));
+            return ResponseEntity.ok().build();
 
         } catch (AuthenticationException e) {
             return ResponseEntity.status(401).body("Invalid username or password");
         }
+    }
+
+
+    @PostMapping("/refresh-token")
+    public ResponseEntity<?> refreshToken(HttpServletResponse response, HttpServletRequest request) {
+        if (request.getCookies() == null || request.getCookies().length == 0) {
+            return ResponseEntity.badRequest().body("Refresh token is empty");
+        }
+        List<Cookie> requestCookies = List.of(request.getCookies()); // extract the refresh token
+        String refreshToken = null;
+
+        for (Cookie requestCookie : requestCookies) {
+            if (requestCookie.getName().equals("refresh_token")) {
+                refreshToken = requestCookie.getValue();
+            }
+        }
+
+        if (refreshToken != null) {
+            boolean isValid = tokenProvider.validateToken(refreshToken);
+            if (isValid) {
+                try {
+                    String usernameFromJWT = tokenProvider.getUsernameFromJWT(refreshToken);
+                    UserPrincipal userDetails = (UserPrincipal) userDetailsService.loadUserByUsername(usernameFromJWT);
+                    String newAccessToken = tokenProvider.generateToken(userDetails.getUsername(), userDetails.getAuthorities(), TokenType.JWT);
+                    response.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + newAccessToken);
+                    return ResponseEntity.ok().build();
+                } catch (AuthenticationException e) {
+                    System.out.println(e.getMessage());
+                }
+
+            }
+        }
+
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Invalid refresh token");
     }
 }

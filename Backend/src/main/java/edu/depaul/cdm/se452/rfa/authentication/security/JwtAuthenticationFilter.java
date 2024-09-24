@@ -1,8 +1,8 @@
 package edu.depaul.cdm.se452.rfa.authentication.security;
 
 import edu.depaul.cdm.se452.rfa.invalidatedtokens.entity.Invalidatedtoken;
-import edu.depaul.cdm.se452.rfa.invalidatedtokens.repository.InvalidatedTokensRepository;
 import edu.depaul.cdm.se452.rfa.authentication.service.CustomUserDetailsService;
+import edu.depaul.cdm.se452.rfa.invalidatedtokens.service.InvalidateTokenService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -15,7 +15,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
-import org.apache.commons.codec.digest.DigestUtils;
+
 
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -26,22 +26,23 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private CustomUserDetailsService customUserDetailsService;
 
     @Autowired
-    private InvalidatedTokensRepository invalidatedTokensRepository;
+    private InvalidateTokenService invalidateTokenService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
 
-        String jwt = getJwtFromRequest(request);
-        Invalidatedtoken invalidatedToken = null;
+        String jwt = tokenProvider.getJwtFromRequest(request);
+        Invalidatedtoken invalidatedtoken = null;
 
+        // check if jwt was extracted from the request. If so do deactivated token search.
         if (jwt != null){
-            String tokenHash = DigestUtils.sha256Hex(jwt);
-            invalidatedToken = invalidatedTokensRepository.findByTokenHash(tokenHash);
+            invalidatedtoken = invalidateTokenService.loadTokenInvalidatedByJWT(jwt);
         }
 
-        if (jwt != null && tokenProvider.validateToken(jwt) && invalidatedToken == null) {
+        // if jwt present, token is validated, and the token hasn't been deactivated authenticate user
+        if (jwt != null && tokenProvider.validateToken(jwt) && invalidatedtoken == null) {
             System.out.println("JWT Provided, Token Verified, Token Valid");
             String username = tokenProvider.getUsernameFromJWT(jwt);
             UserDetails userDetails = customUserDetailsService.loadUserByUsername(username);
@@ -52,14 +53,5 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         filterChain.doFilter(request, response);
-    }
-
-    // Helper method to get token from request
-    private String getJwtFromRequest(HttpServletRequest request) {
-        String bearerToken = request.getHeader("Authorization");
-        if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
-            return bearerToken.substring(7);
-        }
-        return null;
     }
 }

@@ -1,5 +1,5 @@
 /**
- * Code related to invalidate session token tracking.
+ * Code related to invalidating sessions and token tracking.
  * @author William Ileka
  *
  */

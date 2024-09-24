@@ -21,7 +21,7 @@ public class Invalidatedtoken {
 
     @Size(max = 64)
     @NotNull
-    @Column(name = "token_hash", nullable = false, length = 64)
+    @Column(name = "token_hash", nullable = false, length = 64, unique = true)
     private String tokenHash;
 
     @NotNull

@@ -1,12 +1,12 @@
 package edu.depaul.cdm.se452.rfa.RepositoryTests.UserRole;
 
-import edu.depaul.cdm.se452.rfa.entity.Role;
-import edu.depaul.cdm.se452.rfa.entity.User;
-import edu.depaul.cdm.se452.rfa.entity.UserRole;
-import edu.depaul.cdm.se452.rfa.entity.UserRoleId;
-import edu.depaul.cdm.se452.rfa.repository.RoleRepository;
-import edu.depaul.cdm.se452.rfa.repository.UserRepository;
-import edu.depaul.cdm.se452.rfa.repository.UserRoleRepository;
+import edu.depaul.cdm.se452.rfa.authentication.entity.Role;
+import edu.depaul.cdm.se452.rfa.authentication.entity.User;
+import edu.depaul.cdm.se452.rfa.authentication.entity.UserRole;
+import edu.depaul.cdm.se452.rfa.authentication.entity.UserRoleId;
+import edu.depaul.cdm.se452.rfa.authentication.repository.RoleRepository;
+import edu.depaul.cdm.se452.rfa.authentication.repository.UserRepository;
+import edu.depaul.cdm.se452.rfa.authentication.repository.UserRoleRepository;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,7 +1,7 @@
 package edu.depaul.cdm.se452.rfa.RepositoryTests.Role;
 
-import edu.depaul.cdm.se452.rfa.entity.Role;
-import edu.depaul.cdm.se452.rfa.repository.RoleRepository;
+import edu.depaul.cdm.se452.rfa.authentication.entity.Role;
+import edu.depaul.cdm.se452.rfa.authentication.repository.RoleRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;

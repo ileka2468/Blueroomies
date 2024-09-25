@@ -30,10 +30,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
-import java.util.Date;
-
+@CrossOrigin
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
@@ -149,8 +146,7 @@ public class AuthController {
 
             }
         }
-
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Invalid refresh token");
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid refresh token");
     }
 
 

@@ -1,10 +1,30 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import reactLogo from "./assets/react.svg";
+import viteLogo from "/vite.svg";
+import "./App.css";
+import { useAxios } from "./Security/axios/AxiosProvider";
+import Login from "./Components/Authentication/Login";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const apiClient = useAxios();
+
+  const getProtectedData = async () => {
+    try {
+      const data = await apiClient.post("/matches/run");
+      console.log(data);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const logout = async () => {
+    const response = await apiClient.post("/auth/logout");
+    console.log(response?.status);
+  };
+
+  const refreshToken = async () => {
+    const response = await apiClient.post("/auth/refresh-token");
+    console.log(response?.status);
+  };
 
   return (
     <>
@@ -18,11 +38,13 @@ function App() {
       </div>
       <h1>Roomate Finding App</h1>
 
-      <p className="read-the-docs">
-        Repo: <a href="https://github.com/ileka2468/se452-group-project">https://github.com/ileka2468/se452-group-project</a> 
-      </p>
+      <Login></Login>
+
+      <button onClick={() => getProtectedData()}>Get Authed Data</button>
+      <button onClick={() => logout()}>Logout</button>
+      <button onClick={() => refreshToken()}>Logout</button>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

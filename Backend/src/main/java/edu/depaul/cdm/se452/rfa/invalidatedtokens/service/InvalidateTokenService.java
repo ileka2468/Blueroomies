@@ -30,7 +30,7 @@ public class InvalidateTokenService {
     public boolean invalidateTokens(String accessToken, String refreshToken) {
         boolean isValidToken = jwtTokenProvider.validateToken(accessToken);
 
-        if (accessToken != null && isValidToken && refreshToken != null) {
+        if (accessToken != null && isValidToken && refreshToken != null && (loadTokenInvalidatedByJWT(accessToken) == null || loadTokenInvalidatedByJWT(refreshToken) == null)) {
             String accessTokenHash = DigestUtils.sha256Hex(accessToken);
             Date accessTokenExpiration = jwtTokenProvider.getExpirationDateFromJWT(accessToken);
             OffsetDateTime accessTokenInvalidatedAt = OffsetDateTime.now(ZoneOffset.UTC);

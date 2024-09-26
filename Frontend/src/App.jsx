@@ -1,11 +1,12 @@
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
 import "./App.css";
 import { useAxios } from "./Security/axios/AxiosProvider";
-import Login from "./Components/Authentication/Login";
+import Nav from "./Components/Dashboard/Nav/Nav";
+import { useDisclosure } from "@nextui-org/react";
+import LoginModal from "./Components/Authentication/LoginModal";
 
 function App() {
   const apiClient = useAxios();
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   const getProtectedData = async () => {
     try {
@@ -28,21 +29,12 @@ function App() {
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Roomate Finding App</h1>
-
-      <Login></Login>
-
-      <button onClick={() => getProtectedData()}>Get Authed Data</button>
-      <button onClick={() => logout()}>Logout</button>
-      <button onClick={() => refreshToken()}>Refresh Token</button>
+      <Nav onOpen={onOpen}></Nav>
+      <LoginModal
+        isOpen={isOpen}
+        onOpen={onOpen}
+        onOpenChange={onOpenChange}
+      ></LoginModal>
     </>
   );
 }

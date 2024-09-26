@@ -42,7 +42,7 @@ function App() {
 
       <button onClick={() => getProtectedData()}>Get Authed Data</button>
       <button onClick={() => logout()}>Logout</button>
-      <button onClick={() => refreshToken()}>Logout</button>
+      <button onClick={() => refreshToken()}>Refresh Token</button>
     </>
   );
 }

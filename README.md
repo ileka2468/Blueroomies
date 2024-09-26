@@ -33,7 +33,7 @@
 
 - Harshita: Backend, managing user preferences such as setting criteria (Ex: cleanliness, location, sleep schedules, etc); Frontend, 
 allow users to set, view, update preferences and that preferences are presented in an intuitive manner
-- Saqib: Backend, facilitate profile creation, updating, and retrieval. Frontend: implement intuitive forms, allowing profile details to be displayed and edited.
+- Saqib: Backend: facilitate profile creation, updating, and retrieval. Frontend: implement intuitive forms, allowing profile details to be displayed and edited.
 
 ---
 

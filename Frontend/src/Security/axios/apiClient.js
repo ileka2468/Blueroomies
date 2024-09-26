@@ -2,7 +2,15 @@ import axios from "axios";
 
 const apiClient = axios.create({
   baseURL: "http://localhost:8080/api",
-  withCredentials: true, // allows cookies
+  withCredentials: true,
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
+
+const axiosclient = axios.create({
+  baseURL: "http://localhost:8080/api",
+  withCredentials: true,
   headers: {
     "Content-Type": "application/json",
   },
@@ -43,20 +51,21 @@ apiClient.interceptors.request.use(
 );
 
 // Interceptor for constantly checking and setting access token from auth response header
-apiClient.interceptors.response.use(
-  (response) => {
-    const newToken = response.headers["authorization"];
-    console.log("Header Token:" + response.headers);
-    if (newToken) {
-      const tokenPart = newToken.split(" ")[1];
-      localStorage.setItem("accessToken", tokenPart);
-    }
-    return response;
-  },
-  (error) => {
-    return Promise.reject(error);
-  }
-);
+// apiClient.interceptors.response.use(
+//   (response) => {
+//     const newToken = response.headers["authorization"];
+
+//     if (newToken) {
+//       console.log("Set New Acess Token:" + response.headers);
+//       const tokenPart = newToken.split(" ")[1];
+//       localStorage.setItem("accessToken", tokenPart);
+//     }
+//     return response;
+//   },
+//   (error) => {
+//     return Promise.reject(error);
+//   }
+// );
 
 // Interceptor for refreshing expired access tokens
 apiClient.interceptors.response.use(null, async (error) => {
@@ -76,18 +85,22 @@ apiClient.interceptors.response.use(null, async (error) => {
     isRefreshing = true;
 
     try {
-      const refreshTokenResponse = await axios.post(
-        "http://localhost:8080/api/auth/refresh-token",
-        { withCredentials: true }
+      const refreshTokenResponse = await axiosclient.post(
+        "/auth/refresh-token"
       );
-      console.log("Tried to refresh token: " + refreshTokenResponse.status);
 
-      // Retry queued failed requests
-      onRefreshed(localStorage.getItem("accessToken"));
+      const newToken = refreshTokenResponse.headers["authorization"];
 
-      //  retry original request with the new token
-      originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
-      return apiClient(originalRequest);
+      if (newToken) {
+        console.log("Set New Acess Token:" + newToken);
+        const tokenPart = newToken.split(" ")[1];
+        localStorage.setItem("accessToken", tokenPart);
+        onRefreshed(tokenPart);
+
+        //  retry original request with the new token
+        originalRequest.headers.Authorization = `Bearer ${tokenPart}`;
+        return apiClient(originalRequest);
+      }
     } catch (refreshError) {
       localStorage.removeItem("accessToken");
       return Promise.reject(refreshError);

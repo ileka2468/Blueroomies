@@ -22,11 +22,14 @@ public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final CustomUserDetailsService customUserDetailsService;
+    private final AuthEntryPoint authEntryPoint;
 
     public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter,
-                          CustomUserDetailsService customUserDetailsService) {
+                          CustomUserDetailsService customUserDetailsService,
+                          AuthEntryPoint authEntryPoint) {
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
         this.customUserDetailsService = customUserDetailsService;
+        this.authEntryPoint = authEntryPoint;
     }
 
     // Password encoder bean
@@ -53,6 +56,7 @@ public class SecurityConfig {
                 .sessionManagement(session -> {
                     session.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
                 })
+                .exceptionHandling((exceptionHandlingConfigurer) -> { exceptionHandlingConfigurer.authenticationEntryPoint(authEntryPoint);})
                 .anonymous(AbstractHttpConfigurer::disable)
                 .securityContext(securityContext -> securityContext
                         .securityContextRepository(new NullSecurityContextRepository()))

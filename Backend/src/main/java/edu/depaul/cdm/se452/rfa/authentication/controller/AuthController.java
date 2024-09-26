@@ -13,12 +13,10 @@ import edu.depaul.cdm.se452.rfa.authentication.repository.UserRepository;
 import edu.depaul.cdm.se452.rfa.authentication.repository.UserRoleRepository;
 import edu.depaul.cdm.se452.rfa.authentication.security.JwtTokenProvider;
 import edu.depaul.cdm.se452.rfa.authentication.util.UserPrincipal;
-import edu.depaul.cdm.se452.rfa.invalidatedtokens.entity.Invalidatedtoken;
-import edu.depaul.cdm.se452.rfa.invalidatedtokens.repository.InvalidatedTokensRepository;
 import edu.depaul.cdm.se452.rfa.invalidatedtokens.service.InvalidateTokenService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.apache.commons.codec.digest.DigestUtils;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -30,6 +28,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+@Log4j2
 @CrossOrigin
 @RestController
 @RequestMapping("/api/auth")
@@ -56,10 +55,8 @@ public class AuthController {
     private UserDetailsService userDetailsService;
 
     @Autowired
-    private InvalidatedTokensRepository invalidatedTokensRepository;
+    InvalidateTokenService invalidateTokenService;
 
-    @Autowired
-    private InvalidateTokenService invalidateTokenService;
 
     // User Registration
     @PostMapping("/register")
@@ -125,15 +122,15 @@ public class AuthController {
     @PostMapping("/refresh-token")
     public ResponseEntity<?> refreshToken(HttpServletResponse response, HttpServletRequest request) {
         if (request.getCookies() == null || request.getCookies().length == 0) {
+            System.out.println("BAD REQUEST NO COOKIES");
             return ResponseEntity.badRequest().body("Refresh token is empty");
         }
 
         String refreshToken = tokenProvider.getRefreshTokenFromCookies(request);
 
         if (refreshToken != null) {
-            Invalidatedtoken invalidatedtoken = invalidateTokenService.loadTokenInvalidatedByJWT(refreshToken);
             boolean isValid = tokenProvider.validateToken(refreshToken);
-            if (isValid && invalidatedtoken == null) {
+            if (isValid) {
                 try {
                     String usernameFromJWT = tokenProvider.getUsernameFromJWT(refreshToken);
                     UserPrincipal userDetails = (UserPrincipal) userDetailsService.loadUserByUsername(usernameFromJWT);
@@ -141,7 +138,8 @@ public class AuthController {
                     response.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + newAccessToken);
                     return ResponseEntity.ok().build();
                 } catch (AuthenticationException e) {
-                    System.out.println(e.getMessage());
+                    System.out.println("IN AUTHENTICATION EXCEPTION!");
+                    log.error("e: ", e);
                 }
 
             }
@@ -154,12 +152,24 @@ public class AuthController {
     public ResponseEntity<?> logout(HttpServletRequest request) {
         String refreshToken = tokenProvider.getRefreshTokenFromCookies(request);
         String accessToken = tokenProvider.getJwtFromRequest(request);
-        boolean tokensDeactivated = invalidateTokenService.invalidateTokens(accessToken, refreshToken);
+        if (accessToken == null || refreshToken == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body( accessToken == null ? "Access token not provided." : "Refresh token not provided.");
+        }
+
+        boolean accessTokenValid = tokenProvider.validateToken(accessToken);
+        boolean refreshTokenValid = tokenProvider.validateToken(refreshToken);
+        boolean tokensDeactivated;
+
+        if (accessTokenValid && refreshTokenValid) {
+            tokensDeactivated = invalidateTokenService.invalidateTokens(accessToken, refreshToken);
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid access or refresh token");
+        }
 
         if (tokensDeactivated) {
             return ResponseEntity.ok().build();
         } else {
-            return accessToken == null ? ResponseEntity.badRequest().body("Access token is empty") : ResponseEntity.badRequest().body("Invalid refresh token");
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
     }
 }

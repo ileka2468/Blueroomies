@@ -3,6 +3,9 @@ package edu.depaul.cdm.se452.rfa.authentication.security;
 import edu.depaul.cdm.se452.rfa.authentication.payload.TokenType;
 import edu.depaul.cdm.se452.rfa.authentication.service.AuthResponse;
 import edu.depaul.cdm.se452.rfa.authentication.service.CustomUserDetailsService;
+import edu.depaul.cdm.se452.rfa.authentication.service.TokenValidationService;
+import edu.depaul.cdm.se452.rfa.invalidatedtokens.entity.Invalidatedtoken;
+import edu.depaul.cdm.se452.rfa.invalidatedtokens.service.InvalidateTokenService;
 import io.jsonwebtoken.*;
 import edu.depaul.cdm.se452.rfa.authentication.util.UserPrincipal;
 import jakarta.servlet.http.Cookie;
@@ -33,6 +36,9 @@ public class JwtTokenProvider {
 
     @Autowired
     private CustomUserDetailsService customUserDetailsService;
+
+    @Autowired
+    private TokenValidationService tokenValidationService;
 
     // Generate JWT token
     public String generateToken(Authentication authentication, TokenType tokenType) {
@@ -89,8 +95,13 @@ public class JwtTokenProvider {
     public boolean validateToken(String authToken) {
         try {
             Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);
-            return true;
-        } catch (JwtException ex) {
+            if (!tokenValidationService.isTokenBlacklisted(authToken)) {
+                return true;
+            }
+        } catch (ExpiredJwtException e) {
+            throw new TokenExpiredException("Invalid JWT signature");
+        }
+        catch (JwtException ex) {
             System.out.println(ex.getMessage());
         }
         return false;

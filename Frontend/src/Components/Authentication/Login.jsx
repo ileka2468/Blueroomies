@@ -15,7 +15,15 @@ const Login = () => {
         username: username,
         password: password,
       });
-      console.log("Axios response: " + response.status);
+      console.log("Axios response: " + response.headers);
+
+      const token = response.headers["authorization"];
+
+      if (token) {
+        console.log("Set New Acess Token:" + response.headers);
+        const tokenPart = token.split(" ")[1];
+        localStorage.setItem("accessToken", tokenPart);
+      }
     } catch (error) {
       console.log(error);
     }

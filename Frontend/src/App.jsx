@@ -7,8 +7,9 @@ import useUser from "./Security/hooks/useUser";
 
 function App() {
   const apiClient = useAxios();
-  const [userData, setUserData] = useUser();
+  const [userData, setUserData, isUser] = useUser();
 
+  console.log(userData);
   // useDisclosure for LoginModal
   const {
     isOpen: isLoginOpen,

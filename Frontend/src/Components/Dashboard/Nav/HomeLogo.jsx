@@ -4,7 +4,7 @@ const HomeLogo = () => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      xmlns:xlink="http://www.w3.org/1999/xlink"
+      xmlnsXlink="http://www.w3.org/1999/xlink"
       viewBox="0 0 213 30"
       width="213"
       height="30"
@@ -14,12 +14,12 @@ const HomeLogo = () => {
         <text
           x="35"
           y="25"
-          font-family="Rubik"
-          font-size="25"
+          fontFamily="Rubik"
+          fontSize="25"
           fill="#000"
-          letter-spacing="-0.6"
-          font-weight="normal"
-          font-style="normal"
+          letterSpacing="-0.6"
+          fontWeight="normal"
+          fontStyle="normal"
         >
           Roomatefinder
         </text>
@@ -44,10 +44,10 @@ const HomeLogo = () => {
       <defs>
         <filter
           id="filter_dshadow_0_0_0_00000014"
-          color-interpolation-filters="sRGB"
+          colorInterpolationFilters="sRGB"
           filterUnits="userSpaceOnUse"
         >
-          <feFlood flood-opacity="0" result="bg-fix"></feFlood>
+          <feFlood floodOpacity="0" result="bg-fix"></feFlood>
           <feColorMatrix
             in="SourceAlpha"
             type="matrix"
@@ -74,7 +74,7 @@ const HomeLogo = () => {
         </filter>
         <style id="google">
           @import
-          url(https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap);
+          url(https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap);
         </style>
         <style id="brand"></style>
       </defs>

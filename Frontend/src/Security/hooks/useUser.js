@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import React from "react";
+import { useAxios } from "../axios/AxiosProvider";
 
 const useUser = () => {
+  const apiClient = useAxios();
   const [userData, setUserData] = useState({
     username: "",
     firstname: "",
@@ -9,11 +10,29 @@ const useUser = () => {
     pfp: "",
   });
 
+  const [isUser, setIsUser] = useState(false);
+
   useEffect(() => {
-    console.log(userData);
+    const fetchUser = async () => {
+      if (localStorage.getItem("accessToken") != null) {
+        const response = await apiClient.get("/auth/user");
+        if (response.status === 200) {
+          setUserData(response.data);
+        }
+      }
+    };
+    fetchUser();
+  }, []);
+
+  useEffect(() => {
+    if (userData.username) {
+      setIsUser(true);
+    } else {
+      setIsUser(false);
+    }
   }, [userData]);
 
-  return [userData, setUserData];
+  return [userData, setUserData, isUser];
 };
 
 export default useUser;

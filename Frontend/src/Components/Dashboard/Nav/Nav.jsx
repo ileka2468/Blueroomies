@@ -18,22 +18,18 @@ import {
 import HomeLogo from "./HomeLogo";
 import { useAxios } from "../../../Security/axios/AxiosProvider";
 import Cookies from "js-cookie";
-import useUser from "../../../Security/hooks/useUser";
 
 const Nav = ({ onLoginOpen, onRegisterOpen, userData, setUserData }) => {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const apiClient = useAxios();
 
   const menuItems = [
+    "Login",
+    "Register",
     "Profile",
-    "Dashboard",
-    "Activity",
-    "Analytics",
-    "System",
-    "Deployments",
-    "My Settings",
-    "Team Settings",
-    "Help & Feedback",
+    "Find Roommates",
+    "Agreements",
+    "Past Matches",
     "Log Out",
   ];
 
@@ -79,11 +75,10 @@ const Nav = ({ onLoginOpen, onRegisterOpen, userData, setUserData }) => {
       </NavbarContent>
       <NavbarContent justify="end">
         <NavbarItem className="hidden lg:flex">
-          <Button color="primary" onPress={onLoginOpen}>
+          <Button className="mx-3" color="primary" onPress={onLoginOpen}>
             Login
           </Button>
-        </NavbarItem>
-        <NavbarItem>
+
           <Button
             onPress={onRegisterOpen}
             color="primary"
@@ -108,10 +103,15 @@ const Nav = ({ onLoginOpen, onRegisterOpen, userData, setUserData }) => {
               />
             </DropdownTrigger>
             <DropdownMenu aria-label="Profile Actions" variant="flat">
-              <DropdownItem key="profile" className="h-14 gap-2">
+              <DropdownItem
+                key="profile"
+                className="h-14 gap-2"
+                textValue={`Signed in as ${userData.username}`}
+              >
                 <p className="font-semibold">Signed in as</p>
                 <p className="font-semibold">{userData.username}</p>
               </DropdownItem>
+
               <DropdownItem key="team_settings">Manage profile</DropdownItem>
               <DropdownItem
                 onPress={() => logout()}
@@ -124,6 +124,27 @@ const Nav = ({ onLoginOpen, onRegisterOpen, userData, setUserData }) => {
           </Dropdown>
         )}
       </NavbarContent>
+
+      <NavbarMenu>
+        {menuItems.map((item, index) => (
+          <NavbarMenuItem key={`${item}-${index}`}>
+            <Link
+              color={
+                index === 2
+                  ? "primary"
+                  : index === menuItems.length - 1
+                  ? "danger"
+                  : "foreground"
+              }
+              className="w-full"
+              href="#"
+              size="lg"
+            >
+              {item}
+            </Link>
+          </NavbarMenuItem>
+        ))}
+      </NavbarMenu>
     </Navbar>
   );
 };

@@ -226,4 +226,21 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
     }
+
+    @GetMapping("/user")
+    public ResponseEntity<?> getAuthedUserData(HttpServletRequest request) {
+        String accessToken = tokenProvider.getJwtFromRequest(request);
+        String username = tokenProvider.getUsernameFromJWT(accessToken);
+        User user = customUserDetailsService.getUserByUsername(username);
+        Profile profile = profileManagementService.loadProfileByUsername(username);
+
+        if (user == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Unable to retrieve user.");
+        }
+
+        if (profile == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Unable to retrieve profile.");
+        }
+        return ResponseEntity.ok(new AuthDataResponse(user.getUsername(), user.getFirstName(), user.getLastName(), profile.getPfpImage()));
+    }
 }

@@ -154,13 +154,15 @@ public class AuthController {
                             loginRequest.getUsername(),
                             loginRequest.getPassword()
                     )
+
             );
 
             AuthResponse authResponse = tokenProvider.getTokens(authentication);
             response.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + authResponse.getAccessToken());
             response.addCookie(authResponse.getRefreshCookie());
-
-            return ResponseEntity.ok().build();
+            User user = customUserDetailsService.getUserByUsername(loginRequest.getUsername());
+            Profile profile = profileManagementService.loadProfileByUsername(loginRequest.getUsername());
+            return ResponseEntity.ok(new AuthDataResponse(user.getUsername(), user.getFirstName(), user.getLastName(), profile.getPfpImage()));
 
         } catch (AuthenticationException e) {
             return ResponseEntity.status(401).body("Invalid username or password");
@@ -199,6 +201,7 @@ public class AuthController {
     public ResponseEntity<?> logout(HttpServletRequest request) {
         String refreshToken = tokenProvider.getRefreshTokenFromCookies(request);
         String accessToken = tokenProvider.getJwtFromRequest(request);
+
         if (accessToken == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Access token not provided.");
         }

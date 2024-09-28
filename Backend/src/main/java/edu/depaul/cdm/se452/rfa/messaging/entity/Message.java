@@ -1,5 +1,6 @@
 package edu.depaul.cdm.se452.rfa.messaging.entity;
 
+import edu.depaul.cdm.se452.rfa.authentication.entity.User;
 import edu.depaul.cdm.se452.rfa.roomate.entity.RoommateMatch;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -30,5 +31,17 @@ public class Message {
     @NotNull
     @Column(name = "content", nullable = false, length = 500)
     private String content;
+
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "sender_id", nullable = false)
+    private User sender;
+
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "receiver_id", nullable = false)
+    private User receiver;
 
 }

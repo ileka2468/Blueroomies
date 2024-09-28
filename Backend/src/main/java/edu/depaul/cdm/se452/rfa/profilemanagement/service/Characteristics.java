@@ -62,13 +62,7 @@ public class Characteristics {
         ValidateCharacteristics();
     }
 
-    public void ValidateCharacteristics() {
-        try {
-            // call all getters
-        } catch (InvalidCharacteristicException e) {
-            throw new RuntimeException("Invalid characteristic while constructing.", e);
-        }
-    }
+
 
     public Map<String, Object> toMap() {
         Map<String, Object> preferencesMap = new HashMap<>();
@@ -293,6 +287,31 @@ public class Characteristics {
 
     public void setDecoratingStyle(String decoratingStyle) {
         this.decoratingStyle = decoratingStyle;
+    }
+
+    public void ValidateCharacteristics() throws InvalidCharacteristicException{
+
+            // call all getters
+            getGenderPreference();
+            getSmokingPreference();
+            getAlcoholUsage();
+            getCleanlinessLevel();
+            getNoiseTolerance();
+            getHygiene();
+            getSleepSchedule();
+            getGuestsVisitors();
+            getWorkStudyFromHome();
+            getPetTolerance();
+            getSharedExpenses();
+            getStudyHabits();
+            getRoomPrivacy();
+            getCookingFrequency();
+            getFoodSharing();
+            getExerciseFrequency();
+            getPersonalityType();
+            getSharedLivingSpaceUse();
+            getRoomTemperaturePreference();
+            getDecoratingStyle();
     }
 
 }

@@ -11,8 +11,39 @@ import {
 } from "@nextui-org/react";
 import { MailIcon } from "./MailIcon.jsx";
 import { LockIcon } from "./LockIcon.jsx";
+import { useState } from "react";
+import { useAxios } from "../../Security/axios/AxiosProvider.jsx";
 
 export default function LoginModal({ isOpen, onOpen, onOpenChange }) {
+  const [user, setUsername] = useState("");
+  const [pass, setPassword] = useState("");
+
+  const apiClient = useAxios();
+
+  const handleLogin = async () => {
+    let response;
+    try {
+      response = await apiClient.post("/auth/login", {
+        username: user,
+        password: pass,
+      });
+
+      console.log("Axios response: " + response.headers);
+
+      const token = response.headers["authorization"];
+
+      if (token) {
+        console.log("Set New Acess Token:" + response.headers);
+        const tokenPart = token.split(" ")[1];
+        localStorage.setItem("accessToken", tokenPart);
+        return true;
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    return false;
+  };
+
   return (
     <>
       <Modal isOpen={isOpen} onOpenChange={onOpenChange} placement="top-center">
@@ -29,6 +60,8 @@ export default function LoginModal({ isOpen, onOpen, onOpenChange }) {
                   label="Email"
                   placeholder="Enter your email"
                   variant="bordered"
+                  value={user}
+                  onChange={(e) => setUsername(e.target.value)}
                 />
                 <Input
                   endContent={
@@ -38,6 +71,8 @@ export default function LoginModal({ isOpen, onOpen, onOpenChange }) {
                   placeholder="Enter your password"
                   type="password"
                   variant="bordered"
+                  value={pass}
+                  onChange={(e) => setPassword(e.target.value)}
                 />
                 <div className="flex py-2 px-1 justify-between">
                   <Checkbox
@@ -56,7 +91,14 @@ export default function LoginModal({ isOpen, onOpen, onOpenChange }) {
                 <Button color="danger" variant="flat" onPress={onClose}>
                   Close
                 </Button>
-                <Button color="primary" onPress={onClose}>
+                <Button
+                  color="primary"
+                  onPress={() => {
+                    handleLogin().then((status) => {
+                      status && onClose();
+                    });
+                  }}
+                >
                   Sign in
                 </Button>
               </ModalFooter>

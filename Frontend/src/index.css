@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+  width: 100%;
+}
+
 #root {
-  padding: 1em;
+  width: 100%;
 }

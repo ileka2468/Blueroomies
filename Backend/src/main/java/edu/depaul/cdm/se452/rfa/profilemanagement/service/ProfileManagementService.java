@@ -9,26 +9,25 @@ import java.util.Map;
 
 @Service
 public class ProfileManagementService {
-    private ProfileRepository profileRepository;
-
+    private final ProfileRepository profileRepository;
 
     public ProfileManagementService(ProfileRepository profileRepository) {
         this.profileRepository = profileRepository;
     }
 
-    public boolean createProfile(User user) {
-        Integer userId = user.getId();
+    public Profile createProfile(User user) {
         Profile profile = new Profile();
-        profile.setId(userId);
+        profile.setUser(user);
         profile.setBio(null);
         profile.setIsActivelyLooking(false);
         profile.setCharacteristics(generateDefaultCharacteristics());
+        String defaultPFP = String.format("https://ui-avatars.com/api/?name=%s+%s/?background=random", user.getFirstName(), user.getLastName());
+        profile.setPfpImage(defaultPFP);
         profileRepository.save(profile);
-        return true;
+        return profile;
     }
 
     public Map<String, Object> generateDefaultCharacteristics () {
         return new Characteristics().toMap();
     }
-
 }

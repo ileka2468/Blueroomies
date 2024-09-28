@@ -1,12 +1,26 @@
-import "./App.css";
 import { useAxios } from "./Security/axios/AxiosProvider";
 import Nav from "./Components/Dashboard/Nav/Nav";
 import { useDisclosure } from "@nextui-org/react";
 import LoginModal from "./Components/Authentication/LoginModal";
+import RegisterModal from "./Components/Authentication/RegisterModal";
+import useUser from "./Security/hooks/useUser";
 
 function App() {
   const apiClient = useAxios();
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const [userData, setUserData] = useUser();
+
+  // useDisclosure for LoginModal
+  const {
+    isOpen: isLoginOpen,
+    onOpen: onLoginOpen,
+    onOpenChange: onLoginOpenChange,
+  } = useDisclosure();
+
+  const {
+    isOpen: isRegisterOpen,
+    onOpen: onRegisterOpen,
+    onOpenChange: onRegisterOpenChange,
+  } = useDisclosure();
 
   const getProtectedData = async () => {
     try {
@@ -17,24 +31,28 @@ function App() {
     }
   };
 
-  const logout = async () => {
-    const response = await apiClient.post("/auth/logout");
-    console.log(response?.status);
-  };
-
-  const refreshToken = async () => {
-    const response = await apiClient.post("/auth/refresh-token");
-    console.log(response?.status);
-  };
-
   return (
     <>
-      <Nav onOpen={onOpen}></Nav>
+      <Nav
+        onRegisterOpen={onRegisterOpen}
+        onLoginOpen={onLoginOpen}
+        userData={userData}
+      ></Nav>
+
+      {/* Login Modal */}
       <LoginModal
-        isOpen={isOpen}
-        onOpen={onOpen}
-        onOpenChange={onOpenChange}
+        isOpen={isLoginOpen}
+        onOpen={onLoginOpen}
+        onOpenChange={onLoginOpenChange}
       ></LoginModal>
+
+      {/* Register Modal */}
+      <RegisterModal
+        isOpen={isRegisterOpen}
+        onOpen={onRegisterOpen}
+        onOpenChange={onRegisterOpenChange}
+        setUserData={setUserData}
+      ></RegisterModal>
     </>
   );
 }

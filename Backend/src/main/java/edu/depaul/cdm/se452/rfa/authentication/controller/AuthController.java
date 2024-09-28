@@ -4,6 +4,7 @@ import edu.depaul.cdm.se452.rfa.authentication.entity.Role;
 import edu.depaul.cdm.se452.rfa.authentication.entity.User;
 import edu.depaul.cdm.se452.rfa.authentication.entity.UserRole;
 import edu.depaul.cdm.se452.rfa.authentication.entity.UserRoleId;
+import edu.depaul.cdm.se452.rfa.authentication.payload.AuthDataResponse;
 import edu.depaul.cdm.se452.rfa.authentication.service.AuthResponse;
 import edu.depaul.cdm.se452.rfa.authentication.payload.LoginRequest;
 import edu.depaul.cdm.se452.rfa.authentication.payload.RegisterRequest;
@@ -12,21 +13,35 @@ import edu.depaul.cdm.se452.rfa.authentication.repository.RoleRepository;
 import edu.depaul.cdm.se452.rfa.authentication.repository.UserRepository;
 import edu.depaul.cdm.se452.rfa.authentication.repository.UserRoleRepository;
 import edu.depaul.cdm.se452.rfa.authentication.security.JwtTokenProvider;
+import edu.depaul.cdm.se452.rfa.authentication.service.CustomUserDetailsService;
+import edu.depaul.cdm.se452.rfa.authentication.service.TokenValidationService;
 import edu.depaul.cdm.se452.rfa.authentication.util.UserPrincipal;
 import edu.depaul.cdm.se452.rfa.invalidatedtokens.service.InvalidateTokenService;
+import edu.depaul.cdm.se452.rfa.profilemanagement.entity.Profile;
+import edu.depaul.cdm.se452.rfa.profilemanagement.service.InvalidCharacteristicException;
+import edu.depaul.cdm.se452.rfa.profilemanagement.service.ProfileManagementService;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Log4j2
 @CrossOrigin
@@ -57,15 +72,21 @@ public class AuthController {
     @Autowired
     InvalidateTokenService invalidateTokenService;
 
+    @Autowired
+    ProfileManagementService profileManagementService;
 
-    // User Registration
+    @Value("${app.refreshtokenExpirationInMs}")
+    private int refreshtokenExpirationInMs;
+    @Autowired
+    private CustomUserDetailsService customUserDetailsService;
+
+
     @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@RequestBody RegisterRequest registerRequest) {
+    public ResponseEntity<?> registerUser(@RequestBody RegisterRequest registerRequest, HttpServletResponse response) {
         if (userRepository.existsByUsername(registerRequest.getUsername())) {
             return ResponseEntity.badRequest().body("Username is already taken!");
         }
 
-        // Create new user
         User user = new User();
         user.setUsername(registerRequest.getUsername());
         user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
@@ -74,13 +95,22 @@ public class AuthController {
         user.setEnabled(true);
 
         userRepository.save(user);
+        Optional<User> savedUser = userRepository.findByUsername(user.getUsername());
+        if (savedUser.isPresent()) {
+            user = savedUser.get();
+        } else {
+            throw new IllegalStateException("User was not saved successfully.");
+        }
 
-        // Assign ROLE_USER
         Role userRole = roleRepository.findByRoleName("ROLE_USER");
         if (userRole == null) {
             userRole = new Role();
             userRole.setRoleName("ROLE_USER");
             roleRepository.save(userRole);
+            userRole = roleRepository.findByRoleName("ROLE_USER");
+            if (userRole == null) {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Unable to assign role to user.");
+            }
         }
 
         UserRole userRoleLink = new UserRole();
@@ -90,13 +120,32 @@ public class AuthController {
         userRoleLink.setId(userRoleId);
         userRoleLink.setUser(user);
         userRoleLink.setRole(userRole);
-
         userRoleRepository.save(userRoleLink);
 
-        return ResponseEntity.ok("User registered successfully");
+        try {
+            Profile profile = profileManagementService.createProfile(user);
+            UserDetails userDetails = customUserDetailsService.loadUserByUsername(user.getUsername());
+            System.out.println(userDetails.getAuthorities());
+
+            String accessToken = tokenProvider.generateToken(userDetails.getUsername(), (List<? extends GrantedAuthority>) userDetails.getAuthorities(), TokenType.JWT);
+            String refreshToken = tokenProvider.generateToken(userDetails.getUsername(), (List<? extends GrantedAuthority>) userDetails.getAuthorities(), TokenType.REFRESH_TOKEN);
+
+            Cookie refreshTokenCookie = new Cookie("refresh_token", refreshToken);
+            refreshTokenCookie.setHttpOnly(true);
+            refreshTokenCookie.setSecure(false);
+            refreshTokenCookie.setPath("/api/auth/");
+            refreshTokenCookie.setMaxAge(refreshtokenExpirationInMs / 1000);
+
+            response.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken);
+            response.addCookie(refreshTokenCookie);
+
+            return ResponseEntity.ok(new AuthDataResponse(user.getUsername(), user.getFirstName(), user.getLastName(), profile.getPfpImage()));
+        } catch (InvalidCharacteristicException e) {
+            log.error("Profile creation failed for user {}: {}", user.getUsername(), e.getMessage());
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
-    // User Login
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest, HttpServletResponse response) {
         try {
@@ -118,11 +167,9 @@ public class AuthController {
         }
     }
 
-
     @PostMapping("/refresh-token")
     public ResponseEntity<?> refreshToken(HttpServletResponse response, HttpServletRequest request) {
         if (request.getCookies() == null || request.getCookies().length == 0) {
-            System.out.println("BAD REQUEST NO COOKIES");
             return ResponseEntity.badRequest().body("Refresh token is empty");
         }
 
@@ -138,34 +185,38 @@ public class AuthController {
                     response.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + newAccessToken);
                     return ResponseEntity.ok().build();
                 } catch (AuthenticationException e) {
-                    System.out.println("IN AUTHENTICATION EXCEPTION!");
                     log.error("e: ", e);
                 }
-
+            } else {
+                log.warn("Invalid refresh token: {}", refreshToken);
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid refresh token");
             }
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid refresh token");
     }
 
-
     @PostMapping("/logout")
     public ResponseEntity<?> logout(HttpServletRequest request) {
         String refreshToken = tokenProvider.getRefreshTokenFromCookies(request);
         String accessToken = tokenProvider.getJwtFromRequest(request);
-        if (accessToken == null || refreshToken == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body( accessToken == null ? "Access token not provided." : "Refresh token not provided.");
+        if (accessToken == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Access token not provided.");
+        }
+        if (refreshToken == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Refresh token not provided.");
         }
 
         boolean accessTokenValid = tokenProvider.validateToken(accessToken);
         boolean refreshTokenValid = tokenProvider.validateToken(refreshToken);
-        boolean tokensDeactivated;
 
-        if (accessTokenValid && refreshTokenValid) {
-            tokensDeactivated = invalidateTokenService.invalidateTokens(accessToken, refreshToken);
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid access or refresh token");
+        if (!accessTokenValid) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid access token");
+        }
+        if (!refreshTokenValid) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid refresh token");
         }
 
+        boolean tokensDeactivated = invalidateTokenService.invalidateTokens(accessToken, refreshToken);
         if (tokensDeactivated) {
             return ResponseEntity.ok().build();
         } else {
@@ -173,4 +224,3 @@ public class AuthController {
         }
     }
 }
-

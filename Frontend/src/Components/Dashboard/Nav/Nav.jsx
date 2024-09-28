@@ -16,9 +16,11 @@ import {
   NavbarMenu,
 } from "@nextui-org/react";
 import HomeLogo from "./HomeLogo";
+import { useAxios } from "../../../Security/axios/AxiosProvider";
 
-const Nav = ({ onOpen }) => {
+const Nav = ({ onLoginOpen, onRegisterOpen, userData }) => {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  const apiClient = useAxios();
 
   const menuItems = [
     "Profile",
@@ -33,8 +35,13 @@ const Nav = ({ onOpen }) => {
     "Log Out",
   ];
 
+  const logout = async () => {
+    const response = await apiClient.post("/auth/logout");
+    console.log(response?.status);
+  };
+
   return (
-    <Navbar onMenuOpenChange={setIsMenuOpen}>
+    <Navbar maxWidth="full" onMenuOpenChange={setIsMenuOpen}>
       <NavbarContent>
         <NavbarMenuToggle
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
@@ -49,34 +56,37 @@ const Nav = ({ onOpen }) => {
       <NavbarContent className="hidden sm:flex gap-4" justify="center">
         <NavbarItem>
           <Link color="foreground" href="#">
-            Features
+            Find Roommates
           </Link>
         </NavbarItem>
         <NavbarItem isActive>
           <Link href="#" aria-current="page">
-            Customers
+            Agreements
           </Link>
         </NavbarItem>
         <NavbarItem>
           <Link color="foreground" href="#">
-            Integrations
+            Past Matches
           </Link>
         </NavbarItem>
       </NavbarContent>
       <NavbarContent justify="end">
         <NavbarItem className="hidden lg:flex">
-          <Button color="primary" onPress={onOpen}>
+          <Button color="primary" onPress={onLoginOpen}>
             Login
           </Button>
         </NavbarItem>
         <NavbarItem>
-          <Button as={Link} color="primary" href="#" variant="flat">
+          <Button
+            onPress={onRegisterOpen}
+            color="primary"
+            href="#"
+            variant="flat"
+          >
             Sign Up
           </Button>
         </NavbarItem>
-      </NavbarContent>
 
-      <NavbarContent as="div" justify="end">
         <Dropdown placement="bottom-end">
           <DropdownTrigger>
             <Avatar
@@ -86,22 +96,23 @@ const Nav = ({ onOpen }) => {
               color="secondary"
               name="Jason Hughes"
               size="sm"
-              src="https://ui-avatars.com/api/?background=0D8ABC&color=fff"
+              src={userData.pfp}
             />
           </DropdownTrigger>
           <DropdownMenu aria-label="Profile Actions" variant="flat">
             <DropdownItem key="profile" className="h-14 gap-2">
               <p className="font-semibold">Signed in as</p>
-              <p className="font-semibold">zoey@example.com</p>
+              <p className="font-semibold">{userData.username}</p>
             </DropdownItem>
             <DropdownItem key="team_settings">Manage profile</DropdownItem>
             <DropdownItem key="analytics">Analytics</DropdownItem>
-            <DropdownItem key="logout" color="danger">
+            <DropdownItem onPress={() => logout()} key="logout" color="danger">
               Log Out
             </DropdownItem>
           </DropdownMenu>
         </Dropdown>
       </NavbarContent>
+
       <NavbarMenu>
         {menuItems.map((item, index) => (
           <NavbarMenuItem key={`${item}-${index}`}>

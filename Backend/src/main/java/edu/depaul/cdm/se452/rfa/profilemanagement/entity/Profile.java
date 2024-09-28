@@ -46,7 +46,7 @@ public class Profile {
 
     @Size(max = 80)
     @NotNull
-    @ColumnDefault("'https://ui-avatars.com/api/?background=0D8ABC&color=fff'")
+    @ColumnDefault("https://ui-avatars.com/api/?background=0D8ABC&color=fff")
     @Column(name = "pfp_image", nullable = false, length = 80)
     private String pfpImage;
 

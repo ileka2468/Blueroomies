@@ -9,9 +9,29 @@ import java.util.List;
 
 public class RoommateMatcher {
     public static double calculateWeightedDistance(User u1, User u2, double[] weights) {
-        // TODO: add preferences here
+        // TODO: implement a getPreferences() that returns a Map<String, Double>
+        // and that jsonPreferences is a Map<String, Double> where key is the preference name
+        // and value is the preference weight.
 
-        return 0.0;
+        Map<String, Double> preferences1 = u1.getPreferences();
+        Map<String, Double> preferences2 = u2.getPreferences();
+
+        double sumWeightedDistances = 0.0;
+        double sumWeights = 0.0;
+
+        // iterate over all preferences, assuming both users have same preference keys
+        for (String key : preferences1.keySet()) {
+            double pref1 = preferences1.get(key);
+            double pref2 = preferences2.get(key);
+
+            // scale the distance with corresponding weight
+            double weight = weights.length > 0 ? weights[0] : 1.0; // Default weight if not provided
+            sumWeightedDistances += weight * Math.abs(pref1 - pref2);
+            sumWeights += weight;
+        }
+
+        // Calculate weighted distance
+        return sumWeights > 0 ? sumWeightedDistances / sumWeights : 0.0;
     }
 
     // KNN algorithm to find nearest neighbors

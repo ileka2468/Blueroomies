@@ -37,6 +37,7 @@ function App() {
         onRegisterOpen={onRegisterOpen}
         onLoginOpen={onLoginOpen}
         userData={userData}
+        setUserData={setUserData}
       ></Nav>
 
       {/* Login Modal */}
@@ -44,6 +45,7 @@ function App() {
         isOpen={isLoginOpen}
         onOpen={onLoginOpen}
         onOpenChange={onLoginOpenChange}
+        setUserData={setUserData}
       ></LoginModal>
 
       {/* Register Modal */}

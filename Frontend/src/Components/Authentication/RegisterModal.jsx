@@ -29,13 +29,24 @@ export default function RegisterModal({
   const apiClient = useAxios();
 
   const register = async () => {
-    const response = await apiClient.post("/auth/register", registrationData);
-    if (response.status === 200) {
-      setUserData(response.data);
-      return true;
-    }
+    let response;
+    try {
+      response = await apiClient.post("/auth/register", registrationData);
 
-    return false;
+      console.log("Axios response: " + response.headers);
+
+      const token = response.headers["authorization"];
+
+      if (token) {
+        console.log("Set New Acess Token:" + response.headers);
+        const tokenPart = token.split(" ")[1];
+        localStorage.setItem("accessToken", tokenPart);
+        setUserData(response.data);
+        return true;
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   console.log(registrationData);

@@ -19,13 +19,13 @@ public class RoommateMatcher {
         double sumWeightedDistances = 0.0;
         double sumWeights = 0.0;
 
-        // iterate over all preferences, assuming both users have same preference keys
+        // iterate over all preferences since both users have the same preference keys
         for (String key : preferences1.keySet()) {
             double pref1 = preferences1.get(key);
             double pref2 = preferences2.get(key);
 
             // scale the distance with corresponding weight
-            double weight = weights.length > 0 ? weights[0] : 1.0; // Default weight if not provided
+            double weight = weights.length > 0 ? weights[0] : 1.0; // default weight if not provided
             sumWeightedDistances += weight * Math.abs(pref1 - pref2);
             sumWeights += weight;
         }

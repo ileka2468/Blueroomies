@@ -49,7 +49,6 @@ export default function RegisterModal({
     }
   };
 
-  console.log(registrationData);
   return (
     <>
       <Modal isOpen={isOpen} onOpenChange={onOpenChange} placement="top-center">
@@ -66,7 +65,7 @@ export default function RegisterModal({
                   placeholder="John"
                   variant="bordered"
                   onChange={(e) => {
-                    console.log(e.target.value);
+                    // console.log(e.target.value);
                     setRegistrationData((state) => ({
                       ...state,
                       firstName: e.target.value,
@@ -79,7 +78,7 @@ export default function RegisterModal({
                   placeholder="Doe"
                   variant="bordered"
                   onChange={(e) => {
-                    console.log(e.target.value);
+                    // console.log(e.target.value);
                     setRegistrationData((state) => ({
                       ...state,
                       lastName: e.target.value,
@@ -90,12 +89,12 @@ export default function RegisterModal({
                   endContent={
                     <MailIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
                   }
-                  label="Email"
-                  placeholder="Enter your email"
+                  label="Username"
+                  placeholder="Enter your username"
                   variant="bordered"
                   autoComplete="username"
                   onChange={(e) => {
-                    console.log(e.target.value);
+                    // console.log(e.target.value);
                     setRegistrationData((state) => ({
                       ...state,
                       username: e.target.value,
@@ -112,7 +111,7 @@ export default function RegisterModal({
                   autoComplete="password"
                   variant="bordered"
                   onChange={(e) => {
-                    console.log(e.target.value);
+                    // console.log(e.target.value);
                     setRegistrationData((state) => ({
                       ...state,
                       password: e.target.value,

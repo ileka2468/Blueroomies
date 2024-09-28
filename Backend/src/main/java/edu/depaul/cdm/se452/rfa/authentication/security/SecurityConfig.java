@@ -50,7 +50,13 @@ public class SecurityConfig {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> {
                     auth.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll();
-                    auth.requestMatchers("/api/auth/**").permitAll();  // Public auth routes
+                    auth.requestMatchers(
+                            "/api/auth/register",
+                            "/api/auth/login",
+                            "/api/auth/logout",
+                            "/api/auth/refresh-token"
+                            ).permitAll();  // Public auth routes
+
                     auth.anyRequest().authenticated();  // Protect other routes
                 })
                 .sessionManagement(session -> {

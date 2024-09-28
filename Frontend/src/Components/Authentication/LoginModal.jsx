@@ -13,7 +13,6 @@ import { MailIcon } from "./MailIcon.jsx";
 import { LockIcon } from "./LockIcon.jsx";
 import { useState } from "react";
 import { useAxios } from "../../Security/axios/AxiosProvider.jsx";
-import useUser from "../../Security/hooks/useUser.js";
 
 export default function LoginModal({
   isOpen,
@@ -34,12 +33,9 @@ export default function LoginModal({
         password: pass,
       });
 
-      console.log("Axios response: " + response.headers);
-
       const token = response.headers["authorization"];
 
       if (token) {
-        console.log("Set New Acess Token:" + response.headers);
         const tokenPart = token.split(" ")[1];
         localStorage.setItem("accessToken", tokenPart);
         setUserData(response.data);

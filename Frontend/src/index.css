@@ -10,7 +10,6 @@ body {
   height: 100vh;
 }
 
-
 button[aria-label="Open menu"] span::before,
 button[aria-label="Open menu"] span::after {
   content: "";

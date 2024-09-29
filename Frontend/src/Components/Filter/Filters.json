@@ -2,45 +2,44 @@
   "filters": [
     {
       "type": "autocomplete",
-      "label": "Gender",
+      "label": "Gender Preference",
       "size": "sm",
       "options": [
         { "key": "0", "label": "Male" },
         { "key": "1", "label": "Female" },
-        { "key": "2", "label": "Non-binary" },
-        { "key": "3", "label": "No preference" }
+        { "key": "2", "label": "No Preference" }
       ],
-      "selectedKey": "0"
+      "selectedKey": "2"
     },
     {
       "type": "radiogroup",
-      "label": "Smoker",
+      "label": "Smoking Preference",
       "color": "primary",
-      "defaultValue": "no",
+      "defaultValue": "0",
       "size": "sm",
       "orientation": "horizontal",
       "buttons": [
-        { "value": "yes", "innerText": "Yes" },
-        { "value": "no", "innerText": "No" }
+        { "value": "1", "innerText": "Smokes" },
+        { "value": "0", "innerText": "Does Not Smoke" }
       ]
     },
     {
       "type": "radiogroup",
-      "label": "Alcohol Consumption",
+      "label": "Alcohol Usage",
       "color": "primary",
-      "defaultValue": "no",
+      "defaultValue": "0",
       "size": "sm",
       "orientation": "horizontal",
       "buttons": [
-        { "value": "yes", "innerText": "Yes" },
-        { "value": "no", "innerText": "No" }
+        { "value": "1", "innerText": "Drinks Alcohol" },
+        { "value": "0", "innerText": "Does Not Drink Alcohol" }
       ]
     },
     {
       "type": "slider",
-      "label": "Cleanliness",
-      "leftlabel": "Low",
-      "rightlabel": "High",
+      "label": "Cleanliness Level",
+      "leftlabel": "Messy",
+      "rightlabel": "Very Clean",
       "size": "sm",
       "step": 1,
       "min": 1,
@@ -57,17 +56,6 @@
       ]
     },
     {
-      "type": "autocomplete",
-      "size": "sm",
-      "label": "Sleep Schedule",
-      "options": [
-        { "key": "0", "label": "Early Riser" },
-        { "key": "1", "label": "Flexible" },
-        { "key": "2", "label": "Night Owl" }
-      ],
-      "selectedKey": "2"
-    },
-    {
       "type": "slider",
       "label": "Noise Tolerance",
       "leftlabel": "Low",
@@ -81,9 +69,7 @@
       "showOutline": true,
       "marks": [
         { "value": 1, "label": "Low" },
-        { "value": 2, "label": "2" },
-        { "value": 3, "label": "3" },
-        { "value": 4, "label": "4" },
+        { "value": 3, "label": "Medium" },
         { "value": 5, "label": "High" }
       ]
     },
@@ -101,15 +87,24 @@
       "showOutline": true,
       "marks": [
         { "value": 1, "label": "Low" },
-        { "value": 2, "label": "2" },
-        { "value": 3, "label": "3" },
-        { "value": 4, "label": "4" },
+        { "value": 3, "label": "Medium" },
         { "value": 5, "label": "High" }
       ]
     },
     {
+      "type": "autocomplete",
+      "size": "sm",
+      "label": "Sleep Schedule",
+      "options": [
+        { "key": "0", "label": "Early Riser" },
+        { "key": "1", "label": "Flexible" },
+        { "key": "2", "label": "Night Owl" }
+      ],
+      "selectedKey": "2"
+    },
+    {
       "type": "slider",
-      "label": "Guests/Visitors Frequency",
+      "label": "Guests/Visitors",
       "leftlabel": "Rarely",
       "rightlabel": "Often",
       "size": "sm",
@@ -121,9 +116,7 @@
       "showOutline": true,
       "marks": [
         { "value": 1, "label": "Rarely" },
-        { "value": 2, "label": "Occasionally" },
         { "value": 3, "label": "Sometimes" },
-        { "value": 4, "label": "Frequently" },
         { "value": 5, "label": "Often" }
       ]
     },
@@ -141,9 +134,7 @@
       "showOutline": true,
       "marks": [
         { "value": 1, "label": "Never" },
-        { "value": 2, "label": "Rarely" },
         { "value": 3, "label": "Sometimes" },
-        { "value": 4, "label": "Often" },
         { "value": 5, "label": "Always" }
       ]
     },
@@ -161,22 +152,8 @@
       "showOutline": true,
       "marks": [
         { "value": 1, "label": "Low" },
-        { "value": 2, "label": "2" },
-        { "value": 3, "label": "3" },
-        { "value": 4, "label": "4" },
+        { "value": 3, "label": "Medium" },
         { "value": 5, "label": "High" }
-      ]
-    },
-    {
-      "type": "radiogroup",
-      "label": "Food Sharing",
-      "color": "primary",
-      "defaultValue": "no",
-      "size": "sm",
-      "orientation": "horizontal",
-      "buttons": [
-        { "value": "yes", "innerText": "Yes" },
-        { "value": "no", "innerText": "No" }
       ]
     },
     {
@@ -193,10 +170,8 @@
       "showOutline": true,
       "marks": [
         { "value": 1, "label": "Low" },
-        { "value": 2, "label": "2" },
-        { "value": 3, "label": "3" },
-        { "value": 4, "label": "High" },
-        { "value": 5, "label": "Very High" }
+        { "value": 3, "label": "Medium" },
+        { "value": 5, "label": "High" }
       ]
     },
     {
@@ -212,11 +187,9 @@
       "showTooltip": true,
       "showOutline": true,
       "marks": [
-        { "value": 1, "label": "Low Focus" },
-        { "value": 2, "label": "2" },
-        { "value": 3, "label": "Moderate" },
-        { "value": 4, "label": "4" },
-        { "value": 5, "label": "High Focus" }
+        { "value": 1, "label": "Low" },
+        { "value": 3, "label": "Medium" },
+        { "value": 5, "label": "High" }
       ]
     },
     {
@@ -233,10 +206,8 @@
       "showOutline": true,
       "marks": [
         { "value": 1, "label": "Open" },
-        { "value": 2, "label": "2" },
-        { "value": 3, "label": "3" },
-        { "value": 4, "label": "Private" },
-        { "value": 5, "label": "Very Private" }
+        { "value": 3, "label": "Moderate" },
+        { "value": 5, "label": "Private" }
       ]
     },
     {
@@ -253,10 +224,20 @@
       "showOutline": true,
       "marks": [
         { "value": 1, "label": "Never" },
-        { "value": 2, "label": "Rarely" },
         { "value": 3, "label": "Sometimes" },
-        { "value": 4, "label": "Often" },
-        { "value": 5, "label": "Always" }
+        { "value": 5, "label": "Often" }
+      ]
+    },
+    {
+      "type": "radiogroup",
+      "label": "Food Sharing",
+      "color": "primary",
+      "defaultValue": "0",
+      "size": "sm",
+      "orientation": "horizontal",
+      "buttons": [
+        { "value": "1", "innerText": "Yes" },
+        { "value": "0", "innerText": "No" }
       ]
     },
     {
@@ -273,10 +254,8 @@
       "showOutline": true,
       "marks": [
         { "value": 1, "label": "Never" },
-        { "value": 2, "label": "Rarely" },
         { "value": 3, "label": "Sometimes" },
-        { "value": 4, "label": "Often" },
-        { "value": 5, "label": "Always" }
+        { "value": 5, "label": "Often" }
       ]
     },
     {
@@ -306,9 +285,7 @@
       "showOutline": true,
       "marks": [
         { "value": 1, "label": "Low" },
-        { "value": 2, "label": "2" },
         { "value": 3, "label": "Moderate" },
-        { "value": 4, "label": "4" },
         { "value": 5, "label": "High" }
       ]
     },
@@ -326,9 +303,7 @@
       "showOutline": true,
       "marks": [
         { "value": 1, "label": "Cold" },
-        { "value": 2, "label": "Cool" },
         { "value": 3, "label": "Moderate" },
-        { "value": 4, "label": "Warm" },
         { "value": 5, "label": "Hot" }
       ]
     },

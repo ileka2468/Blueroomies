@@ -19,6 +19,7 @@ export default function LoginModal({
   onOpen,
   onOpenChange,
   setUserData,
+  isUser,
 }) {
   const [user, setUsername] = useState("");
   const [pass, setPassword] = useState("");

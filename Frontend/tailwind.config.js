@@ -8,6 +8,9 @@ export default {
     "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
+    colors: {
+      filtergrey: "#CFD8DC",
+    },
     extend: {},
   },
   darkMode: "class",

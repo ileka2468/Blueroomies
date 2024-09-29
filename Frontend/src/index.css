@@ -9,3 +9,22 @@ body {
   width: 100%;
   height: 100vh;
 }
+
+/* Targeting both the ::before and ::after elements */
+button[aria-label="Open menu"] span::before,
+button[aria-label="Open menu"] span::after {
+  content: ""; /* Assuming this is for lines in the hamburger icon */
+  transition-property: transform;
+  transition-timing-function: ease;
+  transition-duration: 250ms;
+  background: black; /* The color you want */
+}
+
+button[aria-label="Close menu"] span::before,
+button[aria-label="Close menu"] span::after {
+  content: ""; /* Assuming this is for lines in the hamburger icon */
+  transition-property: transform;
+  transition-timing-function: ease;
+  transition-duration: 250ms;
+  background: black; /* The color you want */
+}

@@ -29,6 +29,7 @@ const Nav = ({
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const apiClient = useAxios();
   console.log(isUser);
+  console.log(isMenuOpen);
 
   const menuItems = [
     "Login",

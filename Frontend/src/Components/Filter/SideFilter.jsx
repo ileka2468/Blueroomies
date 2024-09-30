@@ -8,7 +8,7 @@ import { useEffect } from "react";
 const SideFilter = ({ filterValues, setFilterValues, userCharacteristics }) => {
   const json_filters = Filter.filters;
   // Initialize filterValues with default values or user's characteristics
-  // SideFilter.jsx
+
   useEffect(() => {
     const initialFilterValues = {};
     json_filters.forEach((filter) => {
@@ -17,13 +17,15 @@ const SideFilter = ({ filterValues, setFilterValues, userCharacteristics }) => {
         userCharacteristics &&
         userCharacteristics[characteristicKey] !== undefined
       ) {
-        initialFilterValues[filter.label] =
-          userCharacteristics[characteristicKey].toString();
+        initialFilterValues[filter.label] = Number(
+          userCharacteristics[characteristicKey]
+        );
       } else {
         initialFilterValues[filter.label] =
-          filter.selectedKey || filter.defaultValue.toString();
+          Number(filter.selectedKey) || Number(filter.defaultValue);
       }
     });
+
     setFilterValues(initialFilterValues);
   }, []);
 
@@ -57,7 +59,7 @@ const SideFilter = ({ filterValues, setFilterValues, userCharacteristics }) => {
   const handleFilterChange = (label, value) => {
     setFilterValues((prevValues) => ({
       ...prevValues,
-      [label]: value.toString(),
+      [label]: Number(value),
     }));
   };
 
@@ -98,7 +100,11 @@ const SideFilter = ({ filterValues, setFilterValues, userCharacteristics }) => {
                   filter={filter}
                   key={filter.label}
                   onChange={(value) => handleFilterChange(filter.label, value)}
-                  value={parseInt(filterValues[filter.label])}
+                  value={
+                    filterValues[filter.label] !== undefined
+                      ? filterValues[filter.label]
+                      : filter.defaultValue
+                  }
                 />
               );
             } else if (filter.type === "autocomplete") {

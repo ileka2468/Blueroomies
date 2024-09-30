@@ -1,8 +1,8 @@
 import { Select, SelectItem } from "@nextui-org/react";
 import React, { useState } from "react";
 
-const AutocompleteBox = ({ filter }) => {
-  const [selectedItem, setSelectedItem] = useState(filter.selectedKey);
+const AutocompleteBox = ({ filter, value, onChange }) => {
+  let currentValue;
 
   return (
     <div className="flex flex-col space-y-4 mb-4">
@@ -11,12 +11,23 @@ const AutocompleteBox = ({ filter }) => {
       </p>
       <Select
         size={filter.size}
-        selectedKeys={selectedItem}
-        isRequired
-        onSelectionChange={(newItem) => setSelectedItem(newItem)}
+        selectedKeys={
+          value !== undefined ? [value.toString()] : [filter.selectedKey]
+        }
+        aria-label={filter.label}
+        isRequired={true}
+        onSelectionChange={(event) => {
+          const selectedKey = event.currentKey;
+          if (selectedKey) {
+            currentValue = selectedKey;
+            onChange(selectedKey);
+          }
+        }}
       >
         {filter.options.map((item) => (
-          <SelectItem key={item.key}>{item.label}</SelectItem>
+          <SelectItem aria-label={item.label} key={item.key}>
+            {item.label}
+          </SelectItem>
         ))}
       </Select>
     </div>

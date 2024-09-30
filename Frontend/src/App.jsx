@@ -734,10 +734,7 @@ function App() {
       const { profile } = match;
 
       // Gender Preference (Example: Allow both "No Preference" and the same gender)
-      if (
-        filters["Gender Preference"] &&
-        filters["Gender Preference"] !== "2"
-      ) {
+      if (filters["Gender Preference"] && filters["Gender Preference"] != 2) {
         if (
           profile.gender_preference !== parseInt(filters["Gender Preference"])
         ) {
@@ -745,14 +742,14 @@ function App() {
         }
       }
 
-      // // Smoking Preference
-      // if (filters["Smoking Preference"] !== undefined) {
-      //   if (
-      //     profile.smoking_preference !== parseInt(filters["Smoking Preference"])
-      //   ) {
-      //     return false;
-      //   }
-      // }
+      // Smoking Preference
+      if (filters["Smoking Preference"] !== undefined) {
+        if (
+          profile.smoking_preference !== parseInt(filters["Smoking Preference"])
+        ) {
+          return false;
+        }
+      }
 
       // // Alcohol Usage
       // if (filters["Alcohol Usage"] !== undefined) {
@@ -761,7 +758,7 @@ function App() {
       //   }
       // }
 
-      // Cleanliness Level (Allowing a range: within 1 level of preference)
+      // Cleanliness Level within 1 level of preference
       if (filters["Cleanliness Level"] !== undefined) {
         if (
           Math.abs(
@@ -772,7 +769,7 @@ function App() {
         }
       }
 
-      // // Noise Tolerance (Allowing a range: within 1 level of preference)
+      // // Noise Tolerance within 1 level of preference
       // if (filters["Noise Tolerance"] !== undefined) {
       //   if (
       //     Math.abs(

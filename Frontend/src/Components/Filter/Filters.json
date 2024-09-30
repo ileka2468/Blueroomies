@@ -24,18 +24,6 @@
       ]
     },
     {
-      "type": "radiogroup",
-      "label": "Alcohol Usage",
-      "color": "primary",
-      "defaultValue": "0",
-      "size": "sm",
-      "orientation": "horizontal",
-      "buttons": [
-        { "value": "1", "innerText": "Drinks Alcohol" },
-        { "value": "0", "innerText": "Does Not Drink Alcohol" }
-      ]
-    },
-    {
       "type": "slider",
       "label": "Cleanliness Level",
       "leftlabel": "Messy",
@@ -319,6 +307,18 @@
         { "key": "5", "label": "Bohemian" }
       ],
       "selectedKey": "2"
+    },
+    {
+      "type": "radiogroup",
+      "label": "Alcohol Usage",
+      "color": "primary",
+      "defaultValue": "0",
+      "size": "sm",
+      "orientation": "horizontal",
+      "buttons": [
+        { "value": "1", "innerText": "Drinks Alcohol" },
+        { "value": "0", "innerText": "Does Not Drink Alcohol" }
+      ]
     }
   ]
 }

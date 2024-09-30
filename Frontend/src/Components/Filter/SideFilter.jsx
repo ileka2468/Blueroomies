@@ -3,12 +3,66 @@ import { RadioGroup, Radio, ScrollShadow } from "@nextui-org/react";
 import Filter from "./Filters.json";
 import ValueSlider from "./Slider";
 import AutocompleteBox from "./AutocompleteBox";
+import { useEffect } from "react";
 
-const SideFilter = () => {
+const SideFilter = ({ filterValues, setFilterValues, userCharacteristics }) => {
   const json_filters = Filter.filters;
-  console.log(json_filters);
+  // Initialize filterValues with default values or user's characteristics
+  // SideFilter.jsx
+  useEffect(() => {
+    const initialFilterValues = {};
+    json_filters.forEach((filter) => {
+      const characteristicKey = mapLabelToCharacteristicKey(filter.label);
+      if (
+        userCharacteristics &&
+        userCharacteristics[characteristicKey] !== undefined
+      ) {
+        initialFilterValues[filter.label] =
+          userCharacteristics[characteristicKey].toString();
+      } else {
+        initialFilterValues[filter.label] =
+          filter.selectedKey || filter.defaultValue.toString();
+      }
+    });
+    setFilterValues(initialFilterValues);
+  }, []);
+
+  // map filter label to characteristic key
+  const mapLabelToCharacteristicKey = (label) => {
+    const mapping = {
+      "Gender Preference": "gender_preference",
+      "Smoking Preference": "smoking_preference",
+      "Alcohol Usage": "alcohol_usage",
+      "Cleanliness Level": "cleanliness_level",
+      "Noise Tolerance": "noise_tolerance",
+      Hygiene: "hygiene",
+      "Sleep Schedule": "sleep_schedule",
+      "Guests/Visitors": "guests_visitors",
+      "Work/Study From Home": "work_study_from_home",
+      "Pet Tolerance": "pet_tolerance",
+      "Shared Expenses": "shared_expenses",
+      "Study Habits": "study_habits",
+      "Room Privacy": "room_privacy",
+      "Cooking Frequency": "cooking_frequency",
+      "Food Sharing": "food_sharing",
+      "Exercise Frequency": "exercise_frequency",
+      "Personality Type": "personality_type",
+      "Shared Living Space Use": "shared_living_space_use",
+      "Room Temperature Preference": "room_temperature_preference",
+      "Decorating Style": "decorating_style",
+    };
+    return mapping[label];
+  };
+
+  const handleFilterChange = (label, value) => {
+    setFilterValues((prevValues) => ({
+      ...prevValues,
+      [label]: value.toString(),
+    }));
+  };
+
   return (
-    <div className="absolute left-4 top-1/2 transform -translate-y-1/2 w-[370px]">
+    <div className="relative w-[370px]">
       <ScrollShadow
         hideScrollBar
         offset={100}
@@ -27,6 +81,9 @@ const SideFilter = () => {
                   size={filter.size}
                   key={filter.label}
                   className="mb-6"
+                  onValueChange={(value) =>
+                    handleFilterChange(filter.label, value)
+                  }
                 >
                   {filter.buttons.map((button) => (
                     <Radio key={button.value} value={button.value}>
@@ -36,9 +93,25 @@ const SideFilter = () => {
                 </RadioGroup>
               );
             } else if (filter.type === "slider") {
-              return <ValueSlider filter={filter} key={filter.label} />;
+              return (
+                <ValueSlider
+                  filter={filter}
+                  key={filter.label}
+                  onChange={(value) => handleFilterChange(filter.label, value)}
+                  value={parseInt(filterValues[filter.label])}
+                />
+              );
             } else if (filter.type === "autocomplete") {
-              return <AutocompleteBox filter={filter} key={filter.label} />;
+              return (
+                <AutocompleteBox
+                  filter={filter}
+                  key={filter.label}
+                  value={filterValues[filter.label]}
+                  onChange={(value) => handleFilterChange(filter.label, value)}
+                />
+              );
+            } else {
+              return null;
             }
           })}
         </div>

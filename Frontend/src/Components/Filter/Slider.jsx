@@ -1,6 +1,9 @@
 import { Slider } from "@nextui-org/react";
 
-export default function ValueSlider({ filter }) {
+export default function ValueSlider({ filter, onChange, value }) {
+  const sliderValue =
+    value !== undefined ? parseInt(value) : filter.defaultValue;
+
   return (
     <div className="flex flex-col space-y-4">
       <p className="text-left text-foreground-500 text-base mb-1">
@@ -22,13 +25,12 @@ export default function ValueSlider({ filter }) {
           defaultValue={filter.defaultValue}
           showTooltip={filter.showTooltip}
           showOutline={filter.showOutline}
-          onChange={(value) => console.log(value)}
-          marks={filter.marks.map((mark) => {
-            return {
-              value: mark.value,
-              label: <span className="text-xs">{mark.label}</span>,
-            };
-          })}
+          onChange={(newValue) => onChange(parseInt(newValue))}
+          value={sliderValue}
+          marks={filter.marks.map((mark) => ({
+            value: mark.value,
+            label: <span className="text-xs">{mark.label}</span>,
+          }))}
           className="w-full mb-12"
         />
       </div>

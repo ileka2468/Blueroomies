@@ -64,12 +64,12 @@ const SideFilter = ({ filterValues, setFilterValues, userCharacteristics }) => {
   };
 
   return (
-    <div className="relative w-[370px]">
+    <div className="w-[370px] h-full">
       <ScrollShadow
         hideScrollBar
         offset={100}
         orientation="vertical"
-        className="h-[80vh] overflow-y-scroll"
+        className="h-[100%] overflow-y-scroll"
       >
         <div className="border-filtergrey border-solid border-1 rounded-xl w-full p-8">
           <p className="text-xl font-semibold text-center">Filters</p>

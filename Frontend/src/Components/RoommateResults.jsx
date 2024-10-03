@@ -1,6 +1,7 @@
 import React from "react";
 
 const RoommateResults = ({ matches }) => {
+  console.log(matches);
   return (
     <div>
       {matches.length === 0 ? (

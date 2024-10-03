@@ -30,7 +30,7 @@ public class JsonParsingService {
      * }
      * </pre>
      */
-    public Map<String, Integer> parseJsonForIntegers(String jsonResponse) {
+    public Map<String, Integer> parseJsonForPreferences(String jsonResponse) {
         Map<String, Integer> weightValues = new HashMap<>();
 
         try {

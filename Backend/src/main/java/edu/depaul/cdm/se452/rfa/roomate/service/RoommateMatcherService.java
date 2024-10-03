@@ -57,7 +57,7 @@ public class RoommateMatcher {
             if (!user.getId().equals(selectedUser.getId())) {
                 double distance = calculateWeightedDistance(selectedUser, user, weights);
                 // wrap the user and distance in UserDistance and add to priority queue
-                minHeap.offer(new UserDistance((user, distance)));
+                minHeap.offer(new UserDistance(user, distance));
             }
         }
 

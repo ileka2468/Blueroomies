@@ -5,6 +5,7 @@ import java.util.Iterator;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 public class JsonParsingService {
@@ -32,19 +33,25 @@ public class JsonParsingService {
     public Map<String, Integer> parseJsonForIntegers(String jsonResponse) {
         Map<String, Integer> weightValues = new HashMap<>();
 
-        // parse the JSON response
-        JSONObject jsonObject = new JSONObject(jsonResponse);
+        try {
+            // parse the JSON response
+            JSONObject jsonObject = new JSONObject(jsonResponse);
 
-        // iterate through the keys in the JSON object
-        Iterator<String> keys = jsonObject.keys();
+            // iterate through the keys in the JSON object
+            Iterator<String> keys = jsonObject.keys();
 
-        while (keys.hasNext()) {
-            String key = keys.next();
-            if (jsonObject.get(key) instanceof Integer) {
-                weightValues.put(key, jsonObject.getInt(key));
+            while (keys.hasNext()) {
+                String key = keys.next();
+                // make sure the value is an integer before adding to map
+                if (jsonObject.get(key) instanceof Integer) {
+                    weightValues.put(key, jsonObject.getInt(key));
+                }
             }
+        } catch (JSONException e) {
+            System.out.println("Error parsing JSON response: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("An unexpected error occurred: " + e.getMessage());
         }
-
-        return integerValues;
+        return weightValues;
     }
 }

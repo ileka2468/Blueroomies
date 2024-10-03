@@ -20,3 +20,5 @@ where we scale each difference in preference with a weight $w_n$. Weights allow 
 
 ## Handling
 The `RoommateMatcherService` will utilize a priority queue called `minHeap` to keep track of nearest neighbors. It will then calculate the distance from the user to every other user and add the `user` and `distance` to the priority queue. It will then initialize a list called `KNN` that stores the **finalized** nearest neighbors from `minHeap` by retrieving and removing the user with the smallest distance (most similar) until we have $K$ amount of users, or until the minHeap is empty. 
+
+## Integration

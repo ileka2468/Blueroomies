@@ -1,0 +1,8 @@
+Get all users via match_id and populate select field
+
+On user selection, get all sent & received messages between the two users and populate Listbox 
+    using ListboxReceived & ListboxSent in order of message date
+
+After sending a message, update Messages table and refresh the Listbox
+
+TBD: Refresh ListBox for new messages at some given interval

@@ -1,0 +1,6 @@
+Routing
+Make user selection searchable
+Make webpage dynamic (i.e. no static widths/heights)
+Fix stylistic errors
+Remove css redundancies (centering, etc.)
+Adjust visuals / add basic vfx

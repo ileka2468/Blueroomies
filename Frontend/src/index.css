@@ -5,7 +5,25 @@
 body {
   width: 100%;
 }
-
 #root {
   width: 100%;
+  height: 100vh;
+}
+
+button[aria-label="Open menu"] span::before,
+button[aria-label="Open menu"] span::after {
+  content: "";
+  transition-property: transform;
+  transition-timing-function: ease;
+  transition-duration: 250ms;
+  background: black;
+}
+
+button[aria-label="Close menu"] span::before,
+button[aria-label="Close menu"] span::after {
+  content: "";
+  transition-property: transform;
+  transition-timing-function: ease;
+  transition-duration: 250ms;
+  background: black;
 }

@@ -25,7 +25,7 @@ public class ProfileManagementService {
         profile.setBio(null);
         profile.setIsActivelyLooking(false);
         profile.setCharacteristics(generateDefaultCharacteristics());
-        String defaultPFP = String.format("https://ui-avatars.com/api/?name=%s+%s/?background=random", user.getFirstName(), user.getLastName());
+        String defaultPFP = String.format("https://ui-avatars.com/api/?name=%s+%s&background=random", user.getFirstName(), user.getLastName());
         profile.setPfpImage(defaultPFP);
         profileRepository.save(profile);
         return profile;

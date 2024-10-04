@@ -19,7 +19,13 @@ import HomeLogo from "./HomeLogo";
 import { useAxios } from "../../../Security/axios/AxiosProvider";
 import Cookies from "js-cookie";
 
-const Nav = ({ onLoginOpen, onRegisterOpen, userData, setUserData }) => {
+const Nav = ({
+  onLoginOpen,
+  onRegisterOpen,
+  userData,
+  setUserData,
+  isUser,
+}) => {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const apiClient = useAxios();
 
@@ -45,7 +51,12 @@ const Nav = ({ onLoginOpen, onRegisterOpen, userData, setUserData }) => {
   };
 
   return (
-    <Navbar maxWidth="xl" onMenuOpenChange={setIsMenuOpen}>
+    <Navbar
+      className="fixed top-0 left-0 w-full z-50"
+      position="sticky"
+      maxWidth="xl"
+      onMenuOpenChange={setIsMenuOpen}
+    >
       <NavbarContent>
         <NavbarMenuToggle
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
@@ -75,28 +86,32 @@ const Nav = ({ onLoginOpen, onRegisterOpen, userData, setUserData }) => {
       </NavbarContent>
       <NavbarContent justify="end">
         <NavbarItem className="hidden lg:flex">
-          <Button className="mx-3" color="primary" onPress={onLoginOpen}>
-            Login
-          </Button>
+          {!isUser && (
+            <>
+              <Button className="mx-3" color="primary" onPress={onLoginOpen}>
+                Login
+              </Button>
 
-          <Button
-            onPress={onRegisterOpen}
-            color="primary"
-            href="#"
-            variant="flat"
-          >
-            Sign Up
-          </Button>
+              <Button
+                onPress={onRegisterOpen}
+                color="primary"
+                href="#"
+                variant="flat"
+              >
+                Sign Up
+              </Button>
+            </>
+          )}
         </NavbarItem>
 
         {userData.username && (
-          <Dropdown placement="bottom-end">
+          <Dropdown placement="bottom-end" backdrop="blur">
             <DropdownTrigger>
               <Avatar
                 isBordered
                 as="button"
                 className="transition-transform"
-                color="secondary"
+                color="primary"
                 name="Jason Hughes"
                 size="sm"
                 src={userData.pfp}

@@ -83,6 +83,11 @@ const Nav = ({
             Past Matches
           </Link>
         </NavbarItem>
+        <NavbarItem>
+          <Link color="foreground" href="#">
+            Messages
+          </Link>
+        </NavbarItem>
       </NavbarContent>
       <NavbarContent justify="end">
         <NavbarItem className="hidden lg:flex">

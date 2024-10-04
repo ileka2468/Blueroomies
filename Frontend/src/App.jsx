@@ -7,6 +7,7 @@ import RegisterModal from "./Components/Authentication/RegisterModal";
 import useUser from "./Security/hooks/useUser";
 import SideFilter from "./Components/Filter/SideFilter";
 import RoommateResults from "./Components/RoommateResults";
+import MessageBox from "./Components/Messages/MessageBox";
 
 function App() {
   const apiClient = useAxios();
@@ -975,6 +976,7 @@ function App() {
         setUserData={setUserData}
         isUser={isUser}
       />
+      <MessageBox></MessageBox>
       <div className="flex h-[calc(100vh-4rem)] overflow-y-auto">
         {/* Side Filter */}
         <div className="sticky top-0 h-full">

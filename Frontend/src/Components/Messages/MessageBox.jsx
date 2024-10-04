@@ -52,43 +52,43 @@ const MessageBox = () => {
                         <Listbox className="w-[500px] h-[400px] size-fit py-8">
                     
                             <ListboxReceived>
-                                So this is a test of a very long message with a lot of text inside of it to see how it overflows and to see if the text will continue to shrink even smaller every time a new line is added
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur at rhoncus nisl, sit amet sodales dolor.
                             </ListboxReceived>
 
                             
 
                             <ListboxSent>
-                                Wow that is a lot of text i guess i should check to make sure it works for both variants of listboxitem
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur at rhoncus nisl, sit amet sodales dolor. Ut eu euismod sem. Vestibulum quam orci, maximus at nisl vitae, faucibus tempor metus.
                             </ListboxSent>
 
                             <ListboxReceived>
-                                So this is a test of a very long message with a lot of text inside of it to see how it overflows and to see if the text will continue to shrink even smaller every time a new line is added
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur at rhoncus nisl, sit amet sodales dolor.
                             </ListboxReceived>
 
                             
 
                             <ListboxSent>
-                                Wow that is a lot of text i guess i should check to make sure it works for both variants of listboxitem
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur at rhoncus nisl, sit amet sodales dolor. Ut eu euismod sem. Vestibulum quam orci, maximus at nisl vitae, faucibus tempor metus.
                             </ListboxSent>
 
                             <ListboxReceived>
-                                So this is a test of a very long message with a lot of text inside of it to see how it overflows and to see if the text will continue to shrink even smaller every time a new line is added
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur at rhoncus nisl, sit amet sodales dolor.
                             </ListboxReceived>
 
                             
 
                             <ListboxSent>
-                                Wow that is a lot of text i guess i should check to make sure it works for both variants of listboxitem
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur at rhoncus nisl, sit amet sodales dolor.
                             </ListboxSent>
 
                             <ListboxReceived>
-                                So this is a test of a very long message with a lot of text inside of it to see how it overflows and to see if the text will continue to shrink even smaller every time a new line is added
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur at rhoncus nisl, sit amet sodales dolor. Ut eu euismod sem. Vestibulum quam orci, maximus at nisl vitae, faucibus tempor metus.
                             </ListboxReceived>
 
                             
 
                             <ListboxSent>
-                                Wow that is a lot of text i guess i should check to make sure it works for both variants of listboxitem
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur at rhoncus nisl, sit amet sodales dolor.
                             </ListboxSent>
                         
                         

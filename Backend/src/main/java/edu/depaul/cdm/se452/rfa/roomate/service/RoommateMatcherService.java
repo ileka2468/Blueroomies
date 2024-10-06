@@ -14,7 +14,9 @@ import java.util.PriorityQueue;
  * between users based on their preferences and to find the k-nearest neighbors
  * using a modified K-Nearest Neighbors (KNN) algorithm.
  */
-class RoommateMatcher {
+
+public class RoommateMatcherService {
+
     public static double calculateWeightedDistance(User u1, User u2, double[] weights) {
         // TODO: implement a getPreferences() that returns a Map<String, Double>
         // and that jsonPreferences is a Map<String, Double> where key is the preference name

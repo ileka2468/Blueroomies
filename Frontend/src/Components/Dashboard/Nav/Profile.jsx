@@ -3,7 +3,7 @@ const Profile = () => {
   const userData = {
     username: "Test",
     email: "Test@example.com",
-    bio: "A passionate software developer with interests in web technologies and machine learning.",
+    bio: "A software developer with interests in AI and machine learning.",
     joinedDate: "January 2022"
   };
     return (

@@ -11,7 +11,7 @@ export const AxiosProvider = ({ children }) => {
 };
 
 AxiosProvider.propTypes = {
-  children: PropTypes.node.isRequired, // children should be a React node
+  children: PropTypes.node.isRequired, 
 };
 
 export const useAxios = () => {

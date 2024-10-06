@@ -13,6 +13,7 @@ import { MailIcon } from "./MailIcon.jsx";
 import { LockIcon } from "./LockIcon.jsx";
 import { useState } from "react";
 import { useAxios } from "../../Security/axios/AxiosProvider.jsx";
+import PropTypes from "prop-types";
 
 export default function LoginModal({
   isOpen,
@@ -113,3 +114,10 @@ export default function LoginModal({
     </>
   );
 }
+
+LoginModal.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  onOpenChange: PropTypes.func.isRequired,
+  setUserData: PropTypes.func.isRequired,
+  isUser: PropTypes.bool.isRequired, // Prop validation
+};

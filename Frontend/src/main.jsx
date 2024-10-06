@@ -6,8 +6,10 @@ import { AxiosProvider } from "./Security/axios/AxiosProvider.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
+    <Router>
     <AxiosProvider>
       <App />
     </AxiosProvider>
+    </Router>
   </StrictMode>
 );

@@ -14,7 +14,7 @@ import java.util.PriorityQueue;
  * between users based on their preferences and to find the k-nearest neighbors
  * using a modified K-Nearest Neighbors (KNN) algorithm.
  */
-public class RoommateMatcher {
+class RoommateMatcher {
     public static double calculateWeightedDistance(User u1, User u2, double[] weights) {
         // TODO: implement a getPreferences() that returns a Map<String, Double>
         // and that jsonPreferences is a Map<String, Double> where key is the preference name
@@ -31,7 +31,7 @@ public class RoommateMatcher {
             double pref1 = preferences1.get(key);
             double pref2 = preferences2.get(key);
 
-            if (pref1 == null || pref2 == null) {
+            if (pref1 ==  0 || pref2 == 0) {
                 // skip if a user is missing a preference
                 continue;
             }
@@ -40,6 +40,7 @@ public class RoommateMatcher {
             double weight = weights.length > 0 ? weights[0] : 1.0; // default weight of 1 if not provided
             sumWeightedDistances += weight * Math.abs(pref1 - pref2);
             sumWeights += weight;
+            int index = 0;
             index++;
         }
 
@@ -57,7 +58,7 @@ public class RoommateMatcher {
             if (!user.getId().equals(selectedUser.getId())) {
                 double distance = calculateWeightedDistance(selectedUser, user, weights);
                 // wrap the user and distance in UserDistance and add to priority queue
-                minHeap.offer(new UserDistance((user, distance)));
+                minHeap.offer(new UserDistance(user, distance));
             }
         }
 

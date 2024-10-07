@@ -6,7 +6,6 @@ import {
   NavbarBrand,
   NavbarContent,
   NavbarItem,
-  Link as NULink,
   DropdownItem,
   DropdownTrigger,
   Dropdown,
@@ -84,9 +83,9 @@ const Nav = ({
       <NavbarContent className="hidden sm:flex gap-4" justify="center">
         {links.map((link) => (
           <NavbarItem key={link.path}>
-            <NULink
+            <Link
               color="foreground"
-              href={link.path}
+              to={link.path}
               aria-current={
                 location.pathname === link.path ? "page" : undefined
               }
@@ -95,7 +94,7 @@ const Nav = ({
               }`}
             >
               {link.label}
-            </NULink>
+            </Link>
           </NavbarItem>
         ))}
       </NavbarContent>
@@ -186,8 +185,8 @@ const Nav = ({
 };
 
 Nav.propTypes = {
-  onLoginOpen: PropTypes.bool,
-  onRegisterOpen: PropTypes.bool,
+  onLoginOpen: PropTypes.func,
+  onRegisterOpen: PropTypes.func,
   userData: PropTypes.shape({
     username: PropTypes.string,
     pfp: PropTypes.string,

@@ -88,7 +88,10 @@ export default function RegisterModal({
                 />
                 <Input
                   endContent={
-                    <MailIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                    <MailIcon
+                      size="1em"
+                      className="text-2xl text-default-400 pointer-events-none flex-shrink-0"
+                    />
                   }
                   label="Username"
                   placeholder="Enter your username"
@@ -156,8 +159,8 @@ export default function RegisterModal({
 }
 
 RegisterModal.propTypes = {
-  isOpen: PropTypes.bool.isRequired,         // Boolean to control modal visibility
-  onOpen: PropTypes.func.isRequired,         // Function to open the modal
-  onOpenChange: PropTypes.func.isRequired,   // Function to change the modal state
-  setUserData: PropTypes.func.isRequired,    // Function to set user data
+  isOpen: PropTypes.bool.isRequired, // Boolean to control modal visibility
+  onOpen: PropTypes.func.isRequired, // Function to open the modal
+  onOpenChange: PropTypes.func.isRequired, // Function to change the modal state
+  setUserData: PropTypes.func.isRequired, // Function to set user data
 };

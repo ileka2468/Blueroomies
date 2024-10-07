@@ -1,15 +1,12 @@
-import { useState, useMemo } from "react";
-import { useAxios } from "./Security/axios/AxiosProvider";
-import Nav from "./Components/Dashboard/Nav/Nav";
-import { useDisclosure } from "@nextui-org/react";
-import LoginModal from "./Components/Authentication/LoginModal";
-import RegisterModal from "./Components/Authentication/RegisterModal";
-import useUser from "./Security/hooks/useUser";
-import SideFilter from "./Components/Filter/SideFilter";
-import RoommateResults from "./Components/RoommateResults";
+import React from "react";
+import SideFilter from "../Components/Filter/SideFilter";
+import RoommateResults from "../Components/RoommateResults";
+import { useAxios } from "../Security/axios/AxiosProvider";
+import { useState } from "react";
+import { useMemo } from "react";
+import useUser from "../Security/hooks/useUser";
 
-function App() {
-  const apiClient = useAxios();
+const FindRoommatesPage = () => {
   const [userData, setUserData, isUser] = useUser();
   const [matches, setMatches] = useState([
     {
@@ -124,6 +121,7 @@ function App() {
         decorating_style: 2,
       },
     },
+
     {
       user_id: 5,
       match_score: 87,
@@ -713,7 +711,11 @@ function App() {
       },
     },
   ]);
+
+  const apiClient = useAxios();
   const [filterValues, setFilterValues] = useState({});
+  //const location = useLocation();
+  //const currentPath = location.pathname;
 
   // console.log(filterValues);
 
@@ -938,60 +940,23 @@ function App() {
     [matches, filterValues]
   );
 
-  // useDisclosure for Modals
-  const {
-    isOpen: isLoginOpen,
-    onOpen: onLoginOpen,
-    onOpenChange: onLoginOpenChange,
-  } = useDisclosure();
-
-  const {
-    isOpen: isRegisterOpen,
-    onOpen: onRegisterOpen,
-    onOpenChange: onRegisterOpenChange,
-  } = useDisclosure();
-
   return (
-    <main className="h-full px-4 pt-16">
-      {/* Login Modal */}
-      <LoginModal
-        isOpen={isLoginOpen}
-        onOpen={onLoginOpen}
-        onOpenChange={onLoginOpenChange}
-        setUserData={setUserData}
-        isUser={isUser}
-      />
-      {/* Register Modal */}
-      <RegisterModal
-        isOpen={isRegisterOpen}
-        onOpen={onRegisterOpen}
-        onOpenChange={onRegisterOpenChange}
-        setUserData={setUserData}
-      />
-      <Nav
-        onRegisterOpen={onRegisterOpen}
-        onLoginOpen={onLoginOpen}
-        userData={userData}
-        setUserData={setUserData}
-        isUser={isUser}
-      />
-      <div className="flex h-[calc(100vh-4rem)] overflow-y-auto">
-        {/* Side Filter */}
-        <div className="sticky top-0 h-full">
-          <SideFilter
-            filterValues={filterValues}
-            setFilterValues={setFilterValues}
-            userCharacteristics={userData?.characteristics}
-          />
-        </div>
-        {/* Roommate Results */}
-        <div className="flex-grow px-4">
-          <h2 className="text-lg font-bold">Roommate Results</h2>
-          <RoommateResults matches={filteredMatches} />
-        </div>
+    <div className="flex h-[calc(100vh-4rem)] overflow-y-auto">
+      {/* Side Filter */}
+      <div className="sticky top-0 h-full">
+        <SideFilter
+          filterValues={filterValues}
+          setFilterValues={setFilterValues}
+          userCharacteristics={userData?.characteristics}
+        />
       </div>
-    </main>
+      {/* Roommate Results */}
+      <div className="flex-grow px-4">
+        <h2 className="text-lg font-bold">Roommate Results</h2>
+        <RoommateResults matches={filteredMatches} />
+      </div>
+    </div>
   );
-}
+};
 
-export default App;
+export default FindRoommatesPage;

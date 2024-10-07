@@ -22,7 +22,7 @@ const useUser = () => {
       }
     };
     fetchUser();
-  }, []);
+  }, [apiClient]);
 
   useEffect(() => {
     if (userData.username) {

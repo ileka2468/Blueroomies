@@ -13,6 +13,7 @@ import { MailIcon } from "./MailIcon.jsx";
 import { LockIcon } from "./LockIcon.jsx";
 import { useState } from "react";
 import { useAxios } from "../../Security/axios/AxiosProvider.jsx";
+import PropTypes from "prop-types";
 
 export default function RegisterModal({
   isOpen,
@@ -153,3 +154,10 @@ export default function RegisterModal({
     </>
   );
 }
+
+RegisterModal.propTypes = {
+  isOpen: PropTypes.bool.isRequired,         // Boolean to control modal visibility
+  onOpen: PropTypes.func.isRequired,         // Function to open the modal
+  onOpenChange: PropTypes.func.isRequired,   // Function to change the modal state
+  setUserData: PropTypes.func.isRequired,    // Function to set user data
+};

@@ -2,6 +2,7 @@ package edu.depaul.cdm.se452.rfa.roomate.service;
 
 import java.util.Iterator;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -15,7 +16,7 @@ public class JsonParsingService {
      *
      * <p>This class currently contains one public method:
      * <ul>
-     * <li>{@link #parseJsonForIntegers(String)} - Parses a JSON string to find and
+     * <li> - Parses a JSON string to find and
      * return a map of all the integer values contained within the JSON object.</li>
      * </ul>
      * </p>

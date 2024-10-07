@@ -1,4 +1,4 @@
-package edu.depaul.cdm.se452.rfa.profilemanagement.entity;
+package edu.depaul.cdm.se452.rfa.profileManagement.entity;
 
 import edu.depaul.cdm.se452.rfa.authentication.entity.User;
 import jakarta.persistence.*;

@@ -1,0 +1,324 @@
+{
+  "filters": [
+    {
+      "type": "autocomplete",
+      "label": "Gender Preference",
+      "size": "sm",
+      "options": [
+        { "key": "0", "label": "Male" },
+        { "key": "1", "label": "Female" },
+        { "key": "2", "label": "No Preference" }
+      ],
+      "selectedKey": "2"
+    },
+    {
+      "type": "radiogroup",
+      "label": "Smoking Preference",
+      "color": "primary",
+      "defaultValue": "0",
+      "size": "sm",
+      "orientation": "horizontal",
+      "buttons": [
+        { "value": "1", "innerText": "Smokes" },
+        { "value": "0", "innerText": "Does Not Smoke" }
+      ]
+    },
+    {
+      "type": "slider",
+      "label": "Cleanliness Level",
+      "leftlabel": "Messy",
+      "rightlabel": "Very Clean",
+      "size": "sm",
+      "step": 1,
+      "min": 1,
+      "max": 5,
+      "defaultValue": 5,
+      "showTooltip": true,
+      "showOutline": true,
+      "marks": [
+        { "value": 1, "label": "1" },
+        { "value": 2, "label": "2" },
+        { "value": 3, "label": "3" },
+        { "value": 4, "label": "4" },
+        { "value": 5, "label": "5" }
+      ]
+    },
+    {
+      "type": "slider",
+      "label": "Noise Tolerance",
+      "leftlabel": "Low",
+      "rightlabel": "High",
+      "size": "sm",
+      "step": 1,
+      "min": 1,
+      "max": 5,
+      "defaultValue": 4,
+      "showTooltip": true,
+      "showOutline": true,
+      "marks": [
+        { "value": 1, "label": "Low" },
+        { "value": 3, "label": "Medium" },
+        { "value": 5, "label": "High" }
+      ]
+    },
+    {
+      "type": "slider",
+      "label": "Hygiene",
+      "leftlabel": "Low",
+      "rightlabel": "High",
+      "size": "sm",
+      "step": 1,
+      "min": 1,
+      "max": 5,
+      "defaultValue": 5,
+      "showTooltip": true,
+      "showOutline": true,
+      "marks": [
+        { "value": 1, "label": "Low" },
+        { "value": 3, "label": "Medium" },
+        { "value": 5, "label": "High" }
+      ]
+    },
+    {
+      "type": "autocomplete",
+      "size": "sm",
+      "label": "Sleep Schedule",
+      "options": [
+        { "key": "0", "label": "Early Riser" },
+        { "key": "1", "label": "Flexible" },
+        { "key": "2", "label": "Night Owl" }
+      ],
+      "selectedKey": "2"
+    },
+    {
+      "type": "slider",
+      "label": "Guests/Visitors",
+      "leftlabel": "Rarely",
+      "rightlabel": "Often",
+      "size": "sm",
+      "step": 1,
+      "min": 1,
+      "max": 5,
+      "defaultValue": 3,
+      "showTooltip": true,
+      "showOutline": true,
+      "marks": [
+        { "value": 1, "label": "Rarely" },
+        { "value": 3, "label": "Sometimes" },
+        { "value": 5, "label": "Often" }
+      ]
+    },
+    {
+      "type": "slider",
+      "label": "Work/Study From Home",
+      "leftlabel": "Never",
+      "rightlabel": "Always",
+      "size": "sm",
+      "step": 1,
+      "min": 1,
+      "max": 5,
+      "defaultValue": 2,
+      "showTooltip": true,
+      "showOutline": true,
+      "marks": [
+        { "value": 1, "label": "Never" },
+        { "value": 3, "label": "Sometimes" },
+        { "value": 5, "label": "Always" }
+      ]
+    },
+    {
+      "type": "slider",
+      "label": "Pet Tolerance",
+      "leftlabel": "Low",
+      "rightlabel": "High",
+      "size": "sm",
+      "step": 1,
+      "min": 1,
+      "max": 5,
+      "defaultValue": 5,
+      "showTooltip": true,
+      "showOutline": true,
+      "marks": [
+        { "value": 1, "label": "Low" },
+        { "value": 3, "label": "Medium" },
+        { "value": 5, "label": "High" }
+      ]
+    },
+    {
+      "type": "slider",
+      "label": "Shared Expenses",
+      "leftlabel": "Low",
+      "rightlabel": "High",
+      "size": "sm",
+      "step": 1,
+      "min": 1,
+      "max": 5,
+      "defaultValue": 4,
+      "showTooltip": true,
+      "showOutline": true,
+      "marks": [
+        { "value": 1, "label": "Low" },
+        { "value": 3, "label": "Medium" },
+        { "value": 5, "label": "High" }
+      ]
+    },
+    {
+      "type": "slider",
+      "label": "Study Habits",
+      "leftlabel": "Low Focus",
+      "rightlabel": "High Focus",
+      "size": "sm",
+      "step": 1,
+      "min": 1,
+      "max": 5,
+      "defaultValue": 3,
+      "showTooltip": true,
+      "showOutline": true,
+      "marks": [
+        { "value": 1, "label": "Low" },
+        { "value": 3, "label": "Medium" },
+        { "value": 5, "label": "High" }
+      ]
+    },
+    {
+      "type": "slider",
+      "label": "Room Privacy",
+      "leftlabel": "Low",
+      "rightlabel": "High",
+      "size": "sm",
+      "step": 1,
+      "min": 1,
+      "max": 5,
+      "defaultValue": 4,
+      "showTooltip": true,
+      "showOutline": true,
+      "marks": [
+        { "value": 1, "label": "Open" },
+        { "value": 3, "label": "Moderate" },
+        { "value": 5, "label": "Private" }
+      ]
+    },
+    {
+      "type": "slider",
+      "label": "Cooking Frequency",
+      "leftlabel": "Never",
+      "rightlabel": "Often",
+      "size": "sm",
+      "step": 1,
+      "min": 1,
+      "max": 5,
+      "defaultValue": 2,
+      "showTooltip": true,
+      "showOutline": true,
+      "marks": [
+        { "value": 1, "label": "Never" },
+        { "value": 3, "label": "Sometimes" },
+        { "value": 5, "label": "Often" }
+      ]
+    },
+    {
+      "type": "radiogroup",
+      "label": "Food Sharing",
+      "color": "primary",
+      "defaultValue": "0",
+      "size": "sm",
+      "orientation": "horizontal",
+      "buttons": [
+        { "value": "1", "innerText": "Yes" },
+        { "value": "0", "innerText": "No" }
+      ]
+    },
+    {
+      "type": "slider",
+      "label": "Exercise Frequency",
+      "leftlabel": "Never",
+      "rightlabel": "Often",
+      "size": "sm",
+      "step": 1,
+      "min": 1,
+      "max": 5,
+      "defaultValue": 4,
+      "showTooltip": true,
+      "showOutline": true,
+      "marks": [
+        { "value": 1, "label": "Never" },
+        { "value": 3, "label": "Sometimes" },
+        { "value": 5, "label": "Often" }
+      ]
+    },
+    {
+      "type": "autocomplete",
+      "size": "sm",
+      "label": "Personality Type",
+      "options": [
+        { "key": "1", "label": "Introvert" },
+        { "key": "2", "label": "Somewhat Introverted" },
+        { "key": "3", "label": "Ambivert" },
+        { "key": "4", "label": "Somewhat Extroverted" },
+        { "key": "5", "label": "Extrovert" }
+      ],
+      "selectedKey": "3"
+    },
+    {
+      "type": "slider",
+      "label": "Shared Living Space Use",
+      "leftlabel": "Low",
+      "rightlabel": "High",
+      "size": "sm",
+      "step": 1,
+      "min": 1,
+      "max": 5,
+      "defaultValue": 3,
+      "showTooltip": true,
+      "showOutline": true,
+      "marks": [
+        { "value": 1, "label": "Low" },
+        { "value": 3, "label": "Moderate" },
+        { "value": 5, "label": "High" }
+      ]
+    },
+    {
+      "type": "slider",
+      "label": "Room Temperature Preference",
+      "leftlabel": "Cold",
+      "rightlabel": "Hot",
+      "size": "sm",
+      "step": 1,
+      "min": 1,
+      "max": 5,
+      "defaultValue": 3,
+      "showTooltip": true,
+      "showOutline": true,
+      "marks": [
+        { "value": 1, "label": "Cold" },
+        { "value": 3, "label": "Moderate" },
+        { "value": 5, "label": "Hot" }
+      ]
+    },
+    {
+      "type": "autocomplete",
+      "size": "sm",
+      "label": "Decorating Style",
+      "options": [
+        { "key": "1", "label": "Traditional" },
+        { "key": "2", "label": "Modern" },
+        { "key": "3", "label": "Eclectic" },
+        { "key": "4", "label": "Minimalist" },
+        { "key": "5", "label": "Bohemian" }
+      ],
+      "selectedKey": "2"
+    },
+    {
+      "type": "radiogroup",
+      "label": "Alcohol Usage",
+      "color": "primary",
+      "defaultValue": "0",
+      "size": "sm",
+      "orientation": "horizontal",
+      "buttons": [
+        { "value": "1", "innerText": "Drinks Alcohol" },
+        { "value": "0", "innerText": "Does Not Drink Alcohol" }
+      ]
+    }
+  ]
+}

@@ -31,4 +31,11 @@ public class CustomUserDetailsService implements UserDetailsService {
 
         return new UserPrincipal(user.getId(), user.getUsername(), user.getPassword(), user.getEnabled(), authorities);
     }
+
+    public User getUserByUsername(String username) {
+        if (userRepository.findByUsername(username).isPresent()) {
+            return userRepository.findByUsername(username).get();
+        }
+        return null;
+    }
 }

@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-
+import { Badge } from "@nextui-org/react";
 import {
   Navbar,
   NavbarBrand,
@@ -22,6 +22,8 @@ import HomeLogo from "./HomeLogo";
 import { useAxios } from "../../Security/axios/AxiosProvider";
 import Cookies from "js-cookie";
 import { useLocation } from "react-router-dom";
+import { NotificationIcon } from "../Dashboard/Icons/NotificationIcon";
+import { MailIcon } from "../Authentication/MailIcon";
 
 const Nav = ({
   onLoginOpen,
@@ -75,9 +77,11 @@ const Nav = ({
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
           className="sm:hidden"
         />
-        <NavbarBrand>
-          <HomeLogo />
-        </NavbarBrand>
+        <Link to={"/"}>
+          <NavbarBrand as={Link}>
+            <HomeLogo />
+          </NavbarBrand>
+        </Link>
       </NavbarContent>
 
       <NavbarContent className="hidden sm:flex gap-4" justify="center">
@@ -119,44 +123,54 @@ const Nav = ({
         </NavbarItem>
 
         {userData.username && (
-          <Dropdown placement="bottom-end" backdrop="blur">
-            <DropdownTrigger>
-              <Avatar
-                isBordered
-                as="button"
-                className="transition-transform"
-                color="primary"
-                name={userData.username}
-                size="sm"
-                src={userData.pfp}
-              />
-            </DropdownTrigger>
-            <DropdownMenu aria-label="Profile Actions" variant="flat">
-              <DropdownItem
-                key="profile"
-                className="h-14 gap-2"
-                textValue={`Signed in as ${userData.username}`}
-              >
-                <p className="font-semibold">Signed in as</p>
-                <p className="font-semibold">{userData.username}</p>
-              </DropdownItem>
+          <>
+            <Badge color="primary" content={5} shape="circle">
+              <MailIcon size="1.5em" />
+            </Badge>
 
-              <DropdownItem
-                key="manage_profile"
-                as={Link} // Use the Link component
-                to="/profile" // Set the path to /profile
-              >
-                Manage Profile
-              </DropdownItem>
-              <DropdownItem
-                onPress={() => logout()}
-                key="logout"
-                color="danger"
-              >
-                Log Out
-              </DropdownItem>
-            </DropdownMenu>
-          </Dropdown>
+            <Badge color="danger" content={1} shape="circle">
+              <NotificationIcon />
+            </Badge>
+
+            <Dropdown placement="bottom-end" backdrop="blur">
+              <DropdownTrigger>
+                <Avatar
+                  isBordered
+                  as="button"
+                  className="transition-transform"
+                  color="primary"
+                  name={userData.username}
+                  size="sm"
+                  src={userData.pfp}
+                />
+              </DropdownTrigger>
+              <DropdownMenu aria-label="Profile Actions" variant="flat">
+                <DropdownItem
+                  key="profile"
+                  className="h-14 gap-2"
+                  textValue={`Signed in as ${userData.username}`}
+                >
+                  <p className="font-semibold">Signed in as</p>
+                  <p className="font-semibold">{userData.username}</p>
+                </DropdownItem>
+
+                <DropdownItem
+                  key="manage_profile"
+                  as={Link} // Use the Link component
+                  to="/profile" // Set the path to /profile
+                >
+                  Manage Profile
+                </DropdownItem>
+                <DropdownItem
+                  onPress={() => logout()}
+                  key="logout"
+                  color="danger"
+                >
+                  Log Out
+                </DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
+          </>
         )}
       </NavbarContent>
 

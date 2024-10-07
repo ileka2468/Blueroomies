@@ -3,10 +3,10 @@ export const MailIcon = (props) => (
     aria-hidden="true"
     fill="none"
     focusable="false"
-    height="1em"
+    height={props.size}
     role="presentation"
     viewBox="0 0 24 24"
-    width="1em"
+    width={props.size}
     {...props}
   >
     <path

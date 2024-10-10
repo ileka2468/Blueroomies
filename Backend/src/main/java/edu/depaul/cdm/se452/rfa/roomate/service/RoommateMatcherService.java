@@ -1,6 +1,8 @@
 package edu.depaul.cdm.se452.rfa.roomate.service;
 
 import edu.depaul.cdm.se452.rfa.authentication.entity.User;
+import edu.depaul.cdm.se452.rfa.profilemanagement.entity.Profile;
+import edu.depaul.cdm.se452.rfa.profilemanagement.service.ProfileManagementService;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -14,7 +16,63 @@ import java.util.PriorityQueue;
  * between users based on their preferences and to find the k-nearest neighbors
  * using a modified K-Nearest Neighbors (KNN) algorithm.
  */
-public class RoommateMatcher {
+
+@Service
+public class RoommateMatcherService {
+    /**
+     *
+     * pre-filtering step before applying KNN
+     */
+    private static boolean isSmokingCompatible(Profile selectedProfile, List<Profile> profiles) {
+        return false;
+    }
+
+    private static boolean isGenderCompatible(Profile selectedProfile, List<Profile> profiles) {
+        return false;
+    }
+
+    private static boolean isDrinkingCompatible(Profile selectedProfile, List<Profile> profiles) {
+        return false;
+    }
+
+    private static boolean isCleanlinessCompatible(Profile selectedProfile, List<Profile> profiles) {
+        return false;
+    }
+
+    public static List<Profile> filterBySmoking(Profile selectedProfile, List<Profile> profiles) {
+        List<Profile> compatibleProfiles = new ArrayList<>();
+
+        return compatibleProfiles;
+    }
+
+    public static List<Profile> filterByGender(Profile selectedProfile, List<Profile> profiles) {
+        List<Profile> compatibleProfiles = new ArrayList<>();
+
+        return compatibleProfiles;
+    }
+
+    public static List<Profile> filterByDrinking(Profile selectedProfile, List<Profile> profiles) {
+        List<Profile> compatibleProfiles = new ArrayList<>();
+
+        return compatibleProfiles;
+    }
+
+    public static List<Profile> filterByCleanliness(Profile selectedProfile, List<Profile> profiles) {
+        List<Profile> compatibleProfiles = new ArrayList<>();
+
+        return compatibleProfiles;
+    }
+
+    public List<Profile> applyFilters(Profile selectedProfile, List<Profile> profiles) {
+        // sequential filtering
+        List<Profile> genderCompatibleProfiles = filterByGender(selectedProfile, profiles);
+        List<Profile> drinkingCompatibleProfiles = filterByDrinking(selectedProfile, genderCompatibleProfiles);
+        List<Profile> smokingCompatibleProfiles = filterBySmoking(selectedProfile, drinkingCompatibleProfiles);
+        List<Profile> cleanlinessCompatiblProfiles = filterByCleanliness(selectedProfile, smokingCompatibleProfiles);
+
+        return cleanlinessCompatiblProfiles;
+    }
+
     public static double calculateWeightedDistance(User u1, User u2, double[] weights) {
         // TODO: implement a getPreferences() that returns a Map<String, Double>
         // and that jsonPreferences is a Map<String, Double> where key is the preference name
@@ -40,7 +98,6 @@ public class RoommateMatcher {
             double weight = weights.length > 0 ? weights[0] : 1.0; // default weight of 1 if not provided
             sumWeightedDistances += weight * Math.abs(pref1 - pref2);
             sumWeights += weight;
-            index++;
         }
 
         // calculate weighted distance
@@ -57,11 +114,11 @@ public class RoommateMatcher {
             if (!user.getId().equals(selectedUser.getId())) {
                 double distance = calculateWeightedDistance(selectedUser, user, weights);
                 // wrap the user and distance in UserDistance and add to priority queue
-                minHeap.offer(new UserDistance((user, distance)));
+                minHeap.offer(new UserDistance(user, distance));
             }
         }
 
-        // intialize empty list to store the k-nearest-neighbors
+        // initialize empty list to store the k-nearest-neighbors
         List<User> KNN = new ArrayList<>();
         // continue adding users to the KNN list until we have K-users or the minheap is empty
         while (KNN.size() < k && !minHeap.isEmpty()) {

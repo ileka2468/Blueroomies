@@ -80,7 +80,7 @@ const Nav = ({
           className="sm:hidden"
         />
         <Link to={"/"}>
-          <NavbarBrand as={Link}>
+          <NavbarBrand>
             <HomeLogo />
           </NavbarBrand>
         </Link>

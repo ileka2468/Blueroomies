@@ -70,7 +70,7 @@
   - `match_id (INT)`: Foreign key linking to the `roommate_matches` table.
   - `sender_id (INT)` and `receiver_id (INT)`: Foreign keys linking to the `users` table, representing the sender and receiver of the message.
   - `content (VARCHAR)`: The text of the message.
-  - `date_sent (DATE)`: The date the message was sent.
+  - `date_sent (TIMESTAMP)`: The date and time when the message was sent.
 
 
 ---
@@ -94,6 +94,6 @@
   - `sender_id (INT)` and `receiver_id (INT)`: Foreign keys linking to the `users` table, representing the sender and receiver of the agreement.
   - `content (VARCHAR)`: The text of the agreement.
   - `status (INT)`: Represents if the agreement is declined (0), accepted (1), or pending (2).
-  - `date_sent (DATE)`: The date the agreement was sent.
+  - `date_sent (TIMESTAMP)`: The date and time the agreement was sent.
 
   ---

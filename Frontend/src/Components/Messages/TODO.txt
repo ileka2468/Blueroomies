@@ -1,0 +1,7 @@
+Routing
+Make user selection searchable + visible scrollbar
+Make webpage dynamic (i.e. no static widths/heights)
+Fix stylistic errors
+Remove css redundancies (centering, etc.)
+Add link to agreements w/ selected user
+Adjust visuals / add basic vfx

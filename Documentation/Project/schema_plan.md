@@ -96,4 +96,3 @@
   - `status (INT)`: Represents if the agreement is declined (0), accepted (1), or pending (2).
   - `date_sent (TIMESTAMP)`: The date and time the agreement was sent.
 
-  ---

@@ -42,6 +42,7 @@ const Nav = ({
     "Find Roommates",
     "Agreements",
     "Past Matches",
+    "Messages",
     "Log Out",
   ];
 
@@ -51,6 +52,7 @@ const Nav = ({
     { path: "/find-roommates", label: "Find Roommates" },
     { path: "/agreements", label: "Agreements" },
     { path: "/past-matches", label: "Past Matches" },
+    { path: "/messages", label: "Messages" },
   ];
 
   const logout = async () => {

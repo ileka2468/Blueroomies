@@ -1,4 +1,4 @@
-package edu.depaul.cdm.se452.rfa;
+package edu.depaul.cdm.se452.rfa.agreements.entity;
 
 import edu.depaul.cdm.se452.rfa.authentication.entity.User;
 import edu.depaul.cdm.se452.rfa.roomate.entity.RoommateMatch;

@@ -70,6 +70,7 @@
   - `match_id (INT)`: Foreign key linking to the `roommate_matches` table.
   - `sender_id (INT)` and `receiver_id (INT)`: Foreign keys linking to the `users` table, representing the sender and receiver of the message.
   - `content (VARCHAR)`: The text of the message.
+  - `date_sent (TIMESTAMP)`: The date and time when the message was sent.
 
 
 ---
@@ -80,6 +81,19 @@
   - `notification_id (SERIAL)`: Unique identifier for each notification (Primary Key).
   - `user_id (INT)`: Foreign key linking to the `users` table.
   - `message_id (INT)`: Foreign key linking to the `messages` table.
+  - `agreement_id (INT)`: Foreign key linking to the `agreements` table.
   - `is_read (INT)`: Boolean indicating whether the notification has been read.
 
 ---
+
+### **9. Agreements Table**:
+- **Description**: Stores agreements made between matched users. Each agreement is associated with a specific match.
+- **Key Fields**:
+  - `agreement_id (SERIAL)`: Unique identifier for each agreement (Primary Key).
+  - `match_id (INT)`: Foreign key linking to the `roommate_matches` table.
+  - `sender_id (INT)` and `receiver_id (INT)`: Foreign keys linking to the `users` table, representing the sender and receiver of the agreement.
+  - `content (VARCHAR)`: The text of the agreement.
+  - `status (INT)`: Represents if the agreement is declined (0), accepted (1), or pending (2).
+  - `date_sent (TIMESTAMP)`: The date and time the agreement was sent.
+
+  ---

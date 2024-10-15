@@ -159,7 +159,9 @@
           <configuration>
             <transformers>
               <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                <mainClass>edu.depaul.cdm.se452.rfa.RoommateFinderApp</mainClass>
+                <manifestEntries>
+                  <Main-Class>edu.depaul.cdm.se452.rfa.RoommateFinderApp</Main-Class>
+                </manifestEntries>
               </transformer>
             </transformers>
           </configuration>
@@ -168,4 +170,5 @@
     </plugin>
   </plugins>
 </build>
+
 </project>

@@ -153,7 +153,7 @@
 				<configuration>
 					<archive>
 						<manifest>
-							<mainClass>edu.depaul.cdm.se452.rfa</mainClass>
+							<mainClass>edu.depaul.cdm.se452.rfa.RoommateFinderApp</mainClass>
 						</manifest>
 					</archive>
 				</configuration>

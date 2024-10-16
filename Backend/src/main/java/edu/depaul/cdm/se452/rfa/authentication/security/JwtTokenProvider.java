@@ -4,10 +4,12 @@ import edu.depaul.cdm.se452.rfa.authentication.payload.TokenType;
 import edu.depaul.cdm.se452.rfa.authentication.service.AuthResponse;
 import edu.depaul.cdm.se452.rfa.authentication.service.CustomUserDetailsService;
 import edu.depaul.cdm.se452.rfa.authentication.service.TokenValidationService;
+import edu.depaul.cdm.se452.rfa.config.ApplicationProperties;
 import edu.depaul.cdm.se452.rfa.invalidatedtokens.entity.Invalidatedtoken;
 import edu.depaul.cdm.se452.rfa.invalidatedtokens.service.InvalidateTokenService;
 import io.jsonwebtoken.*;
 import edu.depaul.cdm.se452.rfa.authentication.util.UserPrincipal;
+import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.Getter;
@@ -25,13 +27,14 @@ import java.util.List;
 @Setter
 @Component
 public class JwtTokenProvider {
-    @Value("${app.jwtSecret}")
+    private ApplicationProperties applicationProperties;
+
     private String jwtSecret;
 
-    @Value("${app.jwtExpirationInMs}")
+
     private int jwtExpirationInMs;
 
-    @Value("${app.refreshtokenExpirationInMs}")
+
     private int refreshtokenExpirationInMs;
 
     @Autowired
@@ -39,6 +42,17 @@ public class JwtTokenProvider {
 
     @Autowired
     private TokenValidationService tokenValidationService;
+
+    public JwtTokenProvider(ApplicationProperties applicationProperties) {
+        this.applicationProperties = applicationProperties;
+    }
+
+    @PostConstruct
+    public void init () {
+        jwtSecret = applicationProperties.getJwtSecret();
+        jwtExpirationInMs = applicationProperties.getJwtExpirationInMs();
+        refreshtokenExpirationInMs = applicationProperties.getRefreshTokenExpirationInMs();
+    }
 
     // Generate JWT token
     public String generateToken(Authentication authentication, TokenType tokenType) {

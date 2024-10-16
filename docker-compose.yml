@@ -1,0 +1,29 @@
+version: "3.8"
+
+services:
+  backend:
+    build:
+      context: ./Backend
+      dockerfile: Dockerfile
+    image: ileka2468/rfa-backend:latest
+    ports:
+      - "8080:8080"
+    environment:
+      JWT_SECRET: ${JWT_SECRET}
+      JWT_EXPIRATION_IN_MS: ${JWT_EXPIRATION_IN_MS}
+      REFRESH_TOKEN_EXPIRATION_IN_MS: ${REFRESH_TOKEN_EXPIRATION_IN_MS}
+      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
+      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
+
+  frontend:
+    build:
+      context: ./Frontend
+      dockerfile: Dockerfile
+    image: ileka2468/rfa-frontend:latest
+    ports:
+      - "80:80"
+    environment:
+      REACT_APP_API_URL: http://backend:8080
+    depends_on:
+      - backend

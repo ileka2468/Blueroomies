@@ -26,8 +26,8 @@ jobs:
 
       - name: Build and Push Docker Images
         run: |
-          docker-compose build
-          docker-compose push
+          docker compose build
+          docker compose push
 
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v0.1.5

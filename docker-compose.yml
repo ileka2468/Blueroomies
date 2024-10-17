@@ -38,8 +38,8 @@ services:
       - "80:80"
       - "443:443" # For https
     volumes:
-      - ./default.conf:/etc/nginx/conf.d/default.conf:ro
-      - ./Frontend/dist:/usr/share/nginx/html:ro
+      - ./default.conf:/etc/nginx/conf.d/default.conf:rw
+      - ./Frontend/dist:/usr/share/nginx/html:rw
     depends_on:
       - frontend
       - backend

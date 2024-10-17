@@ -1,17 +1,9 @@
 package edu.depaul.cdm.se452.rfa.roomate.service;
 
-import com.fasterxml.jackson.databind.util.JSONPObject;
-import edu.depaul.cdm.se452.rfa.authentication.entity.User;
-import edu.depaul.cdm.se452.rfa.profilemanagement.entity.Profile;
-import edu.depaul.cdm.se452.rfa.profilemanagement.service.ProfileManagementService;
 
+import edu.depaul.cdm.se452.rfa.profilemanagement.entity.Profile;
 import org.springframework.stereotype.Service;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-import java.util.PriorityQueue;
+import java.util.*;
 
 /**
  * The RoommateMatcher class provides methods to calculate the weighted distance
@@ -21,7 +13,10 @@ import java.util.PriorityQueue;
 
 @Service
 public class RoommateMatcherService {
-    private Map<String, Object> getCharacteristicsFromProfile(Profile selectedProfile){
+
+    private double[] weights;
+
+    private static Map<String, Object> getCharacteristicsFromProfile(Profile selectedProfile){
         return selectedProfile.getCharacteristics();
     }
 
@@ -83,6 +78,7 @@ public class RoommateMatcherService {
         return compatibleProfiles;
     }
 
+
     public static List<Profile> filterByGender(List<Profile> profiles) {
         List<Profile> compatibleProfiles = new ArrayList<>();
         for (Profile profile : profiles) {
@@ -113,7 +109,7 @@ public class RoommateMatcherService {
         return compatibleProfiles;
     }
 
-    public List<Profile> applyFilters(Profile selectedProfile, List<Profile> profiles) {
+    public static List<Profile> applyFilters(Profile selectedProfile, List<Profile> profiles) {
         // sequential filtering
         List<Profile> genderCompatibleProfiles = filterByGender(profiles);
         List<Profile> drinkingCompatibleProfiles = filterByDrinking(genderCompatibleProfiles);
@@ -125,68 +121,93 @@ public class RoommateMatcherService {
         return finalCompatibleprofiles;
     }
 
-    public static double calculateWeightedDistance(User u1, User u2, double[] weights) {
-        // TODO: implement a getPreferences() that returns a Map<String, Double>
-        // and that jsonPreferences is a Map<String, Double> where key is the preference name
-        // and value is the preference weight.
+    /**
+     *
+     * @param profile
+     */
+    private void getWeights(Profile profile) {
+        // utilize json parser to get double[] weights and assign to weights;
+    }
 
-        Map<String, Double> preferences1 = u1.getPreferences();
-        Map<String, Double> preferences2 = u2.getPreferences();
+    /**
+     *
+     * @param currentCharacteristics: the current authenticated user's characteristic set.
+     * @param preferences: the current roommate preferences corresponding current user's profile.
+     * @param compatibleProfiles: the profiles after filtering process was applied.
+     * @return: the distance value between two users.
+     */
+    public static double calculateWeightedDistance(Map<String, Object> currentCharacteristics, Map<String, Object> preferences,
+                                                   List<Profile> compatibleProfiles) {
+        double totalDistance = 0.0;
 
-        double sumWeightedDistances = 0.0;
-        double sumWeights = 0.0;
+        for (Map.Entry<String, Object> entry : preferences.entrySet()) {
+            String characteristicName = entry.getKey();
+            Object characteristicValue = entry.getValue();
 
-        // iterate over all preferences since both users have the same preference keys
-        for (String key : preferences1.keySet()) {
-            double pref1 = preferences1.get(key);
-            double pref2 = preferences2.get(key);
-
-            if (pref1 == null || pref2 == null) {
-                // skip if a user is missing a preference
-                continue;
+            double weight = 1.0;
+            if (characteristicValue instanceof Number) {
+                // check if the value is categorical or int
+                weight = ((Number) characteristicValue).doubleValue();
+            }
+            else if (characteristicValue instanceof Boolean) {
+                weight = (Boolean) characteristicValue ? 1.0 : 0.0;
             }
 
-            // scale the distance with corresponding weight
-            double weight = weights.length > 0 ? weights[0] : 1.0; // default weight of 1 if not provided
-            sumWeightedDistances += weight * Math.abs(pref1 - pref2);
-            sumWeights += weight;
-        }
+            Object currentCharacteristicValue = currentCharacteristics.get(characteristicName);
 
-        // calculate weighted distance
-        return sumWeights > 0 ? sumWeightedDistances / sumWeights : 0.0;
+            for (Profile profile : compatibleProfiles) {
+                Map<String, Object> profileCharacteristics = profile.getCharacteristics();
+                Object profileCharacteristicValue = profileCharacteristics.get(characteristicName);
+
+                double distance = calculateDistance(currentCharacteristicValue, profileCharacteristicValue);
+                totalDistance += weight * distance;
+            }
+        }
+        return totalDistance;
+    }
+
+    private static double calculateDistance(Object currentCharacteristicValue, Object profileCharacteristicValue) {
+        if (currentCharacteristicValue instanceof Number && profileCharacteristicValue instanceof Number) {
+            return Math.abs(((Number) currentCharacteristicValue).doubleValue() - ((Number) profileCharacteristicValue).doubleValue());
+        }
+        else if (currentCharacteristicValue instanceof Boolean && profileCharacteristicValue instanceof Boolean) {
+            return currentCharacteristicValue.equals(profileCharacteristicValue) ? 1.0 : 0.0;
+        }
+        return 0.0;
     }
 
     // KNN algorithm to find nearest neighbors
-    public static List<User> findKNearestNeighbors(User selectedUser, List<User> users, int k, double[] weights) {
+    public static List<Profile> findKNearestNeighbors(Profile selectedProfile, List<Profile> profiles, int k) {
         // initialize a priority queue to keep track of nearest neighbors
-        PriorityQueue<UserDistance> minHeap = new PriorityQueue<>(Comparator.comparingDouble(d -> d.distance));
+        PriorityQueue<ProfileDistance> minHeap = new PriorityQueue<>(Comparator.comparingDouble(d -> d.distance));
 
-        // calculate distance from target user to every other user
-        for (User user: users) {
-            if (!user.getId().equals(selectedUser.getId())) {
-                double distance = calculateWeightedDistance(selectedUser, user, weights);
-                // wrap the user and distance in UserDistance and add to priority queue
-                minHeap.offer(new UserDistance(user, distance));
+        Map<String, Object> currentCharacteristics = selectedProfile.getCharacteristics();
+
+        // calculate distance from current profile to every other profile [user]
+        for (Profile target : profiles) {
+            if (!target.equals(selectedProfile)) {
+                double distance = calculateWeightedDistance(currentCharacteristics, getCharacteristicsFromProfile(target), profiles);
+                minHeap.offer(new ProfileDistance(target, distance));
             }
         }
 
         // initialize empty list to store the k-nearest-neighbors
-        List<User> KNN = new ArrayList<>();
+        List<Profile> KNN = new ArrayList<>();
         // continue adding users to the KNN list until we have K-users or the minheap is empty
         while (KNN.size() < k && !minHeap.isEmpty()) {
             // retrieve and remove the user with the smallest distance from minheap and add that user to the KNN list
-            KNN.add(minHeap.poll().user);
+            KNN.add(minHeap.poll().profile);
         }
 
         return KNN;
     }
 
-    static class UserDistance {
-        User user;
+    static class ProfileDistance {
+        Profile profile;
         double distance;
 
-        public UserDistance(User user, double distance) {
-            this.user = user;
+        public ProfileDistance(Profile profile, double distance) {
+            this.profile = profile;
             this.distance = distance;
         }
     }

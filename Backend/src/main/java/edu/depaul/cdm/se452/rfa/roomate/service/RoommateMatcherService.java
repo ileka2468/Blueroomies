@@ -16,16 +16,30 @@ public class RoommateMatcherService {
 
     private double[] weights;
 
+    /**
+     * Helper method for grabbing characteristics given a profile.
+     *
+     * @param selectedProfile: target profile to select characteristics from.
+     * @return: characteristics.
+     */
     private static Map<String, Object> getCharacteristicsFromProfile(Profile selectedProfile){
         return selectedProfile.getCharacteristics();
     }
 
-    /**
+    /*
      *
      * pre-filtering step before applying KNN
      *
      * each filter takes in a list of profiles parameter derived from the previous filter
      *
+     */
+
+    /**
+     * Protected method for checking gender compatibilities between two profiles.
+     *
+     * @param currentCharacteristics: the current authenticated user's characteristic set.
+     * @param profiles: the initial pool of user profiles.
+     * @return: true if compatible, false if not.
      */
     private static boolean isGenderCompatible(Map<String, Object> currentCharacteristics, List<Profile> profiles) {
         Object gender = currentCharacteristics.get("gender_preference");
@@ -37,6 +51,13 @@ public class RoommateMatcherService {
         return false;
     }
 
+    /**
+     * Protected method for checking smoking compatibilities between two profiles.
+     *
+     * @param currentCharacteristics: the current authenticated user's characteristic set.
+     * @param profiles: the pool of user profiles.
+     * @return: true if compatible, false if not.
+     */
     private static boolean isSmokingCompatible(Map<String, Object> currentCharacteristics, List<Profile> profiles) {
         Object smoking = currentCharacteristics.get("smoking_preference");
         for (Profile profile : profiles) {
@@ -47,6 +68,13 @@ public class RoommateMatcherService {
         return false;
     }
 
+    /**
+     * Protected method for checking drinking compatibilities between two profiles.
+     *
+     * @param currentCharacteristics: the current authenticated user's characteristic set.
+     * @param profiles: the pool of user profiles.
+     * @return: true if compatible, false if not.
+     */
     private static boolean isDrinkingCompatible(Map<String, Object> currentCharacteristics, List<Profile> profiles) {
         Object drinking = currentCharacteristics.get("alcohol_usage");
         for (Profile profile : profiles) {
@@ -57,6 +85,13 @@ public class RoommateMatcherService {
         return false;
     }
 
+    /**
+     * Protected method for checking gender compatibilities between two profiles.
+     *
+     * @param currentCharacteristics: the current authenticated user's characteristic set.
+     * @param profiles: the pool of user profiles.
+     * @return: true if compatible, false if not.
+     */
     private static boolean isCleanlinessCompatible(Map<String, Object> currentCharacteristics, List<Profile> profiles) {
         Object cleanliness = currentCharacteristics.get("cleanliness_level");
         for (Profile profile : profiles) {
@@ -67,6 +102,12 @@ public class RoommateMatcherService {
         return false;
     }
 
+    /**
+     * Wrapper method for protected filtering function.
+     *
+     * @param profiles: pool of profiles [users].
+     * @return: list of compatible users.
+     */
     public static List<Profile> filterBySmoking(List<Profile> profiles) {
         List<Profile> compatibleProfiles = new ArrayList<>();
         for (Profile profile : profiles) {
@@ -77,7 +118,12 @@ public class RoommateMatcherService {
         return compatibleProfiles;
     }
 
-
+    /**
+     * Wrapper method for protected filtering function.
+     *
+     * @param profiles: pool of profiles [users].
+     * @return: list of compatible users.
+     */
     public static List<Profile> filterByGender(List<Profile> profiles) {
         List<Profile> compatibleProfiles = new ArrayList<>();
         for (Profile profile : profiles) {
@@ -88,6 +134,12 @@ public class RoommateMatcherService {
         return compatibleProfiles;
     }
 
+    /**
+     * Wrapper method for protected filtering function.
+     *
+     * @param profiles: pool of profiles [users].
+     * @return: list of compatible users.
+     */
     public static List<Profile> filterByDrinking(List<Profile> profiles) {
         List<Profile> compatibleProfiles = new ArrayList<>();
         for (Profile profile : profiles) {
@@ -98,6 +150,12 @@ public class RoommateMatcherService {
         return compatibleProfiles;
     }
 
+    /**
+     * Wrapper method for protected filtering function.
+     *
+     * @param profiles: pool of profiles [users].
+     * @return: list of compatible users.
+     */
     public static List<Profile> filterByCleanliness(List<Profile> profiles) {
         List<Profile> compatibleProfiles = new ArrayList<>();
         for (Profile profile : profiles) {
@@ -108,7 +166,14 @@ public class RoommateMatcherService {
         return compatibleProfiles;
     }
 
-    public static List<Profile> applyFilters(Profile selectedProfile, List<Profile> profiles) {
+    /**
+     * Aggregate function for orchestrating the application of multiple filter functions in a sequence.
+     * Gender -> Drinking -> Smoking -> Cleanliness
+     *
+     * @param profiles: initial pool of profiles for filtering.
+     * @return: list of users aggregated from filtering.
+     */
+    public static List<Profile> applyFilters(List<Profile> profiles) {
         // sequential filtering
         List<Profile> genderCompatibleProfiles = filterByGender(profiles);
         List<Profile> drinkingCompatibleProfiles = filterByDrinking(genderCompatibleProfiles);
@@ -137,6 +202,7 @@ public class RoommateMatcherService {
     }
 
     /**
+     * Calculates the weighted difference between the current profile and other users in the pool.
      *
      * @param currentCharacteristics: the current authenticated user's characteristic set.
      * @param preferences: the current roommate preferences corresponding current user's profile.
@@ -177,8 +243,8 @@ public class RoommateMatcherService {
     }
 
     /**
+     * Helper method for calculateWeightedDistance.
      *
-     * helper method for calculateWeightedDistance
      * @param currentCharacteristicValue: value of characteristic of the current profile [user].
      * @param profileCharacteristicValue: value of characteristic of the current profile in the pool of compatible users.
      * @return: the distance value between two users.
@@ -192,8 +258,9 @@ public class RoommateMatcherService {
         }
         return 1.0;
     }
-
+    
     /**
+     *
      *
      * @param selectedProfile: current profile [user].
      * @param profiles: pool of profiles after filtering.

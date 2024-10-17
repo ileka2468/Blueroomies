@@ -27,7 +27,6 @@ public class RoommateMatcherService {
      * each filter takes in a list of profiles parameter derived from the previous filter
      *
      */
-
     private static boolean isGenderCompatible(Map<String, Object> currentCharacteristics, List<Profile> profiles) {
         Object gender = currentCharacteristics.get("gender_preference");
         for (Profile profile : profiles) {
@@ -123,7 +122,7 @@ public class RoommateMatcherService {
 
     /**
      *
-     * @param profile
+     * @param profile: get weights from preferences json
      */
     private void getWeights(Profile profile) {
         // utilize json parser to get double[] weights and assign to weights;
@@ -131,10 +130,18 @@ public class RoommateMatcherService {
 
     /**
      *
+     * @param preferences: raw preferences value before it is normalized for cases such as booleans and strings.
+     */
+    private static void normalizePreferences(Map<String, Object> preferences) {
+        // TODO
+    }
+
+    /**
+     *
      * @param currentCharacteristics: the current authenticated user's characteristic set.
      * @param preferences: the current roommate preferences corresponding current user's profile.
      * @param compatibleProfiles: the profiles after filtering process was applied.
-     * @return: the distance value between two users.
+     * @return: the [weighted] distance value between two users.
      */
     public static double calculateWeightedDistance(Map<String, Object> currentCharacteristics, Map<String, Object> preferences,
                                                    List<Profile> compatibleProfiles) {
@@ -152,6 +159,9 @@ public class RoommateMatcherService {
             else if (characteristicValue instanceof Boolean) {
                 weight = (Boolean) characteristicValue ? 1.0 : 0.0;
             }
+            else if (characteristicValue instanceof String) {
+                continue;
+            }
 
             Object currentCharacteristicValue = currentCharacteristics.get(characteristicName);
 
@@ -166,6 +176,13 @@ public class RoommateMatcherService {
         return totalDistance;
     }
 
+    /**
+     *
+     * helper method for calculateWeightedDistance
+     * @param currentCharacteristicValue: value of characteristic of the current profile [user].
+     * @param profileCharacteristicValue: value of characteristic of the current profile in the pool of compatible users.
+     * @return: the distance value between two users.
+     */
     private static double calculateDistance(Object currentCharacteristicValue, Object profileCharacteristicValue) {
         if (currentCharacteristicValue instanceof Number && profileCharacteristicValue instanceof Number) {
             return Math.abs(((Number) currentCharacteristicValue).doubleValue() - ((Number) profileCharacteristicValue).doubleValue());
@@ -173,10 +190,17 @@ public class RoommateMatcherService {
         else if (currentCharacteristicValue instanceof Boolean && profileCharacteristicValue instanceof Boolean) {
             return currentCharacteristicValue.equals(profileCharacteristicValue) ? 1.0 : 0.0;
         }
-        return 0.0;
+        return 1.0;
     }
 
-    // KNN algorithm to find nearest neighbors
+    /**
+     *
+     * @param selectedProfile: current profile [user].
+     * @param profiles: pool of profiles after filtering.
+     * @param k: number of profiles the modified KNN will return.
+     * @return
+     * TODO: consider the event that K is too large for the profiles pool.
+     */
     public static List<Profile> findKNearestNeighbors(Profile selectedProfile, List<Profile> profiles, int k) {
         // initialize a priority queue to keep track of nearest neighbors
         PriorityQueue<ProfileDistance> minHeap = new PriorityQueue<>(Comparator.comparingDouble(d -> d.distance));
@@ -193,12 +217,11 @@ public class RoommateMatcherService {
 
         // initialize empty list to store the k-nearest-neighbors
         List<Profile> KNN = new ArrayList<>();
-        // continue adding users to the KNN list until we have K-users or the minheap is empty
+        // continue adding profiles to the KNN list until we have K-users or the minheap is empty
         while (KNN.size() < k && !minHeap.isEmpty()) {
-            // retrieve and remove the user with the smallest distance from minheap and add that user to the KNN list
+            // retrieve and remove the profile with the smallest distance from minheap and add that to the KNN list
             KNN.add(minHeap.poll().profile);
         }
-
         return KNN;
     }
 

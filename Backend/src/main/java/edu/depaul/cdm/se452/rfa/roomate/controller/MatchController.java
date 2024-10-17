@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/matches")
 public class MatchController {
     RoommateMatchesRepository roommateMatchesRepository;
-    RoommateMatcherService roommateMatcherService;
+    // RoommateMatcherService roommateMatcherService;
 
     public MatchController(RoommateMatchesRepository matchesRepository) {
         this.roommateMatchesRepository = matchesRepository;

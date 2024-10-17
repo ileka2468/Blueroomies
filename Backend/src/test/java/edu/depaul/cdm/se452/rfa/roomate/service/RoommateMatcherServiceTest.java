@@ -138,7 +138,7 @@ class RoommateMatcherServiceTest {
 
     @Test
     void findKNearestNeighbors() {
-        // TODO: NEED TO WRITE OVERRIDE EQUALS and HASHCODE FUNCTION IN PROFILE CLASS
+        // TODO: NEED TO WRITE OVERRIDE EQUALS IN PROFILE CLASS
         List<Profile> profiles = Arrays.asList(profile2, profile3);
 
         List<Profile> nearestNeighbors = roommateMatcherService.findKNearestNeighbors(profile1, profiles, 2);

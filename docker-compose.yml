@@ -19,8 +19,6 @@ services:
       context: ./Frontend
       dockerfile: Dockerfile
     image: ileka2468/rfa-frontend:latest
-    ports:
-      - "80:80"
     volumes:
       - ./Frontend/dist:/app/dist:rw
     environment:

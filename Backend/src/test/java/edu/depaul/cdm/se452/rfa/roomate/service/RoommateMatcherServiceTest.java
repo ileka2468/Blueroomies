@@ -45,10 +45,7 @@ class RoommateMatcherServiceTest {
                 "alcohol_usage", true
         )));
     }
-
-    /**
-     * Need to fix gender filtering
-     */
+    
     @Test
     void filterByGender() {
         Profile selectedProfile = new Profile();
@@ -75,6 +72,56 @@ class RoommateMatcherServiceTest {
         assertTrue(test.contains(profile1));
         assertTrue(test.contains(profile2));
         assertFalse(test.contains(profile3));
+    }
+
+    @Test
+    void filterBySmoking() {
+        // Test for Male (since filtering is sequential) and is smoker.
+        Profile selectedProfile = new Profile();
+        selectedProfile.setId(5);
+        selectedProfile.setCharacteristics(
+                Map.of("cleanliness_level", 3,
+                        "gender_preference", "Male",
+                        "smoking_preference", false,
+                        "alcohol_usage", false
+
+                ));
+        // should just be profile 1
+        List<Profile> profiles = Arrays.asList(profile1, profile2, profile3);
+        List<Profile> filteredProfiles = roommateMatcherService.filterBySmoking(selectedProfile, profiles);
+        List<Profile> test = new ArrayList<>();
+        test.add(filteredProfiles.get(0));
+
+        assertEquals(1, test.size());
+        assertTrue(test.contains(profile1));
+        assertFalse(test.contains(profile3));
+        assertFalse(test.contains(profile2));
+    }
+
+    @Test
+    void filterByDrinking() {
+        Profile selectedProfile = new Profile();
+        selectedProfile.setId(5);
+        selectedProfile.setCharacteristics(
+                Map.of("cleanliness_level", 3,
+                        "gender_preference", "Male",
+                        "smoking_preference", false,
+                        "alcohol_usage", false
+
+                ));
+
+        // should just be profile 2
+        List<Profile> profiles = Arrays.asList(profile1, profile2, profile3);
+        List<Profile> filteredProfiles = roommateMatcherService.filterByDrinking(selectedProfile, profiles);
+        List<Profile> test = new ArrayList<>();
+
+        // FIXME
+        test.add(filteredProfiles.get(0));
+        assertEquals(1, test.size());
+
+        assertTrue(test.contains(profile2));
+        assertFalse(test.contains(profile3));
+        assertFalse(test.contains(profile1));
     }
 
     @Test

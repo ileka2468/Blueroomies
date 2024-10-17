@@ -125,8 +125,9 @@ public class RoommateMatcherService {
      * Returns a list of profiles that are compatible by smoking habits.
      * Wrapper method for protected filtering function.
      *
-     * @param profiles  pool of profiles [users].
-     * @return          list of compatible users.
+     * @param selectedProfile   the current authenticated user's profile.
+     * @param profiles          pool of profiles [users].
+     * @return                  list of compatible users.
      */
     public static List<Profile> filterBySmoking(Profile selectedProfile, List<Profile> profiles) {
         List<Profile> compatibleProfiles = new ArrayList<>();
@@ -160,8 +161,9 @@ public class RoommateMatcherService {
      * Returns a list of profiles that are compatible by drinking habits.
      * Wrapper method for protected filtering function.
      *
-     * @param profiles  pool of profiles [users].
-     * @return          list of compatible users.
+     * @param selectedProfile   current user profile.
+     * @param profiles          pool of profiles [users].
+     * @return                  list of compatible users.
      */
     public static List<Profile> filterByDrinking(Profile selectedProfile, List<Profile> profiles) {
         List<Profile> compatibleProfiles = new ArrayList<>();
@@ -195,8 +197,9 @@ public class RoommateMatcherService {
      * Aggregate function for orchestrating the application of multiple filter functions in a sequence.
      * Gender -> Drinking -> Smoking -> Cleanliness
      *
-     * @param profiles  initial pool of profiles for filtering.
-     * @return          list of users aggregated from filtering.
+     * @param selectedProfile   current user profile.
+     * @param profiles          initial pool of profiles for filtering.
+     * @return                  list of users aggregated from filtering.
      */
     public static List<Profile> applyFilters(Profile selectedProfile, List<Profile> profiles) {
         // sequential filtering
@@ -281,12 +284,13 @@ public class RoommateMatcherService {
      * <p> 
      * In order to select the profiles with the smallest distance (more similar to the current profile),
      * the function will utilize poll() and add that profile to the KNN list.
+     * <p>
+     * FIXME: consider the event that K is too large for the profiles pool.
      *
      * @param selectedProfile   current profile [user].
      * @param profiles          pool of profiles after filtering.
      * @param k                 number of profiles the modified KNN will return.
      * @return                  list of nearest profiles
-     * TODO: consider the event that K is too large for the profiles pool.
      */
     public static List<Profile> findKNearestNeighbors(Profile selectedProfile, List<Profile> profiles, int k) {
         // initialize a priority queue to keep track of nearest neighbors
@@ -327,7 +331,8 @@ public class RoommateMatcherService {
 
     /**
      * Returns a double[] that holds weights of the current profile [user's] preferences.
-     * TODO: not needed anymore, but nice to have ready for other stuff.
+     * <p>
+     * TODO: not immediately needed, but nice to have ready for other stuff.
      *
      * @param profile   get weights from preferences json
      */
@@ -337,11 +342,11 @@ public class RoommateMatcherService {
 
     /**
      * Returns a Map<String, Object> of normalized preferences.
+     * <p>
      * TODO: may need if we decide to add more filtering criteria.
      *
      * @param preferences   raw preferences value before it is normalized for cases such as booleans and strings.
      */
     private static void normalizePreferences(Map<String, Object> preferences) {
-        // TODO
     }
 }

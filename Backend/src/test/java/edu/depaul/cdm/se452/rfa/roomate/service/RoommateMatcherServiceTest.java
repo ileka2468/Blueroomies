@@ -45,7 +45,7 @@ class RoommateMatcherServiceTest {
                 "alcohol_usage", true
         )));
     }
-    
+
     @Test
     void filterByGender() {
         Profile selectedProfile = new Profile();

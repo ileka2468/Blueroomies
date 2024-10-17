@@ -23,6 +23,8 @@ services:
     image: ileka2468/rfa-frontend:latest
     ports:
       - "80:80"
+    volumes:
+      - ./Frontend/dist:/app/dist:rw
     environment:
       REACT_APP_API_URL: http://backend:8080
     depends_on:
@@ -34,7 +36,7 @@ services:
       - "80:80"
       - "443:443" # For https
     volumes:
-      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
       - ./Frontend/dist:/usr/share/nginx/html:ro
     depends_on:
       - frontend

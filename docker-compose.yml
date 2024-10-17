@@ -27,3 +27,15 @@ services:
       REACT_APP_API_URL: http://backend:8080
     depends_on:
       - backend
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+      - "443:443" # For https
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./Frontend/build:/usr/share/nginx/html:ro
+    depends_on:
+      - frontend
+      - backend

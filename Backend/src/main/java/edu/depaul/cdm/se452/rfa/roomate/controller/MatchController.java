@@ -1,7 +1,11 @@
 package edu.depaul.cdm.se452.rfa.roomate.controller;
 
+import edu.depaul.cdm.se452.rfa.authentication.entity.User;
 import edu.depaul.cdm.se452.rfa.roomate.repository.RoommateMatchesRepository;
-//import edu.depaul.cdm.se452.rfa.roomate.service.RoommateMatcherService;
+import edu.depaul.cdm.se452.rfa.roomate.service.RoommateMatcherService;
+import edu.depaul.cdm.se452.rfa.authentication.repository.UserRepository;
+import edu.depaul.cdm.se452.rfa.profilemanagement.repository.ProfileRepository;
+
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/matches")
 public class MatchController {
     RoommateMatchesRepository roommateMatchesRepository;
-    // RoommateMatcherService roommateMatcherService;
+    RoommateMatcherService roommateMatcherService;
 
     public MatchController(RoommateMatchesRepository matchesRepository) {
         this.roommateMatchesRepository = matchesRepository;

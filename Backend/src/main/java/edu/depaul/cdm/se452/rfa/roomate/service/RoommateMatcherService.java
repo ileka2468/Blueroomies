@@ -60,6 +60,7 @@ public class RoommateMatcherService {
     /**
      * Returns a boolean whether two profiles are compatible based on their smoking habit.
      * This method checks if the "smoking_preference" characteristic matches.
+     * <p>
      * FIXME ASSUMPTION: Does not take into account if a non-smoker is ok with rooming with a smoker.
      *
      * @param selectedProfile    the current authenticated user's profile.
@@ -82,6 +83,7 @@ public class RoommateMatcherService {
      * Returns a boolean whether two profiles are compatible based on their alcohol usage.
      * A user should be able to room with someone with differing alcohol usage, but needs to follow
      * a default value. For now, the default is that you cannot room with someone with different usages.
+     * <p>
      * FIXME ASSUMPTION: Does not take into account of people rooming with different alcohol usage.
      *
      * @param selectedProfile   the current authenticated user's profile.
@@ -217,6 +219,7 @@ public class RoommateMatcherService {
      * Returns the similarity-distance between the current profile and another.
      * It iterates through the preference set to obtain the key-value pair. It accommodates for differing
      * types of preferences (number, boolean, string) and handles them accordingly.
+     * <p>
      * FIXME NOTE: For now the String values are just ignored, since the only String sensitive variable
      *             relevant to us has been filtered out.
      *

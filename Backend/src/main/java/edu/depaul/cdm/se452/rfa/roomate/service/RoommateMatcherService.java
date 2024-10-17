@@ -41,15 +41,16 @@ public class RoommateMatcherService {
      * Protected method for checking gender compatibilities between two profiles.
      * This method checks if the "gender_preference" characteristic matches.
      *
-     * @param currentCharacteristics    the current authenticated user's characteristic set.
-     * @param profiles                  the initial pool of user profiles.
-     * @return                          true if compatible, false if not.
+     * @param selectedProfile    the current authenticated user's profile.
+     * @param profiles           the initial pool of user profiles.
+     * @return                   true if compatible, false if not.
      */
-    private static boolean isGenderCompatible(Map<String, Object> currentCharacteristics, List<Profile> profiles) {
-        String gender = (String) currentCharacteristics.get("gender_preference");
+    private static boolean isGenderCompatible(Profile selectedProfile, List<Profile> profiles) {
+        Map<String, Object> selectedProfileCharacteristics = getCharacteristicsFromProfile(selectedProfile);
+        String selectedGender = (String) selectedProfileCharacteristics.get("gender_preference");
         for (Profile profile : profiles) {
             String sameGender = (String) profile.getCharacteristics().get("gender_preference");
-            if (gender.equals(sameGender)) {
+            if (selectedGender.equals(sameGender)) {
                 return true;
             }
         }
@@ -141,10 +142,10 @@ public class RoommateMatcherService {
      * @param profiles  pool of profiles [users].
      * @return          list of compatible users.
      */
-    public static List<Profile> filterByGender(List<Profile> profiles) {
+    public static List<Profile> filterByGender(Profile selectedProfile, List<Profile> profiles) {
         List<Profile> compatibleProfiles = new ArrayList<>();
         for (Profile profile : profiles) {
-            if (isGenderCompatible(profile.getCharacteristics(), profiles)) {
+            if (isGenderCompatible(selectedProfile, profiles)) {
                 compatibleProfiles.add(profile);
             }
         }
@@ -193,9 +194,9 @@ public class RoommateMatcherService {
      * @param profiles  initial pool of profiles for filtering.
      * @return          list of users aggregated from filtering.
      */
-    public static List<Profile> applyFilters(List<Profile> profiles) {
+    public static List<Profile> applyFilters(Profile selectedProfile, List<Profile> profiles) {
         // sequential filtering
-        List<Profile> genderCompatibleProfiles = filterByGender(profiles);
+        List<Profile> genderCompatibleProfiles = filterByGender(selectedProfile, profiles);
         List<Profile> drinkingCompatibleProfiles = filterByDrinking(genderCompatibleProfiles);
         List<Profile> smokingCompatibleProfiles = filterBySmoking(drinkingCompatibleProfiles);
         List<Profile> cleanlinessCompatibleProfiles = filterByCleanliness(smokingCompatibleProfiles);
@@ -203,26 +204,6 @@ public class RoommateMatcherService {
         List<Profile> finalCompatibleprofiles = cleanlinessCompatibleProfiles;
 
         return finalCompatibleprofiles;
-    }
-
-    /**
-     * Returns a double[] that holds weights of the current profile [user's] preferences.
-     * TODO: not needed anymore, but nice to have ready for other stuff.
-     *
-     * @param profile   get weights from preferences json
-     */
-    private void getWeights(Profile profile) {
-        // utilize json parser to get double[] weights and assign to weights;
-    }
-
-    /**
-     * Returns a Map<String, Object> of normalized preferences.
-     * TODO: may need if we decide to add more filtering criteria.
-     *
-     * @param preferences   raw preferences value before it is normalized for cases such as booleans and strings.
-     */
-    private static void normalizePreferences(Map<String, Object> preferences) {
-        // TODO
     }
 
     /**
@@ -338,5 +319,25 @@ public class RoommateMatcherService {
             this.profile = profile;
             this.distance = distance;
         }
+    }
+
+    /**
+     * Returns a double[] that holds weights of the current profile [user's] preferences.
+     * TODO: not needed anymore, but nice to have ready for other stuff.
+     *
+     * @param profile   get weights from preferences json
+     */
+    private void getWeights(Profile profile) {
+        // utilize json parser to get double[] weights and assign to weights;
+    }
+
+    /**
+     * Returns a Map<String, Object> of normalized preferences.
+     * TODO: may need if we decide to add more filtering criteria.
+     *
+     * @param preferences   raw preferences value before it is normalized for cases such as booleans and strings.
+     */
+    private static void normalizePreferences(Map<String, Object> preferences) {
+        // TODO
     }
 }

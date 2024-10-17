@@ -20,7 +20,7 @@ services:
       dockerfile: Dockerfile
     image: ileka2468/rfa-frontend:latest
     volumes:
-      - ./Frontend/dist:/app/dist:rw
+      - frontend_dist:/app/dist:rw
     environment:
       REACT_APP_API_URL: http://backend:8080
     depends_on:
@@ -36,10 +36,13 @@ services:
     image: nginx:latest
     ports:
       - "80:80"
-      - "443:443" # For https
+      - "443:443"
     volumes:
       - ./default.conf:/etc/nginx/conf.d/default.conf:rw
-      - ./Frontend/dist:/usr/share/nginx/html:rw
+      - frontend_dist:/usr/share/nginx/html:rw
     depends_on:
       - frontend
       - backend
+
+volumes:
+  frontend_dist:

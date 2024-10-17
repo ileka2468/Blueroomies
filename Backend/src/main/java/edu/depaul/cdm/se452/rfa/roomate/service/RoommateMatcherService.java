@@ -1,9 +1,11 @@
 package edu.depaul.cdm.se452.rfa.roomate.service;
 
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import edu.depaul.cdm.se452.rfa.authentication.entity.User;
 import edu.depaul.cdm.se452.rfa.profilemanagement.entity.Profile;
 import edu.depaul.cdm.se452.rfa.profilemanagement.service.ProfileManagementService;
 
+import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -19,58 +21,108 @@ import java.util.PriorityQueue;
 
 @Service
 public class RoommateMatcherService {
+    private Map<String, Object> getCharacteristicsFromProfile(Profile selectedProfile){
+        return selectedProfile.getCharacteristics();
+    }
+
     /**
      *
      * pre-filtering step before applying KNN
+     *
+     * each filter takes in a list of profiles parameter derived from the previous filter
+     *
      */
-    private static boolean isSmokingCompatible(Profile selectedProfile, List<Profile> profiles) {
+
+    private static boolean isGenderCompatible(Map<String, Object> currentCharacteristics, List<Profile> profiles) {
+        Object gender = currentCharacteristics.get("gender_preference");
+        for (Profile profile : profiles) {
+            if (profile.getCharacteristics().get("gender_preference").equals(gender)) {
+                return true;
+            }
+        }
         return false;
     }
 
-    private static boolean isGenderCompatible(Profile selectedProfile, List<Profile> profiles) {
+    private static boolean isSmokingCompatible(Map<String, Object> currentCharacteristics, List<Profile> profiles) {
+        Object smoking = currentCharacteristics.get("smoking_preference");
+        for (Profile profile : profiles) {
+            if (profile.getCharacteristics().get("smoking_preference").equals(smoking)) {
+                return true;
+            }
+        }
         return false;
     }
 
-    private static boolean isDrinkingCompatible(Profile selectedProfile, List<Profile> profiles) {
+    private static boolean isDrinkingCompatible(Map<String, Object> currentCharacteristics, List<Profile> profiles) {
+        Object drinking = currentCharacteristics.get("alcohol_usage");
+        for (Profile profile : profiles) {
+            if (profile.getCharacteristics().get("alcohol_usage").equals(drinking)) {
+                return true;
+            }
+        }
         return false;
     }
 
-    private static boolean isCleanlinessCompatible(Profile selectedProfile, List<Profile> profiles) {
+    private static boolean isCleanlinessCompatible(Map<String, Object> currentCharacteristics, List<Profile> profiles) {
+        Object cleanliness = currentCharacteristics.get("cleanliness_level");
+        for (Profile profile : profiles) {
+            if (profile.getCharacteristics().get("cleanliness_level").equals(cleanliness)) {
+                return true;
+            }
+        }
         return false;
     }
 
-    public static List<Profile> filterBySmoking(Profile selectedProfile, List<Profile> profiles) {
+    public static List<Profile> filterBySmoking(List<Profile> profiles) {
         List<Profile> compatibleProfiles = new ArrayList<>();
-
+        for (Profile profile : profiles) {
+            if (isSmokingCompatible(profile.getCharacteristics(), profiles)) {
+                compatibleProfiles.add(profile);
+            }
+        }
         return compatibleProfiles;
     }
 
-    public static List<Profile> filterByGender(Profile selectedProfile, List<Profile> profiles) {
+    public static List<Profile> filterByGender(List<Profile> profiles) {
         List<Profile> compatibleProfiles = new ArrayList<>();
-
+        for (Profile profile : profiles) {
+            if (isGenderCompatible(profile.getCharacteristics(), profiles)) {
+                compatibleProfiles.add(profile);
+            }
+        }
         return compatibleProfiles;
     }
 
-    public static List<Profile> filterByDrinking(Profile selectedProfile, List<Profile> profiles) {
+    public static List<Profile> filterByDrinking(List<Profile> profiles) {
         List<Profile> compatibleProfiles = new ArrayList<>();
-
+        for (Profile profile : profiles) {
+            if (isDrinkingCompatible(profile.getCharacteristics(), profiles)) {
+                compatibleProfiles.add(profile);
+            }
+        }
         return compatibleProfiles;
     }
 
-    public static List<Profile> filterByCleanliness(Profile selectedProfile, List<Profile> profiles) {
+    public static List<Profile> filterByCleanliness(List<Profile> profiles) {
         List<Profile> compatibleProfiles = new ArrayList<>();
-
+        for (Profile profile : profiles) {
+            if (isCleanlinessCompatible(profile.getCharacteristics(), profiles)) {
+                compatibleProfiles.add(profile);
+            }
+        }
         return compatibleProfiles;
     }
 
     public List<Profile> applyFilters(Profile selectedProfile, List<Profile> profiles) {
         // sequential filtering
-        List<Profile> genderCompatibleProfiles = filterByGender(selectedProfile, profiles);
-        List<Profile> drinkingCompatibleProfiles = filterByDrinking(selectedProfile, genderCompatibleProfiles);
-        List<Profile> smokingCompatibleProfiles = filterBySmoking(selectedProfile, drinkingCompatibleProfiles);
-        List<Profile> cleanlinessCompatiblProfiles = filterByCleanliness(selectedProfile, smokingCompatibleProfiles);
+        List<Profile> genderCompatibleProfiles = filterByGender(profiles);
+        List<Profile> drinkingCompatibleProfiles = filterByDrinking(genderCompatibleProfiles);
+        List<Profile> smokingCompatibleProfiles = filterBySmoking(drinkingCompatibleProfiles);
+        List<Profile> cleanlinessCompatibleProfiles = filterByCleanliness(smokingCompatibleProfiles);
 
-        return cleanlinessCompatiblProfiles;
+        List<Profile> finalCompatibleprofiles = cleanlinessCompatibleProfiles;
+
+        return finalCompatibleprofiles;
     }
 
     public static double calculateWeightedDistance(User u1, User u2, double[] weights) {

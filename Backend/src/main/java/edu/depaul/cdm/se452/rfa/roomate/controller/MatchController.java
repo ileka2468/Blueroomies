@@ -1,7 +1,7 @@
 package edu.depaul.cdm.se452.rfa.roomate.controller;
 
 import edu.depaul.cdm.se452.rfa.roomate.repository.RoommateMatchesRepository;
-import edu.depaul.cdm.se452.rfa.roomate.service.RoommateMatcherService;
+//import edu.depaul.cdm.se452.rfa.roomate.service.RoommateMatcherService;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.http.ResponseEntity;

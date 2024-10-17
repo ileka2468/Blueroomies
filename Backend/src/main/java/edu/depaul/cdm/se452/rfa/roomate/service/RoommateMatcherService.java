@@ -139,8 +139,9 @@ public class RoommateMatcherService {
      * Returns a list of profiles that are compatible by gender preference.
      * Wrapper method for protected filtering function.
      *
-     * @param profiles  pool of profiles [users].
-     * @return          list of compatible users.
+     * @param selectedProfile   current user profile.
+     * @param profiles          pool of profiles [users].
+     * @return                  list of compatible users.
      */
     public static List<Profile> filterByGender(Profile selectedProfile, List<Profile> profiles) {
         List<Profile> compatibleProfiles = new ArrayList<>();

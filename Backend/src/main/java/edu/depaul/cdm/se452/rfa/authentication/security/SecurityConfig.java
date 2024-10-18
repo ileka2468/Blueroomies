@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.filter.CorsFilter;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.context.NullSecurityContextRepository;
@@ -21,28 +22,28 @@ public class SecurityConfig {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final CustomUserDetailsService customUserDetailsService;
     private final AuthEntryPoint authEntryPoint;
+    private final CorsFilter corsFilter;
 
     public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter,
                           CustomUserDetailsService customUserDetailsService,
-                          AuthEntryPoint authEntryPoint) {
+                          AuthEntryPoint authEntryPoint,
+                          CorsFilter corsFilter) {
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
         this.customUserDetailsService = customUserDetailsService;
         this.authEntryPoint = authEntryPoint;
+        this.corsFilter = corsFilter;
     }
 
-    // Password encoder bean
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    // Define the authentication manager bean
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
-    //  security filter chain
     @Bean
     public SecurityFilterChain configure(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
@@ -53,20 +54,19 @@ public class SecurityConfig {
                             "/api/auth/login",
                             "/api/auth/logout",
                             "/api/auth/refresh-token"
-                            ).permitAll();  // Public auth routes
+                    ).permitAll();  // Public routes
 
                     auth.anyRequest().authenticated();  // Protect other routes
                 })
-                .sessionManagement(session -> {
-                    session.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-                })
-                .exceptionHandling((exceptionHandlingConfigurer) -> { exceptionHandlingConfigurer.authenticationEntryPoint(authEntryPoint);})
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .exceptionHandling(exceptionHandlingConfigurer ->
+                        exceptionHandlingConfigurer.authenticationEntryPoint(authEntryPoint))
                 .anonymous(AbstractHttpConfigurer::disable)
-                .securityContext(securityContext -> securityContext
-                        .securityContextRepository(new NullSecurityContextRepository()))
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+                .securityContext(securityContext ->
+                        securityContext.securityContextRepository(new NullSecurityContextRepository()))
+                .addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);  // Add JWT filter
 
         return http.build();
     }
 }
-

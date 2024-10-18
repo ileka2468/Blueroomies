@@ -130,7 +130,7 @@ public class JwtTokenProvider {
         // create a cookie with refresh token
         Cookie refreshTokenCookie = new Cookie("refresh_token", refreshToken);
         refreshTokenCookie.setHttpOnly(true);
-        refreshTokenCookie.setSecure(false);
+        refreshTokenCookie.setSecure(true);
         refreshTokenCookie.setPath("/api/auth/");
         refreshTokenCookie.setMaxAge(getRefreshtokenExpirationInMs() / 1000);
 

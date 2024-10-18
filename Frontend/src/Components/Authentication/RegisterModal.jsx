@@ -32,7 +32,7 @@ export default function RegisterModal({
   const register = async () => {
     let response;
     try {
-      response = await apiClient.post("auth/register", registrationData);
+      response = await apiClient.post("/auth/register", registrationData);
 
       console.log("Axios response: " + response.headers);
 

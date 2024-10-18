@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const apiClient = axios.create({
-  baseURL: "/api/",
+  baseURL: "https://blueroomies.com/api",
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",
@@ -9,7 +9,7 @@ const apiClient = axios.create({
 });
 
 const axiosclient = axios.create({
-  baseURL: "/api",
+  baseURL: "https://blueroomies.com/api",
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",
@@ -85,7 +85,9 @@ apiClient.interceptors.response.use(null, async (error) => {
     isRefreshing = true;
 
     try {
-      const refreshTokenResponse = await axiosclient.post("auth/refresh-token");
+      const refreshTokenResponse = await axiosclient.post(
+        "/auth/refresh-token"
+      );
 
       const newToken = refreshTokenResponse.headers["authorization"];
 

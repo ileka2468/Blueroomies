@@ -30,7 +30,7 @@ export default function LoginModal({
   const handleLogin = async () => {
     let response;
     try {
-      response = await apiClient.post("auth/login", {
+      response = await apiClient.post("/auth/login", {
         username: user,
         password: pass,
       });

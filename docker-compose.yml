@@ -21,8 +21,6 @@ services:
     image: ileka2468/rfa-frontend:latest
     volumes:
       - frontend_dist:/app/dist:rw
-    environment:
-      REACT_APP_API_URL: ${REACT_APP_API_URL}
     depends_on:
       - backend
 

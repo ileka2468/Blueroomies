@@ -29,6 +29,7 @@ public class Config {
                 .hikariMaximumPoolSize(Integer.parseInt(Objects.requireNonNull(env.getProperty("spring.datasource.hikari.maximum-pool-size"))))
                 .jwtSecret(env.getProperty("app.jwtSecret"))
                 .jwtExpirationInMs(Integer.parseInt(Objects.requireNonNull(env.getProperty("app.jwtExpirationInMs"))))
+                .refreshTokenExpirationInMs(Integer.parseInt(Objects.requireNonNull(env.getProperty("app.refreshtokenExpirationInMs"))))
                 .build();
     }
 }

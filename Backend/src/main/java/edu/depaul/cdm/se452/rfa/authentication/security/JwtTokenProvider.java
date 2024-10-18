@@ -132,6 +132,7 @@ public class JwtTokenProvider {
         refreshTokenCookie.setHttpOnly(true);
         refreshTokenCookie.setSecure(true);
         refreshTokenCookie.setPath("/api/auth/");
+        refreshTokenCookie.setDomain("blueroomies.com");
         refreshTokenCookie.setMaxAge(getRefreshtokenExpirationInMs() / 1000);
 
         return new AuthResponse(jwt, refreshTokenCookie);

@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const apiClient = axios.create({
-  baseURL: "http://blueroomies.com/api",
+  baseURL: "/api",
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",
@@ -9,7 +9,7 @@ const apiClient = axios.create({
 });
 
 const axiosclient = axios.create({
-  baseURL: "http://blueroomies.com/api",
+  baseURL: "/api",
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",

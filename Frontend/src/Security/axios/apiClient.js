@@ -1,6 +1,7 @@
 import axios from "axios";
 
 const API_URL = import.meta.env.REACT_APP_API_URL;
+console.log(API_URL);
 
 const apiClient = axios.create({
   baseURL: API_URL,

@@ -76,7 +76,6 @@ class RoommateMatcherServiceTest {
 
     @Test
     void filterBySmoking() {
-        // Test for Male (since filtering is sequential) and is smoker.
         Profile selectedProfile = new Profile();
         selectedProfile.setId(5);
         selectedProfile.setCharacteristics(
@@ -115,12 +114,34 @@ class RoommateMatcherServiceTest {
         List<Profile> filteredProfiles = roommateMatcherService.filterByDrinking(selectedProfile, profiles);
         List<Profile> test = new ArrayList<>();
 
-        // FIXME
         test.add(filteredProfiles.get(0));
         assertEquals(1, test.size());
 
         assertTrue(test.contains(profile2));
         assertFalse(test.contains(profile3));
+        assertFalse(test.contains(profile1));
+    }
+
+    @Test
+    void filterByCleanlinessTest() {
+        Profile selectedProfile = new Profile();
+        selectedProfile.setId(5);
+        selectedProfile.setCharacteristics(
+                Map.of("cleanliness_level", 2,
+                        "gender_preference", "Male",
+                        "smoking_preference", false,
+                        "alcohol_usage", false
+                ));
+
+        // should be profile 3
+        List<Profile> profiles = Arrays.asList(profile1, profile2, profile3);
+        List<Profile> filteredProfiles = roommateMatcherService.filterByCleanliness(selectedProfile, profiles);
+        List<Profile> test = new ArrayList<>();
+        test.add(filteredProfiles.get(0));
+        assertEquals(1, test.size());
+
+        assertTrue(test.contains(profile3));
+        assertFalse(test.contains(profile2));
         assertFalse(test.contains(profile1));
     }
 

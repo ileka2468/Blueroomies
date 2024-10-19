@@ -110,7 +110,7 @@ public class RoommateMatcherService {
         Map<String, Object> comparingProfileCharacteristics = getCharacteristicsFromProfile(comparingProfile);
         int comparingCleanliness = (int) comparingProfileCharacteristics.get("cleanliness_level");
 
-        return selectedCleanliness == comparingCleanliness && selectedCleanliness == tolerance;
+        return Math.abs(selectedCleanliness - comparingCleanliness) <= tolerance;
     }
 
     /**

@@ -41,20 +41,17 @@ public class RoommateMatcherService {
      * Protected method for checking gender compatibilities between two profiles.
      * This method checks if the "gender_preference" characteristic matches.
      *
-     * @param selectedProfile    the current authenticated user's profile.
-     * @param profiles           the initial pool of user profiles.
-     * @return                   true if compatible, false if not.
+     * @param selectedProfile       the current authenticated user's profile.
+     * @param comparingProfile      the next profile to compare against.
+     * @return                      true if compatible, false if not.
      */
-    private static boolean isGenderCompatible(Profile selectedProfile, List<Profile> profiles) {
+    private static boolean isGenderCompatible(Profile selectedProfile, Profile comparingProfile) {
         Map<String, Object> selectedProfileCharacteristics = getCharacteristicsFromProfile(selectedProfile);
         String selectedGender = (String) selectedProfileCharacteristics.get("gender_preference");
-        for (Profile profile : profiles) {
-            String sameGender = (String) profile.getCharacteristics().get("gender_preference");
-            if (selectedGender.equals(sameGender)) {
-                return true;
-            }
-        }
-        return false;
+        Map<String, Object> comparingProfileCharacteristics = getCharacteristicsFromProfile(comparingProfile);
+        String comparingGender = (String) comparingProfileCharacteristics.get("gender_preference");
+
+        return selectedGender.equals(comparingGender);
     }
 
     /**
@@ -63,20 +60,17 @@ public class RoommateMatcherService {
      * <p>
      * FIXME ASSUMPTION: Does not take into account if a non-smoker is ok with rooming with a smoker.
      *
-     * @param selectedProfile    the current authenticated user's profile.
-     * @param profiles           the pool of user profiles.
-     * @return                   true if compatible, false if not.
+     * @param selectedProfile       the current authenticated user's profile.
+     * @param comparingProfile      the next profile to compare against.
+     * @return                      true if compatible, false if not.
      */
-    private static boolean isSmokingCompatible(Profile selectedProfile, List<Profile> profiles) {
+    private static boolean isSmokingCompatible(Profile selectedProfile, Profile comparingProfile) {
         Map<String, Object> selectedProfileCharacteristics = getCharacteristicsFromProfile(selectedProfile);
         Boolean selectedSmoking = (Boolean) selectedProfileCharacteristics.get("smoking_preference");
-        for (Profile profile : profiles) {
-            Boolean sameSmoking = (Boolean) profile.getCharacteristics().get("smoking_preference");
-            if (selectedSmoking == sameSmoking) {
-                return true;
-            }
-        }
-        return false;
+        Map<String, Object> comparingProfileCharacteristics = getCharacteristicsFromProfile(comparingProfile);
+        Boolean comparingSmoking = (Boolean) comparingProfileCharacteristics.get("smoking_preference");
+
+        return selectedSmoking.equals(comparingSmoking);
     }
 
     /**
@@ -86,20 +80,17 @@ public class RoommateMatcherService {
      * <p>
      * FIXME ASSUMPTION: Does not take into account of people rooming with different alcohol usage.
      *
-     * @param selectedProfile   the current authenticated user's profile.
-     * @param profiles          the pool of user profiles.
-     * @return                  true if compatible, false if not.
+     * @param selectedProfile       the current authenticated user's profile.
+     * @param comparingProfile      the next profile to compare against.
+     * @return                      true if compatible, false if not.
      */
-    private static boolean isDrinkingCompatible(Profile selectedProfile, List<Profile> profiles) {
+    private static boolean isDrinkingCompatible(Profile selectedProfile, Profile comparingProfile) {
         Map<String, Object> selectedProfileCharacteristics = getCharacteristicsFromProfile(selectedProfile);
         Boolean selectedDrinking = (Boolean) selectedProfileCharacteristics.get("alcohol_usage");
-        for (Profile profile : profiles) {
-            boolean alsoDrinker = (boolean) profile.getCharacteristics().get("alcohol_usage");
-            if (selectedDrinking.equals(alsoDrinker)) {
-                return true;
-            }
-        }
-        return false;
+        Map<String, Object> comparingProfileCharacteristics = getCharacteristicsFromProfile(comparingProfile);
+        Boolean comparingDrinking = (Boolean) comparingProfileCharacteristics.get("alcohol_usage");
+
+        return selectedDrinking.equals(comparingDrinking);
     }
 
     /**
@@ -107,20 +98,19 @@ public class RoommateMatcherService {
      * To allow flexibility, there will be a tolerance of 1 level to avoid bottleneck-ing the pool of potential
      * matches.
      *
-     * @param currentCharacteristics    the current authenticated user's characteristic set.
-     * @param profiles                  the pool of user profiles.
-     * @return                          true if compatible, false if not.
+     * @param selectedProfile       the current authenticated user's profile.
+     * @param comparingProfile      the next profile to compare against.
+     * @return                      true if compatible, false if not.
      */
-    private static boolean isCleanlinessCompatible(Map<String, Object> currentCharacteristics, List<Profile> profiles) {
+    private static boolean isCleanlinessCompatible(Profile selectedProfile, Profile comparingProfile) {
         int tolerance = 1;
-        int cleanliness = (int) currentCharacteristics.get("cleanliness_level");
-        for (Profile profile : profiles) {
-            int profileCleanliness = (int) profile.getCharacteristics().get("cleanliness_level");
-            if (Math.abs(cleanliness - profileCleanliness) <= tolerance) {
-                return true;
-            }
-        }
-        return false;
+
+        Map<String, Object> selectedProfileCharacteristics = getCharacteristicsFromProfile(selectedProfile);
+        int selectedCleanliness = (int) selectedProfileCharacteristics.get("cleanliness_level");
+        Map<String, Object> comparingProfileCharacteristics = getCharacteristicsFromProfile(comparingProfile);
+        int comparingCleanliness = (int) comparingProfileCharacteristics.get("cleanliness_level");
+
+        return selectedCleanliness == comparingCleanliness && selectedCleanliness == tolerance;
     }
 
     /**
@@ -134,7 +124,7 @@ public class RoommateMatcherService {
     public static List<Profile> filterBySmoking(Profile selectedProfile, List<Profile> profiles) {
         List<Profile> compatibleProfiles = new ArrayList<>();
         for (Profile profile : profiles) {
-            if (isSmokingCompatible(selectedProfile, profiles)) {
+            if (isSmokingCompatible(selectedProfile, profile)) {
                 compatibleProfiles.add(profile);
             }
         }
@@ -152,7 +142,7 @@ public class RoommateMatcherService {
     public static List<Profile> filterByGender(Profile selectedProfile, List<Profile> profiles) {
         List<Profile> compatibleProfiles = new ArrayList<>();
         for (Profile profile : profiles) {
-            if (isGenderCompatible(selectedProfile, profiles)) {
+            if (isGenderCompatible(selectedProfile, profile)) {
                 compatibleProfiles.add(profile);
             }
         }
@@ -170,7 +160,7 @@ public class RoommateMatcherService {
     public static List<Profile> filterByDrinking(Profile selectedProfile, List<Profile> profiles) {
         List<Profile> compatibleProfiles = new ArrayList<>();
         for (Profile profile : profiles) {
-            if (isDrinkingCompatible(selectedProfile, profiles)) {
+            if (isDrinkingCompatible(selectedProfile, profile)) {
                 compatibleProfiles.add(profile);
             }
         }
@@ -181,13 +171,14 @@ public class RoommateMatcherService {
      * Returns a list of profiles that are compatible based on cleanliness levels.
      * Wrapper method for protected filtering function.
      *
-     * @param profiles  pool of profiles [users].
-     * @return          list of compatible users.
+     * @param selectedProfile   current user profile.
+     * @param profiles          pool of profiles [users].
+     * @return                  list of compatible users.
      */
-    public static List<Profile> filterByCleanliness(List<Profile> profiles) {
+    public static List<Profile> filterByCleanliness(Profile selectedProfile, List<Profile> profiles) {
         List<Profile> compatibleProfiles = new ArrayList<>();
         for (Profile profile : profiles) {
-            if (isCleanlinessCompatible(profile.getCharacteristics(), profiles)) {
+            if (isCleanlinessCompatible(selectedProfile, profile)) {
                 compatibleProfiles.add(profile);
             }
         }
@@ -208,7 +199,7 @@ public class RoommateMatcherService {
         List<Profile> genderCompatibleProfiles = filterByGender(selectedProfile, profiles);
         List<Profile> drinkingCompatibleProfiles = filterByDrinking(selectedProfile, genderCompatibleProfiles);
         List<Profile> smokingCompatibleProfiles = filterBySmoking(selectedProfile, drinkingCompatibleProfiles);
-        List<Profile> cleanlinessCompatibleProfiles = filterByCleanliness(smokingCompatibleProfiles);
+        List<Profile> cleanlinessCompatibleProfiles = filterByCleanliness(selectedProfile, smokingCompatibleProfiles);
 
         List<Profile> finalCompatibleprofiles = cleanlinessCompatibleProfiles;
 

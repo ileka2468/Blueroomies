@@ -79,7 +79,13 @@
 		<dependency>
 		    <groupId>org.json</groupId>
 		    <artifactId>json</artifactId>
-		    <version>20240303</version>
+		    <version>20190722</version>
+		</dependency>
+
+		<!-- WebSocket -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-websocket</artifactId>
 		</dependency>
 
 		<!-- Lombok -->
@@ -141,7 +147,7 @@
    		<dependency>
     		<groupId>org.json</groupId>
      		<artifactId>json</artifactId>
-     		<version>20190722</version>
+     		<version>20240303</version>
    		</dependency>
  </dependencies>
 

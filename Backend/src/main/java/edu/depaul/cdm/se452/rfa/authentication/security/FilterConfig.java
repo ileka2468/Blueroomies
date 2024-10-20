@@ -17,9 +17,8 @@ public class FilterConfig {
         CorsConfiguration config = new CorsConfiguration();
 
         // Configure CORS settings
-        config.setAllowCredentials(false);
-//        config.setAllowedOrigins(Arrays.asList("https://blueroomies.com"));
-        config.addAllowedOrigin("*");
+        config.setAllowCredentials(true);
+        config.setAllowedOrigins(Arrays.asList("https://blueroomies.com"));
         config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(Arrays.asList("Origin", "Content-Type", "Accept", "Authorization"));
 

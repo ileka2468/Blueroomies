@@ -21,6 +21,18 @@ jobs:
             cd se452-group-project/
             git fetch origin main
             git reset --hard origin/main
+
+            # Build the frontend container and extract built files
+            docker build -t rfa-frontend ./Frontend
+            docker create --name frontend_build_temp rfa-frontend
+
+            # Clean up previous build files
+            rm -rf ~/rfadeploydev/dist/*
+
+            # Copy the new build files to the host machine
+            docker cp frontend_build_temp:/app/dist ~/rfadeploydev/dist/
+            docker rm frontend_build_temp
+
             cp ./default.conf ~/rfadeploydev/
             cp ./docker-compose.yml ~/rfadeploydev/
             docker system prune -f

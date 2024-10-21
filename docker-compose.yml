@@ -14,16 +14,6 @@ services:
       SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
       SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
 
-  frontend:
-    build:
-      context: ./Frontend
-      dockerfile: Dockerfile
-    image: ileka2468/rfa-frontend:latest
-    volumes:
-      - frontend_dist:/app/dist:rw
-    depends_on:
-      - backend
-
   nginx:
     image: nginx:latest
     ports:
@@ -31,11 +21,7 @@ services:
       - "443:443"
     volumes:
       - ./default.conf:/etc/nginx/conf.d/default.conf:ro
-      - frontend_dist:/usr/share/nginx/html:ro
+      - ./dist:/usr/share/nginx/html:ro
       - ./certs:/etc/nginx/ssl:ro # https
     depends_on:
-      - frontend
       - backend
-
-volumes:
-  frontend_dist:

@@ -13,6 +13,7 @@ import { MailIcon } from "./MailIcon.jsx";
 import { LockIcon } from "./LockIcon.jsx";
 import { useState } from "react";
 import { useAxios } from "../../Security/axios/AxiosProvider.jsx";
+import PropTypes from "prop-types";
 
 export default function LoginModal({
   isOpen,
@@ -35,6 +36,9 @@ export default function LoginModal({
       });
 
       const token = response.headers["authorization"];
+      console.log(response);
+      console.log(token);
+      console.log(response.headers);
 
       if (token) {
         const tokenPart = token.split(" ")[1];
@@ -59,7 +63,10 @@ export default function LoginModal({
                 <Input
                   autoFocus
                   endContent={
-                    <MailIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                    <MailIcon
+                      size="1em"
+                      className="text-2xl text-default-400 pointer-events-none flex-shrink-0"
+                    />
                   }
                   label="Email"
                   placeholder="Enter your email"
@@ -113,3 +120,10 @@ export default function LoginModal({
     </>
   );
 }
+
+LoginModal.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  onOpenChange: PropTypes.func.isRequired,
+  setUserData: PropTypes.func.isRequired,
+  isUser: PropTypes.bool.isRequired, // Prop validation
+};

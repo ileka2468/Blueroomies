@@ -1,6 +1,6 @@
 package edu.depaul.cdm.se452.rfa.roomate.service;
 
-import edu.depaul.cdm.se452.rfa.profilemanagement.entity.Profile;
+import edu.depaul.cdm.se452.rfa.profileManagement.entity.Profile;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

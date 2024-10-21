@@ -4,7 +4,7 @@ import edu.depaul.cdm.se452.rfa.authentication.entity.User;
 import edu.depaul.cdm.se452.rfa.roomate.repository.RoommateMatchesRepository;
 import edu.depaul.cdm.se452.rfa.roomate.service.RoommateMatcherService;
 import edu.depaul.cdm.se452.rfa.authentication.repository.UserRepository;
-import edu.depaul.cdm.se452.rfa.profilemanagement.repository.ProfileRepository;
+import edu.depaul.cdm.se452.rfa.profileManagement.repository.ProfileRepository;
 
 import lombok.Getter;
 import lombok.Setter;

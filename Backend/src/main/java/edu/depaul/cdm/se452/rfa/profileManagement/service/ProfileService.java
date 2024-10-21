@@ -1,23 +1,22 @@
-package edu.depaul.cdm.se452.rfa.profilemanagement.service;
+package edu.depaul.cdm.se452.rfa.profileManagement.service;
 
 import edu.depaul.cdm.se452.rfa.authentication.repository.UserRepository;
-import edu.depaul.cdm.se452.rfa.profilemanagement.entity.Profile;
+import edu.depaul.cdm.se452.rfa.profileManagement.entity.Profile;
 import edu.depaul.cdm.se452.rfa.authentication.entity.User;
-import edu.depaul.cdm.se452.rfa.profilemanagement.repository.ProfileRepository;
+import edu.depaul.cdm.se452.rfa.profileManagement.repository.ProfileRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
 import java.util.Optional;
 
 @Service
-public class ProfileManagementService {
-    private final ProfileRepository profileRepository;
-    private final UserRepository userRepository;
+public class ProfileService {
+    @Autowired
+    private ProfileRepository profileRepository;
+    @Autowired
+    private UserRepository userRepository;
 
-    public ProfileManagementService(ProfileRepository profileRepository, UserRepository userRepository) {
-        this.profileRepository = profileRepository;
-        this.userRepository = userRepository;
-    }
 
     public Profile createProfile(User user) {
         Profile profile = new Profile();
@@ -30,7 +29,25 @@ public class ProfileManagementService {
         profileRepository.save(profile);
         return profile;
     }
+    // Create or update a profile
+    public Profile saveProfile(Profile profile) {
+        return profileRepository.save(profile);
+    }
 
+    // Get a profile by its ID
+    public Optional<Profile> getProfileById(Integer profileId) {
+        return profileRepository.findById(profileId);
+    }
+
+    // Get a profile by user ID
+    public Profile getProfileByUserId(Integer userId) {
+        return profileRepository.findByUserId(userId);
+    }
+
+    // Delete a profile by ID
+    public void deleteProfile(Integer profileId) {
+        profileRepository.deleteById(profileId);
+    }
     public Profile loadProfileByUsername(String username) {
         Optional<User> user = userRepository.findByUsername(username);
 

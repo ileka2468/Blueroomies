@@ -11,11 +11,11 @@ import java.util.Arrays;
 
 @Configuration
 public class FilterConfig {
-    private ApplicationProperties applicationProperties;
-    private String env;
+    private final ApplicationProperties applicationProperties;
+    private final String env;
     public FilterConfig(ApplicationProperties applicationProperties) {
         this.applicationProperties = applicationProperties;
-        env = applicationProperties.getEnv();
+        env = this.applicationProperties.getEnv();
     }
 
     @Bean

@@ -133,7 +133,7 @@ public class JwtTokenProvider {
         // create a cookie with refresh token
         Cookie refreshTokenCookie = new Cookie("refresh_token", refreshToken);
         refreshTokenCookie.setHttpOnly(true);
-        refreshTokenCookie.setSecure(false);
+        refreshTokenCookie.setSecure(env.equals("dev") ? false : true);
         refreshTokenCookie.setPath("/api/auth/");
         if (!env.equals("dev")) {
             refreshTokenCookie.setDomain("blueroomies.com");

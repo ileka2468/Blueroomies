@@ -153,27 +153,72 @@ class RoommateMatcherServiceTest {
 
         double distance = roommateMatcherService.calculateWeightedDistance(currentCharacteristics, preferences, compatibleProfiles);
 
-        System.out.println("Distance: " + distance);
+//        System.out.println("Distance: " + distance);
         assertNotNull(distance, "Distance shouldn't be null.");
     }
 
     @Test
     void findKNearestNeighbors() {
-        // TODO: NEED TO WRITE OVERRIDE EQUALS IN PROFILE CLASS
-        List<Profile> profiles = Arrays.asList(profile2, profile3);
+        Profile idealProfile = new Profile();
+        idealProfile.setId(6);
+        idealProfile.setCharacteristics(
+                Map.of("cleanliness_level", 3,
+                        "gender_preference", "Male",
+                        "smoking_preference", false,
+                        "alcohol_usage", false
 
-        List<Profile> nearestNeighbors = roommateMatcherService.findKNearestNeighbors(profile1, profiles, 2);
+                ));
+
+        Profile selectedProfile = new Profile();
+        selectedProfile.setId(5);
+        selectedProfile.setCharacteristics(
+                Map.of("cleanliness_level", 3,
+                        "gender_preference", "Male",
+                        "smoking_preference", false,
+                        "alcohol_usage", false
+
+                ));
+
+        List<Profile> profiles = Arrays.asList(idealProfile, profile1, profile2, profile3);
+        List<Profile> genderFiltered = roommateMatcherService.filterByGender(selectedProfile, profiles);
+
+        List<Profile> nearestNeighbors = roommateMatcherService.findKNearestNeighbors(selectedProfile, genderFiltered, 3);
+
+
+        // test: idealProfile is nearest and profile 1 is 2nd nearest
+//        System.out.println("selected profile: " + selectedProfile);
+//        System.out.println("ideal profile: " + idealProfile);
+//        System.out.println("profile1: " + profile1);
+//        System.out.println("profile2: " + profile2);
+//        System.out.println("profile3: " + profile3);
+
+//        System.out.println("nearest neighbors: " + nearestNeighbors);
 
         // check if behavior is correct
         assertNotNull(nearestNeighbors, "Nearest neighbors list should not be null");
-        assertEquals(2, nearestNeighbors.size(), "There should be 2 nearest neighbors");
+        assertEquals(3, nearestNeighbors.size(), "There should be 2 nearest neighbors");
 
         // double check profiles returned
-        assertEquals(profile2, nearestNeighbors.get(0), "First neighbor should be profile2");
-        assertEquals(profile3, nearestNeighbors.get(1), "Second neighbor should be profile3");
+        assertEquals(idealProfile, nearestNeighbors.get(0), "First neighbor should be idealProfile");
+        assertEquals(profile1, nearestNeighbors.get(1), "Second neighbor should be profile1");
     }
 
     @Test
-    void findKNearestNeighborsEmptyList() {}
+    void findKNearestNeighborsEmptyList() {
+        Profile someProfile = new Profile();
+        someProfile.setId(3);
+        someProfile.setCharacteristics(
+                Map.of("cleanliness_level", 3,
+                        "gender_preference", "Male",
+                        "smoking_preference", false,
+                        "alcohol_usage", false
 
+                ));
+        List<Profile> blankProfiles = Collections.emptyList();
+
+        List<Profile> blankNeighbors = roommateMatcherService.findKNearestNeighbors(someProfile, blankProfiles, 2);
+        assertTrue(blankNeighbors.isEmpty(), "No neighbors should be found when the profiles list is empty");
+
+
+    }
 }

@@ -27,17 +27,24 @@ jobs:
             docker create --name frontend_build_temp rfa-frontend
 
             # Clean up previous build files
-            rm -rf ~/rfadeploydev/dist/*
+            rm -r ~/rfadeploydev/dist
 
             # Copy the new build files to the host machine
-            docker cp frontend_build_temp:/app/dist ~/rfadeploydev/dist/
+            docker cp frontend_build_temp:/app/dist ~/rfadeploydev/
             docker rm frontend_build_temp
 
+            # Copy over nginx conf and docker compose file
+            rm -f ~/rfadeploydev/default.conf
+            rm -f ~/rfadeploydev/docker-compose.yml
             cp ./default.conf ~/rfadeploydev/
             cp ./docker-compose.yml ~/rfadeploydev/
+
+            # Build new images and push to dockerhub
             docker system prune -f
             docker compose build --no-cache
             docker compose push
+
+            # Enter deployment directory, pull image and start.
             cd ~/rfadeploydev/
             docker compose pull
             docker compose up -d --force-recreate

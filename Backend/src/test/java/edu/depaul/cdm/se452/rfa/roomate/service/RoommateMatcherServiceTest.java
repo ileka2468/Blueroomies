@@ -182,10 +182,10 @@ class RoommateMatcherServiceTest {
         List<Profile> profiles = Arrays.asList(idealProfile, profile1, profile2, profile3);
         List<Profile> genderFiltered = roommateMatcherService.filterByGender(selectedProfile, profiles);
 
-        List<Profile> nearestNeighbors = roommateMatcherService.findKNearestNeighbors(selectedProfile, genderFiltered, 2);
+        List<Profile> nearestNeighbors = roommateMatcherService.findKNearestNeighbors(selectedProfile, genderFiltered, 3);
 
 
-        // test: profile 1 is nearest and profile 2 leading
+        // test: idealProfile is nearest and profile 1 is 2nd nearest
 //        System.out.println("selected profile: " + selectedProfile);
 //        System.out.println("ideal profile: " + idealProfile);
 //        System.out.println("profile1: " + profile1);
@@ -196,7 +196,7 @@ class RoommateMatcherServiceTest {
 
         // check if behavior is correct
         assertNotNull(nearestNeighbors, "Nearest neighbors list should not be null");
-        assertEquals(2, nearestNeighbors.size(), "There should be 2 nearest neighbors");
+        assertEquals(3, nearestNeighbors.size(), "There should be 2 nearest neighbors");
 
         // double check profiles returned
         assertEquals(idealProfile, nearestNeighbors.get(0), "First neighbor should be idealProfile");

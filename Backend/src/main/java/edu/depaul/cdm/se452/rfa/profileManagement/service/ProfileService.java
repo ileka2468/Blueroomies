@@ -17,10 +17,6 @@ public class ProfileService {
     @Autowired
     private UserRepository userRepository;
 
-//    public ProfileManagementService(ProfileRepository profileRepository, UserRepository userRepository) {
-//        this.profileRepository = profileRepository;
-//        this.userRepository = userRepository;
-//    }
 
     public Profile createProfile(User user) {
         Profile profile = new Profile();

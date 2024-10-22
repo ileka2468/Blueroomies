@@ -34,27 +34,7 @@ const Nav = ({
 }) => {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const apiClient = useAxios();
-  //const navigate = useNavigate();
-
-  const menuItems = [
-    "Login",
-    "Register",
-    "Profile",
-    "Find Roommates",
-    "Agreements",
-    "Past Matches",
-    "Messages",
-    "Log Out",
-  ];
-
   const location = useLocation(); // Get the current location
-
-  const links = [
-    { path: "/find-roommates", label: "Find Roommates" },
-    { path: "/agreements", label: "Agreements" },
-    { path: "/past-matches", label: "Past Matches" },
-    { path: "/messages", label: "Messages" },
-  ];
 
   const logout = async () => {
     const response = await apiClient.post("/auth/logout");
@@ -66,6 +46,33 @@ const Nav = ({
       console.log("Logged out");
     }
   };
+
+  const isAsynFunction = (func) => {
+    return func.constructor.name == "AsyncFunction";
+  };
+
+  const invokeMenuItemAction = async (action) => {
+    if (isAsynFunction(action)) {
+      await action();
+    } else {
+      action();
+    }
+  };
+
+  const links = [
+    { path: "/find-roommates", label: "Find Roommates" },
+    { path: "/agreements", label: "Agreements" },
+    { path: "/past-matches", label: "Past Matches" },
+    { path: "/messages", label: "Messages" },
+  ];
+
+  const menuItems = [
+    { label: "Login", action: onLoginOpen },
+    { label: "Register", action: onRegisterOpen },
+    { label: "Profile", path: "/profile" },
+    ...links,
+    { label: "Log Out", action: logout },
+  ];
 
   return (
     <Navbar
@@ -80,7 +87,7 @@ const Nav = ({
           className="sm:hidden"
         />
         <Link to={"/"}>
-          <NavbarBrand as={Link}>
+          <NavbarBrand>
             <HomeLogo />
           </NavbarBrand>
         </Link>
@@ -177,24 +184,29 @@ const Nav = ({
       </NavbarContent>
 
       <NavbarMenu>
-        {menuItems.map((item, index) => (
-          <NavbarMenuItem key={`${item}-${index}`}>
-            <Link
-              color={
-                index === 2
-                  ? "primary"
-                  : index === menuItems.length - 1
-                  ? "danger"
-                  : "foreground"
-              }
-              className="w-full"
-              href="#"
-              size="lg"
-            >
-              {item}
-            </Link>
-          </NavbarMenuItem>
-        ))}
+        {menuItems.map((item, index) => {
+          if (item.hasOwnProperty("action")) {
+            return (
+              <NavbarMenuItem key={`${item.label}-${index}`}>
+                <Link
+                  className="w-full"
+                  size="lg"
+                  onClick={() => invokeMenuItemAction(item.action)}
+                >
+                  {item.label}
+                </Link>
+              </NavbarMenuItem>
+            );
+          } else {
+            return (
+              <NavbarMenuItem key={`${item.label}-${index}`}>
+                <Link className="w-full" size="lg" to={item.path}>
+                  {item.label}
+                </Link>
+              </NavbarMenuItem>
+            );
+          }
+        })}
       </NavbarMenu>
     </Navbar>
   );

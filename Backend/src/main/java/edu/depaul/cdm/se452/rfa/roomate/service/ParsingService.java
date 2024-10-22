@@ -8,14 +8,14 @@
 //import java.util.Iterator;
 //import java.util.Map;
 //
-//public class JsonParsingService {
+//public class ParsingService {
 //    /**
 //     * The {@code JsonParsingService} class provides methods to parse JSON objects
 //     * and extract integer values.
 //     *
 //     * <p>This class currently contains one public method:
 //     * <ul>
-//     * <li> - Parses a JSON string to find and
+//     * <li>{@link #parseJsonForPreferences(String)} - Parses a JSON string to find and
 //     * return a map of all the integer values contained within the JSON object.</li>
 //     * </ul>
 //     * </p>
@@ -23,7 +23,7 @@
 //     * <pre>
 //     * Example usage:
 //     * {@code
-//     * JsonParsingService service = new JsonParsingService();
+//     * ParsingService service = new JsonParsingService();
 //     * String jsonResponse = "{\"key1\": 1, \"key2\": 2, \"key3\": \"value\"}";
 //     * Map<String, Integer> integers = service.parseJsonForIntegers(jsonResponse);
 //     * System.out.println(integers); // Output: {key1=1, key2=2}

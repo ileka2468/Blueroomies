@@ -36,6 +36,9 @@ export default function LoginModal({
       });
 
       const token = response.headers["authorization"];
+      console.log(response);
+      console.log(token);
+      console.log(response.headers);
 
       if (token) {
         const tokenPart = token.split(" ")[1];

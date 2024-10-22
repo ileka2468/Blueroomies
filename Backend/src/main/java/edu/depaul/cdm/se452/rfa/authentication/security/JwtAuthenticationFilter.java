@@ -41,7 +41,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             }
         } catch (TokenExpiredException ex) {
             // Token expired, throw exception to trigger 401
-            throw new AuthenticationException("JWT token has expired") {};
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            logger.error(ex.getMessage());
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }

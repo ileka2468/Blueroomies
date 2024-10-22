@@ -25,7 +25,7 @@ public class RoommateMatcherService {
      * @param selectedProfile   target profile to select characteristics from.
      * @return                  characteristics.
      */
-    private static Map<String, Object> getCharacteristicsFromProfile(Profile selectedProfile){
+    private Map<String, Object> getCharacteristicsFromProfile(Profile selectedProfile){
         return selectedProfile.getCharacteristics();
     }
 
@@ -45,7 +45,7 @@ public class RoommateMatcherService {
      * @param comparingProfile      the next profile to compare against.
      * @return                      true if compatible, false if not.
      */
-    private static boolean isGenderCompatible(Profile selectedProfile, Profile comparingProfile) {
+    private boolean isGenderCompatible(Profile selectedProfile, Profile comparingProfile) {
         Map<String, Object> selectedProfileCharacteristics = getCharacteristicsFromProfile(selectedProfile);
         String selectedGender = (String) selectedProfileCharacteristics.get("gender_preference");
         Map<String, Object> comparingProfileCharacteristics = getCharacteristicsFromProfile(comparingProfile);
@@ -64,7 +64,7 @@ public class RoommateMatcherService {
      * @param comparingProfile      the next profile to compare against.
      * @return                      true if compatible, false if not.
      */
-    private static boolean isSmokingCompatible(Profile selectedProfile, Profile comparingProfile) {
+    private boolean isSmokingCompatible(Profile selectedProfile, Profile comparingProfile) {
         Map<String, Object> selectedProfileCharacteristics = getCharacteristicsFromProfile(selectedProfile);
         Boolean selectedSmoking = (Boolean) selectedProfileCharacteristics.get("smoking_preference");
         Map<String, Object> comparingProfileCharacteristics = getCharacteristicsFromProfile(comparingProfile);
@@ -84,7 +84,7 @@ public class RoommateMatcherService {
      * @param comparingProfile      the next profile to compare against.
      * @return                      true if compatible, false if not.
      */
-    private static boolean isDrinkingCompatible(Profile selectedProfile, Profile comparingProfile) {
+    private boolean isDrinkingCompatible(Profile selectedProfile, Profile comparingProfile) {
         Map<String, Object> selectedProfileCharacteristics = getCharacteristicsFromProfile(selectedProfile);
         Boolean selectedDrinking = (Boolean) selectedProfileCharacteristics.get("alcohol_usage");
         Map<String, Object> comparingProfileCharacteristics = getCharacteristicsFromProfile(comparingProfile);
@@ -102,7 +102,7 @@ public class RoommateMatcherService {
      * @param comparingProfile      the next profile to compare against.
      * @return                      true if compatible, false if not.
      */
-    private static boolean isCleanlinessCompatible(Profile selectedProfile, Profile comparingProfile) {
+    private boolean isCleanlinessCompatible(Profile selectedProfile, Profile comparingProfile) {
         int tolerance = 1;
 
         Map<String, Object> selectedProfileCharacteristics = getCharacteristicsFromProfile(selectedProfile);
@@ -121,7 +121,7 @@ public class RoommateMatcherService {
      * @param profiles          pool of profiles [users].
      * @return                  list of compatible users.
      */
-    public static List<Profile> filterBySmoking(Profile selectedProfile, List<Profile> profiles) {
+    public List<Profile> filterBySmoking(Profile selectedProfile, List<Profile> profiles) {
         List<Profile> compatibleProfiles = new ArrayList<>();
         for (Profile profile : profiles) {
             if (isSmokingCompatible(selectedProfile, profile)) {
@@ -139,7 +139,7 @@ public class RoommateMatcherService {
      * @param profiles          pool of profiles [users].
      * @return                  list of compatible users.
      */
-    public static List<Profile> filterByGender(Profile selectedProfile, List<Profile> profiles) {
+    public List<Profile> filterByGender(Profile selectedProfile, List<Profile> profiles) {
         List<Profile> compatibleProfiles = new ArrayList<>();
         for (Profile profile : profiles) {
             if (isGenderCompatible(selectedProfile, profile)) {
@@ -157,7 +157,7 @@ public class RoommateMatcherService {
      * @param profiles          pool of profiles [users].
      * @return                  list of compatible users.
      */
-    public static List<Profile> filterByDrinking(Profile selectedProfile, List<Profile> profiles) {
+    public List<Profile> filterByDrinking(Profile selectedProfile, List<Profile> profiles) {
         List<Profile> compatibleProfiles = new ArrayList<>();
         for (Profile profile : profiles) {
             if (isDrinkingCompatible(selectedProfile, profile)) {
@@ -175,7 +175,7 @@ public class RoommateMatcherService {
      * @param profiles          pool of profiles [users].
      * @return                  list of compatible users.
      */
-    public static List<Profile> filterByCleanliness(Profile selectedProfile, List<Profile> profiles) {
+    public List<Profile> filterByCleanliness(Profile selectedProfile, List<Profile> profiles) {
         List<Profile> compatibleProfiles = new ArrayList<>();
         for (Profile profile : profiles) {
             if (isCleanlinessCompatible(selectedProfile, profile)) {
@@ -194,7 +194,7 @@ public class RoommateMatcherService {
      * @param profiles          initial pool of profiles for filtering.
      * @return                  list of users aggregated from filtering.
      */
-    public static List<Profile> applyFilters(Profile selectedProfile, List<Profile> profiles) {
+    public List<Profile> applyFilters(Profile selectedProfile, List<Profile> profiles) {
         // sequential filtering
         List<Profile> genderCompatibleProfiles = filterByGender(selectedProfile, profiles);
         List<Profile> drinkingCompatibleProfiles = filterByDrinking(selectedProfile, genderCompatibleProfiles);
@@ -219,7 +219,7 @@ public class RoommateMatcherService {
      * @param compatibleProfiles        the profiles after filtering process was applied.
      * @return                          the [weighted] distance value between two users.
      */
-    public static double calculateWeightedDistance(Map<String, Object> currentCharacteristics, Map<String, Object> preferences,
+    public double calculateWeightedDistance(Map<String, Object> currentCharacteristics, Map<String, Object> preferences,
                                                    List<Profile> compatibleProfiles) {
         double totalDistance = 0.0;
 
@@ -260,7 +260,7 @@ public class RoommateMatcherService {
      * @param profileCharacteristicValue    value of characteristic of the current profile in the pool of compatible users.
      * @return                              the distance value between two users.
      */
-    private static double calculateDistance(Object currentCharacteristicValue, Object profileCharacteristicValue) {
+    private double calculateDistance(Object currentCharacteristicValue, Object profileCharacteristicValue) {
         if (currentCharacteristicValue instanceof Number && profileCharacteristicValue instanceof Number) {
             return Math.abs(((Number) currentCharacteristicValue).doubleValue() - ((Number) profileCharacteristicValue).doubleValue());
         }
@@ -286,7 +286,7 @@ public class RoommateMatcherService {
      * @param k                 number of profiles the modified KNN will return.
      * @return                  list of nearest profiles
      */
-    public static List<Profile> findKNearestNeighbors(Profile selectedProfile, List<Profile> profiles, int k) {
+    public List<Profile> findKNearestNeighbors(Profile selectedProfile, List<Profile> profiles, int k) {
         // initialize a priority queue to keep track of nearest neighbors
         PriorityQueue<ProfileDistance> minHeap = new PriorityQueue<>(Comparator.comparingDouble(d -> d.distance));
 
@@ -341,6 +341,6 @@ public class RoommateMatcherService {
      *
      * @param preferences   raw preferences value before it is normalized for cases such as booleans and strings.
      */
-    private static void normalizePreferences(Map<String, Object> preferences) {
+    private void normalizePreferences(Map<String, Object> preferences) {
     }
 }

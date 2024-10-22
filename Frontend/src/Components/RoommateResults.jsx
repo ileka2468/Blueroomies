@@ -1,6 +1,9 @@
 import React from "react";
+import { Button } from "@nextui-org/react";
+import { useAxios } from "../Security/axios/AxiosProvider";
 
 const RoommateResults = ({ matches }) => {
+  const apiClient = useAxios();
   console.log(matches);
   return (
     <div>
@@ -15,6 +18,14 @@ const RoommateResults = ({ matches }) => {
           </div>
         ))
       )}
+      <Button
+        onClick={async () => {
+          const response = await apiClient.post("/matches/run");
+          console.log(response);
+        }}
+      >
+        Find Matches
+      </Button>
     </div>
   );
 };

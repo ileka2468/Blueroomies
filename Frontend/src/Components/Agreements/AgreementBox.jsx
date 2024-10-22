@@ -55,8 +55,11 @@ const AgreementBox = () => {
         </CardBody>
         <Divider />
         <CardBody className="items-center">
-          <Button>Accept</Button>
-          <Button>Decline</Button>
+          <div className="grid grid-cols-3">
+            <Button variant="solid" color="success">Accept</Button>
+            <div></div>
+            <Button variant="solid" color="danger">Decline</Button>
+          </div>
         </CardBody>
       </Card>
     </div>

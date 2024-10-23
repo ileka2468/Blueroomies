@@ -6,6 +6,8 @@ import MessagesPage from "./Pages/MessagesPage.jsx";
 import Root from "./Components/root/Root.jsx";
 import "./index.css";
 import { AxiosProvider } from "./Security/axios/AxiosProvider.jsx";
+import Profile from "./Pages/Profile.jsx";
+import HomePage from "./Pages/HomePage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -13,6 +15,8 @@ const router = createBrowserRouter([
     element: <Root />,
     children: [{ path: "find-roommates", element: <FindRoommatesPage /> },
                { path: "messages", element: <MessagesPage />},
+               { path: "profile", element: <Profile />},
+               { path: "", element: <HomePage />},
     ],
   },
 ]);

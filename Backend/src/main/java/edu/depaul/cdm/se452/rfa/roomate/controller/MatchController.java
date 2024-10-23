@@ -69,6 +69,6 @@ public class MatchController {
          int numOfMatches = 5;
          List<Profile> topMatches = roommateMatcherService.findKNearestNeighbors(currentProfile, filteredProfiles, numOfMatches);
          log.info(topMatches.toString());
-         return ResponseEntity.ok(topMatches);
+         return ResponseEntity.ok("wow youm protected route data.");
     }
 }

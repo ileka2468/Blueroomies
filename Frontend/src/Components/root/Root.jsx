@@ -45,7 +45,7 @@ export default function Root() {
           setUserData={setUserData}
           isUser={isUser}
         />
-        <Outlet />
+        <Outlet context={{ isUser }}/>
       </main>
     </>
   );

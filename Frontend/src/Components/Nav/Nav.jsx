@@ -64,6 +64,7 @@ const Nav = ({
     { path: "/agreements", label: "Agreements" },
     { path: "/past-matches", label: "Past Matches" },
     { path: "/messages", label: "Messages" },
+    { path: "/notifications", label: "Notifications" },
   ];
 
   const menuItems = [
@@ -134,11 +135,15 @@ const Nav = ({
         {userData.username && (
           <>
             <Badge color="primary" content={5} shape="circle">
-              <MailIcon size="1.5em" />
+              <Link to="/messages">
+                <MailIcon size="1.5em" />
+              </Link>
             </Badge>
 
             <Badge color="danger" content={1} shape="circle">
-              <NotificationIcon />
+              <Link to="/notifications" /* This will do notifications stuff*/>
+                <NotificationIcon />
+              </Link>
             </Badge>
 
             <Dropdown placement="bottom-end" backdrop="blur">

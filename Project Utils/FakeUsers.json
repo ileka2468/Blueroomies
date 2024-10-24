@@ -1,0 +1,122 @@
+[
+    {
+        "cleanliness_level": 5,
+        "gender_preference": "Male",
+        "smoking_preference": "true",
+        "alcohol_usage": "false"
+    },
+    {
+        "cleanliness_level": 5,
+        "gender_preference": "Male",
+        "smoking_preference": "false",
+        "alcohol_usage": "false"
+    },
+    {
+        "cleanliness_level": 5,
+        "gender_preference": "Male",
+        "smoking_preference": "true",
+        "alcohol_usage": "false"
+    },
+    {
+        "cleanliness_level": 4,
+        "gender_preference": "Male",
+        "smoking_preference": "true",
+        "alcohol_usage": "false"
+    },
+    {
+        "cleanliness_level": 4,
+        "gender_preference": "Male",
+        "smoking_preference": "false",
+        "alcohol_usage": "false"
+    },
+    {
+        "cleanliness_level": 4,
+        "gender_preference": "Male",
+        "smoking_preference": "true",
+        "alcohol_usage": "false"
+    },
+    {
+        "cleanliness_level": 5,
+        "gender_preference": "Female",
+        "smoking_preference": "false",
+        "alcohol_usage": "true"
+    },
+    {
+        "cleanliness_level": 3,
+        "gender_preference": "Female",
+        "smoking_preference": "true",
+        "alcohol_usage": "true"
+    },
+    {
+        "cleanliness_level": 4,
+        "gender_preference": "Female",
+        "smoking_preference": "false",
+        "alcohol_usage": "true"
+    },
+    {
+        "cleanliness_level": 1,
+        "gender_preference": "Male",
+        "smoking_preference": "true",
+        "alcohol_usage": "true"
+    },
+    {
+        "cleanliness_level": 1,
+        "gender_preference": "Male",
+        "smoking_preference": "false",
+        "alcohol_usage": "true"
+    },
+    {
+        "cleanliness_level": 2,
+        "gender_preference": "Female",
+        "smoking_preference": "true",
+        "alcohol_usage": "true"
+    },
+    {
+        "cleanliness_level": 2,
+        "gender_preference": "Male",
+        "smoking_preference": "false",
+        "alcohol_usage": "true"
+    },
+    {
+        "cleanliness_level": 5,
+        "gender_preference": "Male",
+        "smoking_preference": "true",
+        "alcohol_usage": "true"
+    },
+    {
+        "cleanliness_level": 4,
+        "gender_preference": "Female",
+        "smoking_preference": "true",
+        "alcohol_usage": "false"
+    },
+    {
+        "cleanliness_level": 3,
+        "gender_preference": "Female",
+        "smoking_preference": "true",
+        "alcohol_usage": "true"
+    },
+    {
+        "cleanliness_level": 5,
+        "gender_preference": "Female",
+        "smoking_preference": "false",
+        "alcohol_usage": "false"
+    },
+    {
+        "cleanliness_level": 1,
+        "gender_preference": "Male",
+        "smoking_preference": "false",
+        "alcohol_usage": "false"
+    },
+    {
+        "cleanliness_level": 3,
+        "gender_preference": "Female",
+        "smoking_preference": "true",
+        "alcohol_usage": "true"
+    },
+    {
+        "cleanliness_level": 5,
+        "gender_preference": "Male",
+        "smoking_preference": "false",
+        "alcohol_usage": "false"
+    }
+]

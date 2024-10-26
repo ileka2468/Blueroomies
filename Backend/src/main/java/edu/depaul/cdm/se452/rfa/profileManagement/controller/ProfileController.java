@@ -42,6 +42,16 @@ public class ProfileController {
         }
     }
 
+    @GetMapping("/username/{username}")
+    public ResponseEntity<Profile> getProfileByUsername(@PathVariable String username) {
+        Profile profile = profileService.loadProfileByUsername(username); // Call the method from the service
+        if (profile != null) {
+            return ResponseEntity.ok(profile);
+        } else {
+            return ResponseEntity.notFound().build(); // Return 404 if profile not found
+        }
+    }
+
     @DeleteMapping("/{profileId}")
     public ResponseEntity<Void> deleteProfile(@PathVariable Integer profileId) {
         profileService.deleteProfile(profileId);

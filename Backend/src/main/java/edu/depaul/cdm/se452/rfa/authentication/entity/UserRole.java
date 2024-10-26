@@ -1,5 +1,6 @@
 package edu.depaul.cdm.se452.rfa.authentication.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,6 +14,7 @@ public class UserRole {
     private UserRoleId id;
 
     @MapsId("userId")
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;

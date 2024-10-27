@@ -24,6 +24,13 @@ public class ProfileController {
         return ResponseEntity.ok(savedProfile);
     }
 
+    @PutMapping("/{profileId}")
+    public ResponseEntity<Profile> updateProfile(@PathVariable Integer profileId, @RequestBody Profile profile) {
+        profile.setId(profileId); // Ensure the profile ID is set correctly
+        Profile updatedProfile = profileService.saveProfile(profile);
+        return ResponseEntity.ok(updatedProfile);
+    }
+
     // Get a profile by profile ID
     @GetMapping("/{profileId}")
     public ResponseEntity<Profile> getProfileById(@PathVariable Integer profileId) {

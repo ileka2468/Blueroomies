@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import useUser from "../Security/hooks/useUser";
-import apiClient from "../Security/axios/apiClient";
+import useUser from "../../Security/hooks/useUser.js";
+import apiClient from "../../Security/axios/apiClient.js";
 
 const Profile = () => {
     const [userData] = useUser();  // Get user data from the useUser hook

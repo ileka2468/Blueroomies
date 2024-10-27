@@ -10,14 +10,14 @@ const EditProfile = ({ profileData, onUpdate, onCancel }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const updatedProfile = { ...profileData, bio }; // Create updated profile object
-        const token = localStorage.getItem("accessToken"); // Retrieve access token
-        console.log("Submitting updated profile:", updatedProfile); // Log the updated profile data
+        const updatedProfile = { ...profileData, bio };
+        const token = localStorage.getItem("accessToken");
+        console.log("Submitting updated profile:", updatedProfile);
         console.log("Access Token before submitting:", token);
         // Send updated profile data to the backend
         apiClient.put(`/profiles/${profileData.id}`, updatedProfile)
             .then(response => {
-                onUpdate(response.data); // Call the update function passed as prop
+                onUpdate(response.data);
             })
             .catch(err => {
                 console.error("Error updating profile:", err.message);

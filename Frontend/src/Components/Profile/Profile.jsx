@@ -1,50 +1,50 @@
 import { useEffect, useState } from "react";
 import useUser from "../../Security/hooks/useUser";
 import apiClient from "../../Security/axios/apiClient";
-import EditProfile from "./EditProfile"; // Assuming you've created this component
+import EditProfile from "./EditProfile";
 
 const Profile = () => {
     const [userData] = useUser();
     const [profileData, setProfileData] = useState(null);
     const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
-    const [isEditing, setIsEditing] = useState(false); // State to manage editing
+    const [isEditing, setIsEditing] = useState(false);
 
     useEffect(() => {
         if (userData.username) {
             console.log("Fetching profile for username:", userData);
             apiClient.get(`/profiles/username/${userData.username}`)
                 .then(response => {
-                    setProfileData(response.data); // Set profile data from API response
-                    console.log("Profile data retrieved:", response.data); // Log the retrieved profile data
+                    setProfileData(response.data);
+                    console.log("Profile data retrieved:", response.data);
                 })
                 .catch(err => {
-                    setError(err.message); // Handle any errors from the API call
+                    setError(err.message);
                 })
                 .finally(() => {
-                    setIsLoading(false); // End loading state
+                    setIsLoading(false);
                 });
         } else {
             console.log("Waiting for username to be available.");
-            setIsLoading(false); // End loading state if no username
+            setIsLoading(false);
         }
-    }, [userData.username]); // Effect depends on the username from userData
+    }, [userData.username]);
 
     const handleEditToggle = () => {
-        setIsEditing(!isEditing); // Toggle the editing state
+        setIsEditing(!isEditing);
     };
 
     const handleProfileUpdate = (updatedProfile) => {
-        setProfileData(updatedProfile); // Update the profile data
-        setIsEditing(false); // Close the edit form
+        setProfileData(updatedProfile);
+        setIsEditing(false);
     };
 
     if (error) {
-        return <p>Error loading profile: {error}</p>; // Handle error state
+        return <p>Error loading profile: {error}</p>;
     }
 
     if (isLoading) {
-        return <p>Loading profile data...</p>; // Show loading message
+        return <p>Loading profile data...</p>;
     }
 
     return (
@@ -59,7 +59,7 @@ const Profile = () => {
             ) : (
                 <div style={{ border: '1px solid #ccc', padding: '20px', borderRadius: '10px', background: '#f9f9f9' }}>
                     <h3>User Information</h3>
-                    {profileData ? (  // Conditional rendering based on profileData
+                    {profileData ? (
                         <>
                             <p><strong>Username:</strong> {userData.username}</p>
                             <p><strong>First Name:</strong> {userData.firstname}</p>
@@ -67,7 +67,7 @@ const Profile = () => {
                             <p><strong>Bio:</strong> {profileData.bio || "No bio available."}</p>
                         </>
                     ) : (
-                        <p>No profile data available.</p> // Message if profileData is null
+                        <p>No profile data available.</p>
                     )}
                     <button onClick={handleEditToggle}>Edit</button> {/* Edit button */}
                 </div>

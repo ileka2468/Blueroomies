@@ -10,6 +10,7 @@ import "./index.css";
 import { AxiosProvider } from "./Security/axios/AxiosProvider.jsx";
 import Profile from "./Pages/Profile.jsx";
 import HomePage from "./Pages/HomePage.jsx";
+import Dashboard from "./Pages/Dashboard.jsx";
 
 const router = createBrowserRouter([
   {
@@ -21,6 +22,7 @@ const router = createBrowserRouter([
             { path: "", element: <HomePage />},
             { path: "agreements", element: <AgreementsPage />},
             { path: "notifications", element: <NotificationsPage />},
+            { path: "dashboard", element: <Dashboard /> }
     ],
   },
 ]);

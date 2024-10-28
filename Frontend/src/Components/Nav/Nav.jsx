@@ -63,8 +63,8 @@ const Nav = ({
     { path: "/find-roommates", label: "Find Roommates" },
     { path: "/agreements", label: "Agreements" },
     { path: "/past-matches", label: "Past Matches" },
-    { path: "/messages", label: "Messages" },
-    { path: "/notifications", label: "Notifications" },
+    //{ path: "/messages", label: "Messages" },
+    //{ path: "/notifications", label: "Notifications" },
   ];
 
   const menuItems = [
@@ -77,9 +77,10 @@ const Nav = ({
 
   return (
     <Navbar
-      className="fixed top-0 left-0 w-full z-50"
+      className="fixed top-0 left-0 w-full z-50 py-2 flex items-center"
       position="sticky"
       maxWidth="xl"
+      
       onMenuOpenChange={setIsMenuOpen}
     >
       <NavbarContent>
@@ -88,7 +89,7 @@ const Nav = ({
           className="sm:hidden"
         />
         <Link to={"/"}>
-          <NavbarBrand>
+          <NavbarBrand > 
             <HomeLogo />
           </NavbarBrand>
         </Link>

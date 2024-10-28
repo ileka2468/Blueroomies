@@ -31,8 +31,7 @@
 
 ##### Developers: Harshita (Backend/Frontend/Database) and Saqib (Backend/Frontend/Database)
 
-- Harshita: Backend, managing user preferences such as setting criteria (Ex: cleanliness, location, sleep schedules, etc); Frontend, 
-allow users to set, view, update preferences and that preferences are presented in an intuitive manner
+- Harshita: Backend, managing user preferences such as setting criteria (Ex: cleanliness, location, sleep schedules, etc); allow users to set, view, update preferences and that preferences are presented in an intuitive manner Frontend: home page + dashboard ui/design, the organization of preference form display
 - Saqib: Backend: facilitate profile creation, updating, and retrieval. Frontend: implement intuitive forms, allowing profile details to be displayed and edited.
 
 ---

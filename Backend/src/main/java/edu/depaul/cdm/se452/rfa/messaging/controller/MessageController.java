@@ -3,6 +3,7 @@ package edu.depaul.cdm.se452.rfa.messaging.controller;
 
 import edu.depaul.cdm.se452.rfa.messaging.service.MessageService;
 import edu.depaul.cdm.se452.rfa.messaging.entity.Message;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,6 +20,7 @@ public class MessageController {
 
     private final MessageService messageService;
 
+    @Autowired
     public MessageController(MessageService messageService) {
         this.messageService = messageService;
     }

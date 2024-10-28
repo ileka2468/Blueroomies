@@ -2,6 +2,7 @@ package edu.depaul.cdm.se452.rfa.messaging.service;
 
 import edu.depaul.cdm.se452.rfa.messaging.entity.Message;
 import edu.depaul.cdm.se452.rfa.messaging.repository.MessageRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,6 +13,7 @@ public class MessageService {
 
     private final MessageRepository messageRepository;
 
+    @Autowired
     public MessageService(MessageRepository messageRepository) {
         this.messageRepository = messageRepository;
     }

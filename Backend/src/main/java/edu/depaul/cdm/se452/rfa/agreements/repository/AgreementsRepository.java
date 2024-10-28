@@ -6,5 +6,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AgreementsRepository extends JpaRepository<Agreement, Integer> {
-    public Agreement findAgreementById(int agreementId);
 }

@@ -21,7 +21,7 @@ const HomeLogo = () => {
           fontWeight="normal"
           fontStyle="normal"
         >
-          Roomatefinder
+          RoommateFinder
         </text>
         <defs>
           <mask id="mask_9prwcnmmc">

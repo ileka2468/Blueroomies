@@ -15,13 +15,13 @@ const HomeLogo = () => {
           x="35"
           y="25"
           fontFamily="Rubik"
-          fontSize="25"
+          fontSize="22"
           fill="#000"
           letterSpacing="-0.6"
           fontWeight="normal"
           fontStyle="normal"
         >
-          Roomatefinder
+          RoommateFinder
         </text>
         <defs>
           <mask id="mask_9prwcnmmc">

@@ -28,7 +28,7 @@ class ChatServer {
       },
       pingTimeout: 20000,
       pingInterval: 25000,
-      transports: ["websocket", "polling"],
+      transports: ["polling"],
     });
 
     this.messageHandler = new MessageHandler(this.io, this.userSessions);

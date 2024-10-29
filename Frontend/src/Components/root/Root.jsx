@@ -7,7 +7,7 @@ import { Outlet } from "react-router-dom";
 
 export default function Root() {
   const [userData, setUserData, isUser] = useUser();
-  // useDisclosure for Modals
+  
   const {
     isOpen: isLoginOpen,
     onOpen: onLoginOpen,
@@ -19,10 +19,10 @@ export default function Root() {
     onOpen: onRegisterOpen,
     onOpenChange: onRegisterOpenChange,
   } = useDisclosure();
+
   return (
     <>
-      <main className="h-full px-4 pt-16">
-        {/* Login Modal */}
+      <main className="h-full px-4 pt-20">
         <LoginModal
           isOpen={isLoginOpen}
           onOpen={onLoginOpen}
@@ -30,7 +30,6 @@ export default function Root() {
           setUserData={setUserData}
           isUser={isUser}
         />
-        {/* Register Modal */}
         <RegisterModal
           isOpen={isRegisterOpen}
           onOpen={onRegisterOpen}
@@ -45,7 +44,8 @@ export default function Root() {
           setUserData={setUserData}
           isUser={isUser}
         />
-        <Outlet context={{ isUser }}/>
+        
+        <Outlet context={{ isUser }} /> {/* Pass isUser to child routes */}
       </main>
     </>
   );

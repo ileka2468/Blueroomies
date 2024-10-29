@@ -24,6 +24,13 @@ public class ProfileController {
         return ResponseEntity.ok(savedProfile);
     }
 
+    @PutMapping("/{profileId}")
+    public ResponseEntity<Profile> updateProfile(@PathVariable Integer profileId, @RequestBody Profile profile) {
+        profile.setId(profileId); // Ensure the profile ID is set correctly
+        Profile updatedProfile = profileService.saveProfile(profile);
+        return ResponseEntity.ok(updatedProfile);
+    }
+
     // Get a profile by profile ID
     @GetMapping("/{profileId}")
     public ResponseEntity<Profile> getProfileById(@PathVariable Integer profileId) {
@@ -39,6 +46,16 @@ public class ProfileController {
             return ResponseEntity.ok(profile);
         } else {
             return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("/username/{username}")
+    public ResponseEntity<Profile> getProfileByUsername(@PathVariable String username) {
+        Profile profile = profileService.loadProfileByUsername(username); // Call the method from the service
+        if (profile != null) {
+            return ResponseEntity.ok(profile);
+        } else {
+            return ResponseEntity.notFound().build(); // Return 404 if profile not found
         }
     }
 

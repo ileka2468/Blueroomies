@@ -52,7 +52,7 @@ class ChatServer {
       });
     });
 
-    const port = process.env.PORT || 3000;
+    const port = process.env.CHAT_SERVER_PORT || 8085;
     this.server.listen(port, () => {
       console.log(`Chat server running on port ${port}`);
     });

@@ -15,7 +15,6 @@ class ChatServer {
     this.adminSessions = new Map();
 
     this.io = new Server(this.server, {
-      path: process.env.VITE_NODE_ENV == "dev" ? undefined : "/chatserver/",
       cors: {
         origin:
           process.env.VITE_NODE_ENV == "dev"
@@ -28,7 +27,7 @@ class ChatServer {
       },
       pingTimeout: 20000,
       pingInterval: 25000,
-      transports: ["polling", "websocket"],
+      transports: ["websocket", "polling"],
       allowEIO3: true,
     });
 

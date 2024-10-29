@@ -18,14 +18,13 @@ const useSocket = (token, username, isAdmin = false) => {
     if (!token || !username) return;
 
     const newSocket = io(SOCKET_SERVER_URL, {
-      path: env == "dev" ? undefined : "/chatserver/",
       auth: { token },
       reconnection: true,
       reconnectionAttempts: 5,
       reconnectionDelay: 1000,
       timeout: 20000,
       withCredentials: true,
-      transports: ["polling", "websocket"],
+      transports: ["websocket", "polling"],
     });
 
     // Connection handlers

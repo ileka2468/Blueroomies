@@ -24,6 +24,8 @@ const useSocket = (token, username, isAdmin = false) => {
       reconnectionAttempts: 5,
       reconnectionDelay: 1000,
       timeout: 20000,
+      withCredentials: true,
+      transports: ["websocket", "polling"],
     });
 
     // Connection handlers

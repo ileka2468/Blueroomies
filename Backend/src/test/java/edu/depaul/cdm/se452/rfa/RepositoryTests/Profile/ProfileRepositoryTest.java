@@ -1,8 +1,9 @@
-package edu.depaul.cdm.se452.rfa.profileManagement.repository;
+package edu.depaul.cdm.se452.rfa.RepositoryTests.Profile;
 
 import edu.depaul.cdm.se452.rfa.authentication.entity.User;
 import edu.depaul.cdm.se452.rfa.authentication.repository.UserRepository;
 import edu.depaul.cdm.se452.rfa.profileManagement.entity.Profile;
+import edu.depaul.cdm.se452.rfa.profileManagement.repository.ProfileRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;

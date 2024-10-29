@@ -19,7 +19,8 @@ public class Config {
 
     @Bean
     ApplicationProperties appProperties() {
-        return ApplicationProperties.builder()
+
+        ApplicationProperties props = ApplicationProperties.builder()
                 .dataSourceUrl(env.getProperty("spring.datasource.url"))
                 .dataSourceUsername(env.getProperty("spring.datasource.username"))
                 .dataSourcePassword(env.getProperty("spring.datasource.password"))
@@ -30,6 +31,10 @@ public class Config {
                 .jwtSecret(env.getProperty("app.jwtSecret"))
                 .jwtExpirationInMs(Integer.parseInt(Objects.requireNonNull(env.getProperty("app.jwtExpirationInMs"))))
                 .refreshTokenExpirationInMs(Integer.parseInt(Objects.requireNonNull(env.getProperty("app.refreshtokenExpirationInMs"))))
+                .env(env.getProperty("app.viteNodeEnv"))
                 .build();
+        System.out.println(props.getEnv());
+        return props;
     }
+
 }

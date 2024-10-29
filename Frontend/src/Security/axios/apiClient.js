@@ -1,7 +1,11 @@
 import axios from "axios";
+const env = import.meta.env.VITE_NODE_ENV;
+const baseURL =
+  env == "dev" ? "http://localhost:8080/api" : "https://blueroomies.com/api";
+console.log(env, baseURL);
 
 const apiClient = axios.create({
-  baseURL: "https://blueroomies.com/api",
+  baseURL: baseURL,
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",
@@ -9,7 +13,7 @@ const apiClient = axios.create({
 });
 
 const axiosclient = axios.create({
-  baseURL: "https://blueroomies.com/api",
+  baseURL: baseURL,
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",

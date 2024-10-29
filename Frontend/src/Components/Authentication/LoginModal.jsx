@@ -14,6 +14,7 @@ import { LockIcon } from "./LockIcon.jsx";
 import { useState } from "react";
 import { useAxios } from "../../Security/axios/AxiosProvider.jsx";
 import PropTypes from "prop-types";
+import { useNavigate } from "react-router-dom";
 
 export default function LoginModal({
   isOpen,
@@ -26,6 +27,7 @@ export default function LoginModal({
   const [pass, setPassword] = useState("");
 
   const apiClient = useAxios();
+  const navigate = useNavigate();
 
   const handleLogin = async () => {
     let response;
@@ -36,6 +38,9 @@ export default function LoginModal({
       });
 
       const token = response.headers["authorization"];
+      console.log(response);
+      console.log(token);
+      console.log(response.headers);
 
       if (token) {
         const tokenPart = token.split(" ")[1];

@@ -37,6 +37,8 @@ public class JwtTokenProvider {
 
     private int refreshtokenExpirationInMs;
 
+    private String env;
+
     @Autowired
     private CustomUserDetailsService customUserDetailsService;
 
@@ -52,6 +54,7 @@ public class JwtTokenProvider {
         jwtSecret = applicationProperties.getJwtSecret();
         jwtExpirationInMs = applicationProperties.getJwtExpirationInMs();
         refreshtokenExpirationInMs = applicationProperties.getRefreshTokenExpirationInMs();
+        env = applicationProperties.getEnv();
     }
 
     // Generate JWT token
@@ -130,9 +133,11 @@ public class JwtTokenProvider {
         // create a cookie with refresh token
         Cookie refreshTokenCookie = new Cookie("refresh_token", refreshToken);
         refreshTokenCookie.setHttpOnly(true);
-        refreshTokenCookie.setSecure(true);
+        refreshTokenCookie.setSecure(env.equals("dev") ? false : true);
         refreshTokenCookie.setPath("/api/auth/");
-        refreshTokenCookie.setDomain("blueroomies.com");
+        if (!env.equals("dev")) {
+            refreshTokenCookie.setDomain("blueroomies.com");
+        }
         refreshTokenCookie.setMaxAge(refreshtokenExpirationInMs / 1000);
 
         return new AuthResponse(jwt, refreshTokenCookie);

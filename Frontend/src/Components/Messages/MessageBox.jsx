@@ -1,114 +1,124 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   User,
   Input,
   Divider,
-  Listbox,
   Card,
   CardBody,
   Select,
   SelectItem,
-  ScrollShadow,
+  Button,
 } from "@nextui-org/react";
-import { ListboxReceived } from "./ListboxReceived";
-import { ListboxSent } from "./ListboxSent";
-import { users } from "./data";
+import useSocket from "../../WebSockets/webSocketClient";
+import useUser from "../../Security/hooks/useUser";
+import MessageList from "./MessageList";
+
+const mockUsers = [
+  {
+    id: 122,
+    username: "abc",
+    firstname: "abc",
+    lastname: "abc",
+    pfp: "https://i.pravatar.cc/150?u=alice",
+  },
+  {
+    id: 2,
+    username: "bob_jones",
+    firstname: "Bob",
+    lastname: "Jones",
+    pfp: "https://i.pravatar.cc/150?u=bob",
+  },
+  {
+    id: 3,
+    username: "carol_wilson",
+    firstname: "Carol",
+    lastname: "Wilson",
+    pfp: "https://i.pravatar.cc/150?u=carol",
+  },
+];
 
 const MessageBox = () => {
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [messageInput, setMessageInput] = useState("");
+  const token = localStorage.getItem("accessToken");
+  const [userData] = useUser();
+  const { messages, sendMessage, connected, error, adminLogs, activeUsers } =
+    useSocket(token, userData.username, false);
+
+  const handleSendMessage = () => {
+    if (!selectedUser || !messageInput.trim()) return;
+    const sent = sendMessage(selectedUser.username, messageInput.trim());
+    if (sent) setMessageInput("");
+  };
+
+  const handleSelectionChange = (userId) => {
+    const selected = mockUsers.find((user) => user.id === Number(userId));
+    setSelectedUser(selected);
+  };
+
   return (
-    /* Pulls test data from data.js and populates the Select component with User components. Updates visually via renderValue mapping */
-    <div>
-      <Card>
-        <CardBody className="items-center">Message Center</CardBody>
+    <div className="p-8 flex flex-col items-center max-w-2xl mx-auto">
+      <Card className="w-full">
         <CardBody className="items-center">
+          <h2 className="text-xl font-bold mb-4">Message Center</h2>
+          {!connected && (
+            <div className="text-red-500 mb-2">
+              Disconnected from chat server...
+            </div>
+          )}
+          {error && <div className="text-red-500 mb-2">Error: {error}</div>}
+        </CardBody>
+        <CardBody className="w-full items-center">
           <Select
-            aria-label="idk"
-            className="w-[500px] pb-5"
-            items={users}
-            placeholder="Select a User"
-            renderValue={(items) => {
-              return items.map((item) => (
-                <div key={item.key} className="flex items-center gap-2">
-                  <User name={item.name} avatarProps={item.avatarProps} />
-                  <div className="flex flex-col">
-                    <span>{item.data.name}</span>
-                  </div>
-                </div>
-              ));
-            }}
+            className="w-full mb-5"
+            label="Select Recipient"
+            placeholder="Choose who to message"
+            selectedKeys={selectedUser ? [selectedUser.id.toString()] : []}
+            onChange={(e) => handleSelectionChange(e.target.value)}
           >
-            {(user) => (
-              <SelectItem aria-label="idk" textValue="idk" key={user.id}>
-                <User name={user.name} avatarProps={user.avatarProps} />
+            {mockUsers.map((user) => (
+              <SelectItem
+                key={user.id}
+                value={user.id}
+                textValue={`${user.firstname} ${user.lastname}`}
+              >
+                <div className="flex gap-2 items-center">
+                  <User
+                    name={`${user.firstname} ${user.lastname}`}
+                    description={user.username}
+                    avatarProps={{
+                      src: user.pfp,
+                      alt: `${user.firstname} ${user.lastname}'s profile`,
+                    }}
+                  />
+                </div>
               </SelectItem>
-            )}
+            ))}
           </Select>
         </CardBody>
       </Card>
 
-      {/* All messages for selected chat show in historical order */}
-      <Card>
-        <CardBody className="items-center">
-          <ScrollShadow>
-            <Listbox
-              aria-label="idk"
-              className="w-[500px] h-[400px] size-fit py-8"
-            >
-              <ListboxReceived>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Curabitur at rhoncus nisl, sit amet sodales dolor.
-              </ListboxReceived>
-
-              <ListboxSent>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Curabitur at rhoncus nisl, sit amet sodales dolor. Ut eu euismod
-                sem. Vestibulum quam orci, maximus at nisl vitae, faucibus
-                tempor metus.
-              </ListboxSent>
-
-              <ListboxReceived>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Curabitur at rhoncus nisl, sit amet sodales dolor.
-              </ListboxReceived>
-
-              <ListboxSent>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Curabitur at rhoncus nisl, sit amet sodales dolor. Ut eu euismod
-                sem. Vestibulum quam orci, maximus at nisl vitae, faucibus
-                tempor metus.
-              </ListboxSent>
-
-              <ListboxReceived>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Curabitur at rhoncus nisl, sit amet sodales dolor.
-              </ListboxReceived>
-
-              <ListboxSent>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Curabitur at rhoncus nisl, sit amet sodales dolor.
-              </ListboxSent>
-
-              <ListboxReceived>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Curabitur at rhoncus nisl, sit amet sodales dolor. Ut eu euismod
-                sem. Vestibulum quam orci, maximus at nisl vitae, faucibus
-                tempor metus.
-              </ListboxReceived>
-
-              <ListboxSent>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Curabitur at rhoncus nisl, sit amet sodales dolor.
-              </ListboxSent>
-            </Listbox>
-          </ScrollShadow>
+      <Card className="mt-4 w-full">
+        <CardBody className="p-4 h-[400px] overflow-y-auto">
+          <MessageList messages={messages} userData={userData} />
         </CardBody>
         <Divider />
-        <CardBody className="items-center">
+        <CardBody className="flex items-center gap-4 p-4">
           <Input
-            className="w-[500px]"
-            label="Message"
-            placeholder="Enter a message..."
+            className="flex-grow rounded-md"
+            placeholder="Type your message here..."
+            value={messageInput}
+            onChange={(e) => setMessageInput(e.target.value)}
+            onKeyPress={(e) => e.key === "Enter" && handleSendMessage()}
+            disabled={!connected}
           />
+          <Button
+            onClick={handleSendMessage}
+            disabled={!selectedUser || !messageInput.trim() || !connected}
+            color="primary"
+          >
+            Send
+          </Button>
         </CardBody>
       </Card>
     </div>

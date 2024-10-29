@@ -1,7 +1,9 @@
 package edu.depaul.cdm.se452.rfa.roomate.service;
 
 
+import edu.depaul.cdm.se452.rfa.authentication.entity.User;
 import edu.depaul.cdm.se452.rfa.profileManagement.entity.Profile;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.*;
 
@@ -18,6 +20,17 @@ import java.util.*;
 public class RoommateMatcherService {
 
     private double[] weights;
+    public final MatchStorageService matchStorageService;
+
+    /**
+     * Constructor takes in the MatchStorageService as a parameter.
+     *
+     * @param matchStorageService   Service for storing matches.
+     */
+    @Autowired
+    public RoommateMatcherService(MatchStorageService matchStorageService) {
+        this.matchStorageService = matchStorageService;
+    }
 
     /**
      * Helper method for grabbing characteristics given a profile.
@@ -302,10 +315,18 @@ public class RoommateMatcherService {
 
         // initialize empty list to store the k-nearest-neighbors
         List<Profile> KNN = new ArrayList<>();
+        User selectedUser = selectedProfile.getUser();
+
         // continue adding profiles to the KNN list until we have K-users or the minheap is empty
         while (KNN.size() < k && !minHeap.isEmpty()) {
             // retrieve and remove the profile with the smallest distance from minheap and add that to the KNN list
-            KNN.add(minHeap.poll().profile);
+//            KNN.add(minHeap.poll().profile);
+            ProfileDistance profileDistance = minHeap.poll();
+            Profile matchedProfile = profileDistance.profile;
+            double matchScore = 1 / profileDistance.distance;
+
+            // save match using MatchStorageService
+            matchStorageService.saveMatch(selectedUser, matchedProfile.getUser(), matchScore);
         }
         return KNN;
     }

@@ -15,6 +15,7 @@ class ChatServer {
     this.adminSessions = new Map();
 
     this.io = new Server(this.server, {
+      path: process.env.VITE_NODE_ENV == "dev" ? undefined : "/chatserver/",
       cors: {
         origin:
           process.env.VITE_NODE_ENV == "dev"

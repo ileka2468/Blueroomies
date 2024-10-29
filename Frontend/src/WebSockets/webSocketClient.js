@@ -4,9 +4,7 @@ import { io } from "socket.io-client";
 const env = import.meta.env.VITE_NODE_ENV;
 
 const SOCKET_SERVER_URL =
-  env == "dev"
-    ? "http://localhost:8085"
-    : "https://blueroomies.com/chatservice";
+  env == "dev" ? "http://localhost:8085" : "https://blueroomies.com";
 
 const useSocket = (token, username, isAdmin = false) => {
   const [messages, setMessages] = useState([]);
@@ -20,6 +18,7 @@ const useSocket = (token, username, isAdmin = false) => {
     if (!token || !username) return;
 
     const newSocket = io(SOCKET_SERVER_URL, {
+      path: env == "dev" ? undefined : "/chatserver/",
       auth: { token },
       reconnection: true,
       reconnectionAttempts: 5,

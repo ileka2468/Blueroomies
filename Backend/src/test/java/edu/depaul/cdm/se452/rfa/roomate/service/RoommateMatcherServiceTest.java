@@ -1,14 +1,24 @@
 package edu.depaul.cdm.se452.rfa.roomate.service;
 
+import edu.depaul.cdm.se452.rfa.authentication.entity.User;
 import edu.depaul.cdm.se452.rfa.profileManagement.entity.Profile;
+import edu.depaul.cdm.se452.rfa.roomate.entity.RoommateMatch;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
+
 class RoommateMatcherServiceTest {
     private RoommateMatcherService roommateMatcherService;
+    private MatchStorageService matchStorageService;
 
     // dummy profiles
     private Profile profile1;
@@ -18,7 +28,8 @@ class RoommateMatcherServiceTest {
 
     @BeforeEach
     public void setUp() {
-        RoommateMatcherService matcherService = new RoommateMatcherService();
+        matchStorageService = Mockito.mock(MatchStorageService.class);
+        roommateMatcherService = new RoommateMatcherService(matchStorageService);
 
         profile1 = new Profile();
         profile1.setId(1);
@@ -158,7 +169,7 @@ class RoommateMatcherServiceTest {
     }
 
     @Test
-    void findKNearestNeighbors() {
+    void findKNearestNeighborsAndSaveMatch() {
         Profile idealProfile = new Profile();
         idealProfile.setId(6);
         idealProfile.setCharacteristics(
@@ -184,16 +195,6 @@ class RoommateMatcherServiceTest {
 
         List<Profile> nearestNeighbors = roommateMatcherService.findKNearestNeighbors(selectedProfile, genderFiltered, 3);
 
-
-        // test: idealProfile is nearest and profile 1 is 2nd nearest
-//        System.out.println("selected profile: " + selectedProfile);
-//        System.out.println("ideal profile: " + idealProfile);
-//        System.out.println("profile1: " + profile1);
-//        System.out.println("profile2: " + profile2);
-//        System.out.println("profile3: " + profile3);
-
-//        System.out.println("nearest neighbors: " + nearestNeighbors);
-
         // check if behavior is correct
         assertNotNull(nearestNeighbors, "Nearest neighbors list should not be null");
         assertEquals(3, nearestNeighbors.size(), "There should be 2 nearest neighbors");
@@ -218,7 +219,21 @@ class RoommateMatcherServiceTest {
 
         List<Profile> blankNeighbors = roommateMatcherService.findKNearestNeighbors(someProfile, blankProfiles, 2);
         assertTrue(blankNeighbors.isEmpty(), "No neighbors should be found when the profiles list is empty");
+    }
 
+    @Test
+    void testSaveMatch() {
+        User u1 = new User();
+        u1.setId(1);
+        User u2 = new User();
+        u2.setId(2);
 
+        double matchScore = 85.7;
+        roommateMatcherService.saveMatchToRepo(u1, u2, matchScore);
+
+        List<?> matches = matchStorageService.findAllMatches();
+        System.out.println("Matches repo after save: " + matches);
+
+        verify(matchStorageService, times(1)).saveMatch(u1, u2, matchScore);
     }
 }

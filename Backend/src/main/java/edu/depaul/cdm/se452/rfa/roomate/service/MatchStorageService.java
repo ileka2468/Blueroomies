@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * The MatchStorageService handles the storage of a match after an agreement between the two users.
@@ -36,17 +37,19 @@ public class MatchStorageService {
      * @param matchScore        the similarity score between the two users (double).
      * @return                  the saved {@link RoommateMatch} entity.
      */
-    public RoommateMatch saveMatch(User user1, User user2, double matchScore) {
+    public void saveMatch(User user1, User user2, double matchScore) {
         RoommateMatch match = new RoommateMatch();
         match.setUserId1(user1);
         match.setUserId2(user2);
         BigDecimal score = BigDecimal.valueOf(matchScore);
         match.setMatchScore(score);
         match.setMatchTs(LocalDate.now());
-        return matchesRepo.save(match);
+        matchesRepo.save(match);
     }
 
-    // TODO: implement in the controller
+    public List<RoommateMatch> findAllMatches() {
+        return matchesRepo.findAll();
+    }
 
 
 }

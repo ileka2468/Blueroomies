@@ -326,9 +326,20 @@ public class RoommateMatcherService {
             double matchScore = 1 / profileDistance.distance;
 
             // save match using MatchStorageService
-            matchStorageService.saveMatch(selectedUser, matchedProfile.getUser(), matchScore);
+            saveMatchToRepo(selectedUser, matchedProfile.getUser(), matchScore);
         }
         return KNN;
+    }
+
+    /**
+     * Saves a match between two users with a given match score.
+     *
+     * @param user1         first user of match.
+     * @param user2         second user of match.
+     * @param matchScore    match score of both users.
+     */
+    public void saveMatchToRepo(User user1, User user2, double matchScore) {
+        matchStorageService.saveMatch(user1, user2, matchScore);
     }
 
     /**

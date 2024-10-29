@@ -8,7 +8,7 @@ import NotificationsPage from "./Pages/NotificationsPage.jsx";
 import Root from "./Components/root/Root.jsx";
 import "./index.css";
 import { AxiosProvider } from "./Security/axios/AxiosProvider.jsx";
-import Profile from "./Pages/Profile.jsx";
+import Profile from "./Components/Profile/Profile.jsx";
 import HomePage from "./Pages/HomePage.jsx";
 import Dashboard from "./Pages/Dashboard.jsx";
 

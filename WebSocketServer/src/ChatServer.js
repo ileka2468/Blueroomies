@@ -1,22 +1,20 @@
-import express from "express";
-import { createServer } from "http";
 import { Server } from "socket.io";
 import dotenv from "dotenv";
 import axios from "axios";
 import MessageHandler from "./MessageHandler.js";
 
 class ChatServer {
-  constructor() {
+  constructor(server, app) {
     dotenv.config();
     console.log(
       "Running chat server in " + process.env.VITE_NODE_ENV + " mode..."
     );
-    this.app = express();
-    this.httpServer = createServer(this.app);
+    this.app = app;
+    this.server = server;
     this.userSessions = new Map();
     this.adminSessions = new Map();
 
-    this.io = new Server(this.httpServer, {
+    this.io = new Server(this.server, {
       cors: {
         origin:
           process.env.VITE_NODE_ENV == "dev"
@@ -55,7 +53,7 @@ class ChatServer {
     });
 
     const port = process.env.PORT || 3000;
-    this.httpServer.listen(port, () => {
+    this.server.listen(port, () => {
       console.log(`Chat server running on port ${port}`);
     });
   }
@@ -85,7 +83,7 @@ class ChatServer {
         console.log("Auth response:", userData.userRoles[0].id.userId);
 
         socket.user = {
-          id: userData.userRoles[0].id.userId,
+          id: userData.id,
           username: userData.username,
           isAdmin: userData.userRoles[0].role.roleName == "ROLE_ADMIN" || false,
         };
@@ -239,24 +237,8 @@ class ChatServer {
     this.io.close(() => {
       console.log("Chat server shutting down...");
     });
-
-    this.httpServer.close();
+    this.server.close();
   }
 }
-
-process.on("uncaughtException", (err) => {
-  console.error("Uncaught Exception:", err);
-  process.exit(1);
-});
-
-process.on("unhandledRejection", (err) => {
-  console.error("Unhandled Rejection:", err);
-});
-
-const chatServer = new ChatServer();
-chatServer.start();
-
-process.on("SIGTERM", () => chatServer.shutdown());
-process.on("SIGINT", () => chatServer.shutdown());
 
 export default ChatServer;

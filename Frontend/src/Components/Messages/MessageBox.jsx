@@ -35,13 +35,23 @@ const MessageBox = () => {
   const [messageInput, setMessageInput] = useState("");
   const token = localStorage.getItem("accessToken");
   const [userData] = useUser();
-  const { messages, sendMessage, connected, error, adminLogs, activeUsers } =
-    useSocket(token, userData.username, false);
+  const {
+    messages,
+    sendMessage,
+    connected,
+    error,
+    appendLocalMessageOnSuccess,
+    adminLogs,
+    activeUsers,
+  } = useSocket(token, userData.username, false);
 
   const handleSendMessage = () => {
     if (!selectedUser || !messageInput.trim()) return;
     const sent = sendMessage(selectedUser.username, messageInput.trim());
-    if (sent) setMessageInput("");
+    if (sent) {
+      appendLocalMessageOnSuccess(messageInput.trim());
+      setMessageInput("");
+    }
   };
 
   const handleSelectionChange = (userId) => {

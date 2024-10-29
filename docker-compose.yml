@@ -14,6 +14,7 @@ services:
       SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
       SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
       VITE_NODE_ENV: ${VITE_NODE_ENV}
+    restart: unless-stopped
 
   nginx:
     image: nginx:latest
@@ -26,3 +27,17 @@ services:
       - ./certs:/etc/nginx/ssl:ro # https
     depends_on:
       - backend
+
+  chatserver:
+    build:
+      context: ./WebSocketServer
+      dockerfile: Dockerfile
+    image: ileka2468/rfa-chatserver:latest
+    ports:
+      - "8085:8085"
+    environment:
+      VITE_NODE_ENV: ${VITE_NODE_ENV}
+    depends_on:
+      - backend
+      - nginx
+    restart: unless-stopped

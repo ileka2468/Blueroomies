@@ -1,7 +1,12 @@
 import { useEffect, useState, useCallback } from "react";
 import { io } from "socket.io-client";
 
-const SOCKET_SERVER_URL = "http://localhost:8085";
+const env = import.meta.env.VITE_NODE_ENV;
+
+const SOCKET_SERVER_URL =
+  env == "dev"
+    ? "http://localhost:8085"
+    : "https://blueroomies.com/chatservice";
 
 const useSocket = (token, username, isAdmin = false) => {
   const [messages, setMessages] = useState([]);
@@ -37,10 +42,8 @@ const useSocket = (token, username, isAdmin = false) => {
 
     // Message handlers
     newSocket.on("private_message", (message) => {
-      const enhancedMessage = {
-        ...message,
-        timestamp: new Date(message.timestamp),
-      };
+      console.log("message received: " + message);
+      const enhancedMessage = createFrontendMessage(message);
       setMessages((prev) => [...prev, enhancedMessage]);
     });
 
@@ -107,6 +110,17 @@ const useSocket = (token, username, isAdmin = false) => {
     [socket]
   );
 
+  const appendLocalMessageOnSuccess = useCallback((message) => {
+    setMessages((prev) => [
+      ...prev,
+      createFrontendMessage({
+        from: username,
+        content: message,
+        timestamp: new Date(),
+      }),
+    ]);
+  });
+
   const clearError = useCallback(() => {
     setError(null);
   }, []);
@@ -115,12 +129,20 @@ const useSocket = (token, username, isAdmin = false) => {
     setAdminLogs([]);
   }, []);
 
+  const createFrontendMessage = (message) => {
+    return {
+      ...message,
+      timestamp: new Date(message.timestamp),
+    };
+  };
+
   return {
     messages,
     sendMessage,
     connected,
     error,
     clearError,
+    appendLocalMessageOnSuccess,
     // Admin features
     adminLogs: isAdmin ? adminLogs : null,
     clearAdminLogs: isAdmin ? clearAdminLogs : null,

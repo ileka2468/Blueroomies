@@ -3,14 +3,13 @@ import {
   User,
   Input,
   Divider,
-  Listbox,
   Card,
   CardBody,
   Select,
   SelectItem,
   Button,
 } from "@nextui-org/react";
-import useSocket from "../../WebSockets/websocketClient";
+import useSocket from "../../WebSockets/webSocketClient";
 import useUser from "../../Security/hooks/useUser";
 import MessageList from "./MessageList";
 

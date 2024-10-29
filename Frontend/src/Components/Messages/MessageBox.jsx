@@ -22,18 +22,11 @@ const mockUsers = [
     pfp: "https://i.pravatar.cc/150?u=alice",
   },
   {
-    id: 2,
-    username: "bob_jones",
-    firstname: "Bob",
-    lastname: "Jones",
+    id: 62,
+    username: "Test2",
+    firstname: "Test2",
+    lastname: "Test2",
     pfp: "https://i.pravatar.cc/150?u=bob",
-  },
-  {
-    id: 3,
-    username: "carol_wilson",
-    firstname: "Carol",
-    lastname: "Wilson",
-    pfp: "https://i.pravatar.cc/150?u=carol",
   },
 ];
 

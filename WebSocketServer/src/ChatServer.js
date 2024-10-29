@@ -68,18 +68,18 @@ class ChatServer {
       }
 
       console.log("Token received:", token.substring(0, 20) + "...");
+      const backendURL =
+        process.env.VITE_NODE_ENV === "dev"
+          ? "http://localhost:8080/api/messages/security/auth"
+          : "http://backend:8080/api/messages/security/auth";
 
       // Verify token with backend endpoint
       try {
-        const response = await axios.post(
-          "http://localhost:8080/api/messages/security/auth",
-          null,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const response = await axios.post(backendURL, null, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
         const userData = response.data;
         console.log("Auth response:", userData.userRoles[0].id.userId);

@@ -14,7 +14,6 @@ public class UserRole {
     private UserRoleId id;
 
     @MapsId("userId")
-    @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", nullable = false)
     @JsonIgnore

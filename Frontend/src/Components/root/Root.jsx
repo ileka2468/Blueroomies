@@ -22,7 +22,7 @@ export default function Root() {
 
   return (
     <>
-      <main className="h-full px-4 pt-16">
+      <main className="h-full px-4 pt-20">
         <LoginModal
           isOpen={isLoginOpen}
           onOpen={onLoginOpen}

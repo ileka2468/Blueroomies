@@ -256,7 +256,7 @@ class RoommateMatcherServiceTest {
         roommateMatcherService.saveMatchToRepo(u1, u2, matchScore);
 
         // verify saveMatch was called and check the repository
-        verify(matchStorageService, times(1)).saveMatch(u1, u2, matchScore);
+        verify(matchStorageService, times(1)).addMatch(u1, u2, matchScore);
         assertFalse(mockRepository.findAll().isEmpty(), "Matches repo should not be empty after save.");
 
         RoommateMatch savedMatch = mockRepository.findAll().get(0);
@@ -356,7 +356,7 @@ class RoommateMatcherServiceTest {
         when(mockRepository.findAll()).thenReturn(Collections.singletonList(match));
 
         // verify saveMatch was called the correct number of times
-        verify(matchStorageService, times(k)).saveMatch(any(User.class), any(User.class), anyDouble());
+        verify(matchStorageService, times(k)).addMatch(any(User.class), any(User.class), anyDouble());
 
         // print repository content to verify matches were saved
         List<RoommateMatch> savedMatches = mockRepository.findAll();
@@ -369,7 +369,7 @@ class RoommateMatcherServiceTest {
         }
 
         // Verify that saveMatch was called for each neighbor
-        verify(matchStorageService, times(nearestNeighbors.size())).saveMatch(any(User.class), any(User.class), anyDouble());
+        verify(matchStorageService, times(nearestNeighbors.size())).addMatch(any(User.class), any(User.class), anyDouble());
 
         // additional assertion to ensure matches are saved correctly
         assertEquals(k, savedMatches.size(), "Number of saved matches should equal K value");

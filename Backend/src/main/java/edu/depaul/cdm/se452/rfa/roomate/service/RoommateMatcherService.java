@@ -344,7 +344,7 @@ public class RoommateMatcherService {
      * @param matchScore    match score of both users.
      */
     public void saveMatchToRepo(User user1, User user2, double matchScore) {
-        matchStorageService.saveMatch(user1, user2, matchScore);
+        matchStorageService.addMatch(user1, user2, matchScore);
     }
 
     /**

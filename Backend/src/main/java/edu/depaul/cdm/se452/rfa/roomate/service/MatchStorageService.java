@@ -72,4 +72,12 @@ public class MatchStorageService {
     public RoommateMatchesRepository getMatchesRepository() {
         return matchesRepo;
     }
+
+    /**
+     * Remove a match by the matchId.
+     * @param id    Match id.
+     */
+    public void removeMatchById(int id) {
+        matchesRepo.deleteById(id);
+    }
 }

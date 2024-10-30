@@ -224,8 +224,8 @@ public class RoommateMatcherService {
      * It iterates through the preference set to obtain the key-value pair. It accommodates for differing
      * types of preferences (number, boolean, string) and handles them accordingly.
      * <p>
-     * FIXME NOTE: For now the String values are just ignored, since the only String sensitive variable
-     *             relevant to us has been filtered out.
+     * The String values are just ignored, since the only String sensitive variable relevant to us
+     * has been filtered out.
      *
      * @param currentCharacteristics    the current authenticated user's characteristic set.
      * @param preferences               the current roommate preferences corresponding current user's profile.
@@ -290,7 +290,8 @@ public class RoommateMatcherService {
      * the pair profile and distance (called ProfileDistance) will be added to the heap.
      * <p> 
      * In order to select the profiles with the smallest distance (more similar to the current profile),
-     * the function will utilize poll() and add that profile to the KNN list.
+     * the function will utilize poll() and add that profile to the KNN list. After adding to the neighbors
+     * list, the method will then automatically add the nearest neighbor (or match) to the {@link edu.depaul.cdm.se452.rfa.roomate.repository.RoommateMatchesRepository}.
      * <p>
      *
      * @param selectedProfile   current profile [user].

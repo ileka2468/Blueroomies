@@ -182,7 +182,7 @@ class RoommateMatcherServiceTest {
     }
 
     @Test
-    void findKNearestNeighborsAndSaveMatch() {
+    void findKNearestNeighbors() {
         Profile idealProfile = new Profile();
         idealProfile.setId(6);
         idealProfile.setCharacteristics(

@@ -300,6 +300,11 @@ public class RoommateMatcherService {
      * @return                  list of nearest profiles
      */
     public List<Profile> findKNearestNeighbors(Profile selectedProfile, List<Profile> profiles, int k) {
+        // in the event k is too big for the number of profiles
+        if (k > profiles.size()) {
+            k = profiles.size();
+        }
+
         // initialize a priority queue to keep track of nearest neighbors
         PriorityQueue<ProfileDistance> minHeap = new PriorityQueue<>(Comparator.comparingDouble(d -> d.distance));
 
@@ -320,13 +325,13 @@ public class RoommateMatcherService {
         // continue adding profiles to the KNN list until we have K-users or the minheap is empty
         while (KNN.size() < k && !minHeap.isEmpty()) {
             // retrieve and remove the profile with the smallest distance from minheap and add that to the KNN list
-//            KNN.add(minHeap.poll().profile);
             ProfileDistance profileDistance = minHeap.poll();
             Profile matchedProfile = profileDistance.profile;
-            double matchScore = 1 / profileDistance.distance;
+            double matchScore = profileDistance.distance == 0 ? 1.0 : 1 / profileDistance.distance;
 
             // save match using MatchStorageService
             saveMatchToRepo(selectedUser, matchedProfile.getUser(), matchScore);
+            KNN.add(matchedProfile);
         }
         return KNN;
     }

@@ -37,7 +37,7 @@ public class MatchStorageService {
      * @param matchScore        the similarity score between the two users (double).
      * @return                  the saved {@link RoommateMatch} entity.
      */
-    public void saveMatch(User user1, User user2, double matchScore) {
+    public RoommateMatch saveMatch(User user1, User user2, double matchScore) {
         RoommateMatch match = new RoommateMatch();
         match.setUserId1(user1);
         match.setUserId2(user2);
@@ -45,11 +45,31 @@ public class MatchStorageService {
         match.setMatchScore(score);
         match.setMatchTs(LocalDate.now());
         matchesRepo.save(match);
+        return match;
     }
 
+    /**
+     * Return all matches in the repository.
+     * @return  List of matches.
+     */
     public List<RoommateMatch> findAllMatches() {
         return matchesRepo.findAll();
     }
 
+    /**
+     * Look up a match by the match ID.
+     * @param id    ID of match.
+     * @return      Match corresponding to ID.
+     */
+    public RoommateMatch findMatchById(int id) {
+        return matchesRepo.findById(id).get();
+    }
 
+    /**
+     * Return the RoommateMatchesRepository object.
+     * @return  RoommateMatches object.
+     */
+    public RoommateMatchesRepository getMatchesRepository() {
+        return matchesRepo;
+    }
 }

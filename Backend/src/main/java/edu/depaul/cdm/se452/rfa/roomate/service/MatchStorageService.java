@@ -48,8 +48,8 @@ public class MatchStorageService {
         return match;
     }
 
-    public void addMatch(User user1, User user2, double matchScore) {
-        RoommateMatch match = saveMatch(user1, user2, matchScore);
+    public RoommateMatch addMatch(User user1, User user2, double matchScore) {
+        return saveMatch(user1, user2, matchScore);
     }
 
     /**

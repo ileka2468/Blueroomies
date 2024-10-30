@@ -292,7 +292,6 @@ public class RoommateMatcherService {
      * In order to select the profiles with the smallest distance (more similar to the current profile),
      * the function will utilize poll() and add that profile to the KNN list.
      * <p>
-     * FIXME: consider the event that K is too large for the profiles pool.
      *
      * @param selectedProfile   current profile [user].
      * @param profiles          pool of profiles after filtering.

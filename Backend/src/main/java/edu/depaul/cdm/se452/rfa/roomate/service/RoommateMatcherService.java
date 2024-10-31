@@ -20,7 +20,7 @@ import java.util.*;
 public class RoommateMatcherService {
 
     private double[] weights;
-    public final MatchStorageService matchStorageService;
+    private final MatchStorageService matchStorageService;
 
     /**
      * Constructor takes in the MatchStorageService as a parameter.

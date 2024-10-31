@@ -269,7 +269,16 @@ class RoommateMatcherServiceTest {
 
     @Test
     void fullService() {
-        when(matchStorageService.getMatchesRepository()).thenReturn(mockRepository);
+        List<RoommateMatch> savedMatches = new ArrayList<>();
+        when(mockRepository.findAll()).thenAnswer(invocation -> savedMatches);
+
+        doAnswer(invocation -> {
+            RoommateMatch match = invocation.getArgument(0);
+            savedMatches.add(match);
+            return match;
+        }).when(mockRepository).save(any(RoommateMatch.class));
+
+        // when(matchStorageService.getMatchesRepository()).thenReturn(mockRepository);
 
         Profile selectedProfile = new Profile();
         selectedProfile.setId(10);
@@ -308,27 +317,48 @@ class RoommateMatcherServiceTest {
                 ));
 
         Profile profileD = new Profile();
-        profileC.setId(3);
-        profileC.setCharacteristics(
+        profileD.setId(4);
+        profileD.setCharacteristics(
                 Map.of("cleanliness_level", 2,
                         "gender_preference", "Male",
                         "smoking_preference", false,
                         "alcohol_usage", false
                 ));
 
+        Profile profileE = new Profile();
+        profileE.setId(7);
+        profileE.setCharacteristics(
+                Map.of("cleanliness_level", 3,
+                        "gender_preference", "Male",
+                        "smoking_preference", false,
+                        "alcohol_usage", false
+
+                ));
+
         // list of profiles to filter an apply knn
-        List<Profile> profiles = Arrays.asList(profileA, profileB, profileC, selectedProfile);
+        List<Profile> profiles = Arrays.asList(profileA, profileB, profileC, profileD, profileE);
 
         // apply filters
         List<Profile> filteredProfiles = roommateMatcherService.applyFilters(selectedProfile, profiles);
+        System.out.println("Filtered profiles: " + filteredProfiles);
         System.out.println("Filtered profile count: " + filteredProfiles.size());
         assertFalse(filteredProfiles.isEmpty(), "Filtered profiles list should not be empty");
 
         // find KNN
-        int k = 1;
+        int k = 2;
         List<Profile> nearestNeighbors = roommateMatcherService.findKNearestNeighbors(selectedProfile, filteredProfiles, k);
+        int size = nearestNeighbors.size();
+        System.out.println("k: " + k);
+        System.out.println("nearest neighbors size: " + size);
+        System.out.println("Detailed Nearest Neighbors List:");
+        for (Profile neighbor : nearestNeighbors) {
+            System.out.println("Profile ID: " + neighbor.getId());
+            neighbor.getCharacteristics().forEach((key, value) ->
+                    System.out.println("  " + key + ": " + value)
+            );
+        }
         assertNotNull(nearestNeighbors, "Nearest neighbors list should not be null");
-        assertEquals(k, nearestNeighbors.size(), "Nearest neighbors size should be equal to K");
+        assertEquals(k, size, "Size of nearestNeighbors should be equal to k.");
 
         User user1 = new User();
         user1.setId(selectedProfile.getId());
@@ -344,11 +374,10 @@ class RoommateMatcherServiceTest {
                     neighbor.getCharacteristics(),
                     profiles
             );
-            match.setUserId1(user1);
-            match.setUserId2(user2);
-            match.setMatchScore(BigDecimal.valueOf(matchScore));
-            match.setMatchTs(LocalDate.now());
-
+//            match.setUserId1(user1);
+//            match.setUserId2(user2);
+//            match.setMatchScore(BigDecimal.valueOf(matchScore));
+//            match.setMatchTs(LocalDate.now());
 
             roommateMatcherService.saveMatchToRepo(user1, user2, matchScore);
         }
@@ -359,9 +388,10 @@ class RoommateMatcherServiceTest {
         verify(matchStorageService, times(k)).addMatch(any(User.class), any(User.class), anyDouble());
 
         // print repository content to verify matches were saved
-        List<RoommateMatch> savedMatches = mockRepository.findAll();
+        List<RoommateMatch> savedMockMatches = mockRepository.findAll();
+        int sizeSavedMatches = savedMockMatches.size();
         System.out.println("Saved Match:");
-        for (RoommateMatch singleMatch : savedMatches) {
+        for (RoommateMatch singleMatch : savedMockMatches) {
             System.out.println("User ID 1: " + singleMatch.getUserId1() + "\n" +
                     "User ID 2: " + singleMatch.getUserId2() + "\n" +
                     "Match Score: " + singleMatch.getMatchScore() + "\n" +
@@ -372,7 +402,7 @@ class RoommateMatcherServiceTest {
         verify(matchStorageService, times(nearestNeighbors.size())).addMatch(any(User.class), any(User.class), anyDouble());
 
         // additional assertion to ensure matches are saved correctly
-        assertEquals(k, savedMatches.size(), "Number of saved matches should equal K value");
+        assertEquals(k, sizeSavedMatches, "Number of saved matches should equal K value");
 
     }
 }

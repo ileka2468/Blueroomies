@@ -318,12 +318,13 @@ public class RoommateMatcherService {
             }
         }
 
+        int effectiveK = Math.min(k, minHeap.size());
         // initialize empty list to store the k-nearest-neighbors
-        List<Profile> KNN = new ArrayList<>();
+        List<Profile> KNN = new ArrayList<>(effectiveK);
         User selectedUser = selectedProfile.getUser();
 
         // continue adding profiles to the KNN list until we have K-users or the minheap is empty
-        while (KNN.size() < k && !minHeap.isEmpty()) {
+        while (KNN.size() < effectiveK && !minHeap.isEmpty()) {
             // retrieve and remove the profile with the smallest distance from minheap and add that to the KNN list
             ProfileDistance profileDistance = minHeap.poll();
             Profile matchedProfile = profileDistance.profile;

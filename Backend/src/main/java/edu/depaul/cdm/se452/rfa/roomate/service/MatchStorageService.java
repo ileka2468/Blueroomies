@@ -17,7 +17,7 @@ import java.util.List;
  */
 @Service
 public class MatchStorageService {
-    private final RoommateMatchesRepository matchesRepo;
+    private RoommateMatchesRepository matchesRepo;
 
     /**
      * Constructor for service.
@@ -66,7 +66,7 @@ public class MatchStorageService {
      * @return      Match corresponding to ID.
      */
     public RoommateMatch findMatchById(int id) {
-        return matchesRepo.findById(id).get();
+        return matchesRepo.findRoommateMatchById(id);
     }
 
     /**

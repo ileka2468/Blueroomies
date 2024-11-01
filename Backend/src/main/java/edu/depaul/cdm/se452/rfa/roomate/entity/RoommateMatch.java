@@ -48,4 +48,15 @@ public class RoommateMatch {
     @OneToMany(mappedBy = "match")
     private Set<Message> messages = new LinkedHashSet<>();
 
+    @Override
+    public String toString() {
+        return "RoommateMatch{" +
+                "id=" + id +
+                ", userId1=" + (userId1 != null ? userId1.getId() : "null") +
+                ", userId2=" + (userId2 != null ? userId2.getId() : "null") +
+                ", matchScore=" + matchScore +
+                ", matchTs=" + matchTs +
+                '}';
+    }
+
 }

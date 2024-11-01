@@ -345,7 +345,7 @@ class RoommateMatcherServiceTest {
         assertFalse(filteredProfiles.isEmpty(), "Filtered profiles list should not be empty");
 
         // find KNN
-        int k = 2;
+        int k = 1;
         List<Profile> nearestNeighbors = roommateMatcherService.findKNearestNeighbors(selectedProfile, filteredProfiles, k);
         int size = nearestNeighbors.size();
         System.out.println("k: " + k);
@@ -374,10 +374,10 @@ class RoommateMatcherServiceTest {
                     neighbor.getCharacteristics(),
                     profiles
             );
-//            match.setUserId1(user1);
-//            match.setUserId2(user2);
-//            match.setMatchScore(BigDecimal.valueOf(matchScore));
-//            match.setMatchTs(LocalDate.now());
+            match.setUserId1(user1);
+            match.setUserId2(user2);
+            match.setMatchScore(BigDecimal.valueOf(matchScore));
+            match.setMatchTs(LocalDate.now());
 
             roommateMatcherService.saveMatchToRepo(user1, user2, matchScore);
         }

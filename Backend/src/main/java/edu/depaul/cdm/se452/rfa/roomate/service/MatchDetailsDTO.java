@@ -1,14 +1,10 @@
 package edu.depaul.cdm.se452.rfa.roomate.service;
 
-import edu.depaul.cdm.se452.rfa.profileManagement.entity.Profile;
-import edu.depaul.cdm.se452.rfa.roomate.repository.RoommateMatchesRepository;
-import edu.depaul.cdm.se452.rfa.roomate.service.ProfilesDTO;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.Map;
 
 /**
  * DTO for returning match details for the current user.
@@ -48,15 +44,13 @@ import java.util.Map;
  *   ]
  * }
  */
+
+@Getter
+@Setter
+@AllArgsConstructor
 public class MatchDetailsDTO {
-    private RoommateMatchesRepository roommateMatchesRepository;
     private int userID;
     private BigDecimal matchScore;
     private ProfilesDTO profile;
 
-    public MatchDetailsDTO(int userID, BigDecimal matchScore, ProfilesDTO profile) {
-        this.userID = userID;
-        this.matchScore = matchScore;
-        this.profile = profile;
-    }
 }

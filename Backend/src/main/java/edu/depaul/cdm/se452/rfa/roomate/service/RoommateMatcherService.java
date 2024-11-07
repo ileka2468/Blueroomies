@@ -3,9 +3,13 @@ package edu.depaul.cdm.se452.rfa.roomate.service;
 
 import edu.depaul.cdm.se452.rfa.authentication.entity.User;
 import edu.depaul.cdm.se452.rfa.profileManagement.entity.Profile;
+import edu.depaul.cdm.se452.rfa.profileManagement.service.ProfileService;
+import edu.depaul.cdm.se452.rfa.roomate.entity.RoommateMatch;
+import edu.depaul.cdm.se452.rfa.roomate.repository.RoommateMatchesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * The Roommate Matcher Service is a service class for the spring framework that implements the
@@ -19,8 +23,12 @@ import java.util.*;
 @Service
 public class RoommateMatcherService {
 
+    private final RoommateMatchesRepository roommateMatchesRepository;
     private double[] weights;
     private final MatchStorageService matchStorageService;
+
+    @Autowired
+    private ProfileService profileService;
 
     /**
      * Constructor takes in the MatchStorageService as a parameter.
@@ -28,8 +36,9 @@ public class RoommateMatcherService {
      * @param matchStorageService   Service for storing matches.
      */
     @Autowired
-    public RoommateMatcherService(MatchStorageService matchStorageService) {
+    public RoommateMatcherService(MatchStorageService matchStorageService, RoommateMatchesRepository roommateMatchesRepository) {
         this.matchStorageService = matchStorageService;
+        this.roommateMatchesRepository = roommateMatchesRepository;
     }
 
     /**
@@ -49,6 +58,25 @@ public class RoommateMatcherService {
      * each filter takes in a list of profiles parameter derived from the previous filter
      *
      */
+
+    private Optional<Profile> getMatchedProfile(int userId) {
+        return profileService.getProfileById(userId);
+    }
+
+    /**
+     * Private method for grabbing the match DTO.
+     * @param match     RoommateMatch object
+     * @return          Match DTO.
+     */
+    private MatchDetailsDTO convertToMatchDetailsDTO(RoommateMatch match){
+        ProfilesDTO profileDTO = new ProfilesDTO(
+            match.getUserId2().getFirstName() + " " + match.getUserId2().getLastName(),
+            "default",
+            getMatchedProfile(match.getUserId2().getId()).get().getCharacteristics()
+        );
+
+        return new MatchDetailsDTO(match.getUserId1().getId(), match.getMatchScore(), profileDTO);
+    }
 
     /**
      * Protected method for checking gender compatibilities between two profiles.
@@ -362,23 +390,14 @@ public class RoommateMatcherService {
     }
 
     /**
-     * Returns a double[] that holds weights of the current profile [user's] preferences.
-     * <p>
-     * TODO: not immediately needed, but nice to have ready for other stuff.
-     *
-     * @param profile   get weights from preferences json
+     * Method for retrieving list of match DTO's given the current (authenticated) user's id.
+     * @param userId    Authenticated user's id.
+     * @return          List of match DTO's.
      */
-    private void getWeights(Profile profile) {
-        // utilize json parser to get double[] weights and assign to weights;
-    }
-
-    /**
-     * Returns a Map<String, Object> of normalized preferences.
-     * <p>
-     * TODO: may need if we decide to add more filtering criteria.
-     *
-     * @param preferences   raw preferences value before it is normalized for cases such as booleans and strings.
-     */
-    private void normalizePreferences(Map<String, Object> preferences) {
+    public List<MatchDetailsDTO> findMatchesForUser(int userId) {
+        List<RoommateMatch> matches = roommateMatchesRepository.findByUserId(userId);
+        return matches.stream()
+                .map(this::convertToMatchDetailsDTO)
+                .collect(Collectors.toList());
     }
 }

@@ -42,7 +42,7 @@ class RoommateMatcherServiceTest {
 
         matchStorageService = Mockito.mock(MatchStorageService.class);
         RoommateMatchesRepository matchesRepository = Mockito.mock(RoommateMatchesRepository.class);
-        roommateMatcherService = new RoommateMatcherService(matchStorageService);
+        roommateMatcherService = new RoommateMatcherService(matchStorageService, matchesRepository);
 
         profile1 = new Profile();
         profile1.setId(1);

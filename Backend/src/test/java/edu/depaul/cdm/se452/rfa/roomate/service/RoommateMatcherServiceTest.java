@@ -2,6 +2,8 @@ package edu.depaul.cdm.se452.rfa.roomate.service;
 
 import edu.depaul.cdm.se452.rfa.authentication.entity.User;
 import edu.depaul.cdm.se452.rfa.profileManagement.entity.Profile;
+import edu.depaul.cdm.se452.rfa.profileManagement.repository.ProfileRepository;
+import edu.depaul.cdm.se452.rfa.profileManagement.service.ProfileService;
 import edu.depaul.cdm.se452.rfa.roomate.entity.RoommateMatch;
 import edu.depaul.cdm.se452.rfa.roomate.repository.RoommateMatchesRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,7 +29,7 @@ class RoommateMatcherServiceTest {
     private MatchStorageService matchStorageService;
 
     @Mock
-    private RoommateMatchesRepository mockRepository;
+    private RoommateMatchesRepository mockMatchRepository;
 
     // dummy profiles
     private Profile profile1;
@@ -249,17 +251,17 @@ class RoommateMatcherServiceTest {
         match.setMatchTs(LocalDate.now());
 
         // configure mock to simulate match saving and retrieval
-        when(mockRepository.findAll()).thenReturn(Collections.singletonList(match));
-        when(matchStorageService.getMatchesRepository()).thenReturn(mockRepository);
+        when(mockMatchRepository.findAll()).thenReturn(Collections.singletonList(match));
+        when(matchStorageService.getMatchesRepository()).thenReturn(mockMatchRepository);
 
         // call the method to save match
         roommateMatcherService.saveMatchToRepo(u1, u2, matchScore);
 
         // verify saveMatch was called and check the repository
         verify(matchStorageService, times(1)).addMatch(u1, u2, matchScore);
-        assertFalse(mockRepository.findAll().isEmpty(), "Matches repo should not be empty after save.");
+        assertFalse(mockMatchRepository.findAll().isEmpty(), "Matches repo should not be empty after save.");
 
-        RoommateMatch savedMatch = mockRepository.findAll().get(0);
+        RoommateMatch savedMatch = mockMatchRepository.findAll().get(0);
         System.out.println("Match data: ");
         System.out.println("User ID 1: " + savedMatch.getUserId1());
         System.out.println("User ID 2: " + savedMatch.getUserId2());
@@ -270,13 +272,13 @@ class RoommateMatcherServiceTest {
     @Test
     void fullService() {
         List<RoommateMatch> savedMatches = new ArrayList<>();
-        when(mockRepository.findAll()).thenAnswer(invocation -> savedMatches);
+        when(mockMatchRepository.findAll()).thenAnswer(invocation -> savedMatches);
 
         doAnswer(invocation -> {
             RoommateMatch match = invocation.getArgument(0);
             savedMatches.add(match);
             return match;
-        }).when(mockRepository).save(any(RoommateMatch.class));
+        }).when(mockMatchRepository).save(any(RoommateMatch.class));
 
         // when(matchStorageService.getMatchesRepository()).thenReturn(mockRepository);
 
@@ -382,13 +384,13 @@ class RoommateMatcherServiceTest {
             roommateMatcherService.saveMatchToRepo(user1, user2, matchScore);
         }
 
-        when(mockRepository.findAll()).thenReturn(Collections.singletonList(match));
+        when(mockMatchRepository.findAll()).thenReturn(Collections.singletonList(match));
 
         // verify saveMatch was called the correct number of times
         verify(matchStorageService, times(k)).addMatch(any(User.class), any(User.class), anyDouble());
 
         // print repository content to verify matches were saved
-        List<RoommateMatch> savedMockMatches = mockRepository.findAll();
+        List<RoommateMatch> savedMockMatches = mockMatchRepository.findAll();
         int sizeSavedMatches = savedMockMatches.size();
         System.out.println("Saved Match:");
         for (RoommateMatch singleMatch : savedMockMatches) {
@@ -404,5 +406,62 @@ class RoommateMatcherServiceTest {
         // additional assertion to ensure matches are saved correctly
         assertEquals(k, sizeSavedMatches, "Number of saved matches should equal K value");
 
+    }
+
+    @Test
+    void testRoommateMatchDTO() {
+        // FIXME
+        ProfileService service = new ProfileService();
+
+        User u1 = new User();
+        u1.setId(1);
+        Profile u1Profile = service.createProfile(u1);
+        u1Profile.setCharacteristics(
+                Map.of("cleanliness_level", 3,
+                        "gender_preference", "Male",
+                        "smoking_preference", false,
+                        "alcohol_usage", false
+                        )
+        );
+        u1Profile.setBio("some user1 bio");
+
+        User u2 = new User();
+        u2.setId(2);
+        Profile u2Profile = service.createProfile(u2);
+        u2Profile.setCharacteristics(
+                Map.of(
+                        "gender_preference", "Male",
+                        "smoking_preference", false,
+                        "alcohol_usage", false
+                )
+        );
+        u2Profile.setBio("some user2 bio");
+
+        ProfilesDTO u2DTO = new ProfilesDTO(
+                u2Profile.getUser().getFirstName() + " " + u2Profile.getUser().getLastName(),
+                u2Profile.getBio(),
+                u2Profile.getCharacteristics()
+        );
+
+        double matchScore = 85.7;
+        RoommateMatch match = new RoommateMatch();
+        match.setUserId1(u1);
+        match.setUserId2(u2);
+        match.setMatchScore(BigDecimal.valueOf(matchScore));
+        match.setMatchTs(LocalDate.now());
+
+        MatchDetailsDTO expectedDTO = null;
+        expectedDTO.setUserID(u2.getId());
+        expectedDTO.setMatchScore(BigDecimal.valueOf(matchScore));
+        expectedDTO.setProfile(u2DTO);
+
+        List<MatchDetailsDTO> actualDTO = roommateMatcherService.findMatchesForUser(u1.getId());
+        System.out.println("actualDTO: " + actualDTO);
+
+        when(matchStorageService.addMatch(any(User.class), any(User.class), anyDouble())).thenReturn(match);
+        when(roommateMatcherService.findMatchesForUser(u1.getId())).thenReturn(List.of(expectedDTO));
+
+
+        System.out.println("expectedDTO: " + expectedDTO);
     }
 }

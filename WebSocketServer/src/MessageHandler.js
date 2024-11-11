@@ -1,3 +1,5 @@
+import axios from "axios";
+
 class MessageHandler {
   constructor(io, userSessions) {
     this.io = io;
@@ -15,27 +17,34 @@ class MessageHandler {
         to,
       });
 
+      await this.saveMessage(message, socket.user.jwt);
       await this.deliverMessage(message);
-      await this.saveMessage(message);
 
       return message;
     } catch (error) {
-      throw new MessageError(error.message);
+      throw new MessageError(error);
     }
   }
 
   async validateMessage(to, content) {
+    console.log(to, content);
     if (!to || !content) {
       throw new MessageError("Invalid message format");
     }
 
     if (!this.userSessions.get(to)) {
-      throw new MessageError("Recipient not found");
+      throw new MessageError("Recipient not found"); // instead of throwing error do nothing as message was silently received by the database.
     }
   }
 
   async validatePermission(fromUserId, toUsername) {
     return true;
+  }
+
+  generateId() {
+    const timestamp = Date.now() % 1000000000; // last 9 digits of the timestamp
+    const randomPart = Math.floor(Math.random() * 1000000); // Random number
+    return (timestamp + randomPart) % 2147483647; // Integer.MAX_VALUE in Java
   }
 
   createMessage({ from, content, to }) {
@@ -52,12 +61,29 @@ class MessageHandler {
     this.io.to(message.to).emit("private_message", message);
   }
 
-  async saveMessage(message) {
-    console.log("Saving message:", message);
-  }
+  async saveMessage(message, jwt) {
+    console.log("Token at message save: " + jwt);
+    console.log("Saving message:", "");
+    const payload = {
+      id: message.id,
+      content: message.content,
+      sender: message.from,
+      receiver: message.to,
+      timestamp: message.timestamp,
+    };
+    const backendURL =
+      process.env.VITE_NODE_ENV === "dev"
+        ? "http://localhost:8080/api/messages/create"
+        : "http://backend:8080/api/messages/create";
 
-  generateId() {
-    return Date.now().toString(36) + Math.random().toString(36).substr(2);
+    console.log(jwt);
+
+    const response = await axios.post(backendURL, payload, {
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+      },
+    });
+    console.log(response.status);
   }
 }
 

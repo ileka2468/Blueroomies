@@ -6,7 +6,7 @@ const env = import.meta.env.VITE_NODE_ENV;
 const SOCKET_SERVER_URL =
   env == "dev" ? "http://localhost:8085" : "https://blueroomies.com";
 
-const useSocket = (token, username, isAdmin = false) => {
+const useSocket = (token, username, selectedUser, isAdmin = false) => {
   const [messages, setMessages] = useState([]);
   const [socket, setSocket] = useState(null);
   const [connected, setConnected] = useState(false);
@@ -98,8 +98,6 @@ const useSocket = (token, username, isAdmin = false) => {
           content: content.trim(),
         });
 
-        // Don't add to messages here since the server will echo it back
-        // through the private_message event if successful
         return true;
       } catch (err) {
         console.error("Failed to send message:", err);
@@ -110,16 +108,20 @@ const useSocket = (token, username, isAdmin = false) => {
     [socket]
   );
 
-  const appendLocalMessageOnSuccess = useCallback((message) => {
-    setMessages((prev) => [
-      ...prev,
-      createFrontendMessage({
-        from: username,
-        content: message,
-        timestamp: new Date(),
-      }),
-    ]);
-  });
+  const appendLocalMessageOnSuccess = useCallback(
+    (message) => {
+      setMessages((prev) => [
+        ...prev,
+        createFrontendMessage({
+          sender: username,
+          receiver: selectedUser ? selectedUser.username : null,
+          content: message,
+          timestamp: new Date().toISOString(),
+        }),
+      ]);
+    },
+    [username, selectedUser]
+  );
 
   const clearError = useCallback(() => {
     setError(null);
@@ -143,7 +145,6 @@ const useSocket = (token, username, isAdmin = false) => {
     error,
     clearError,
     appendLocalMessageOnSuccess,
-    // Admin features
     adminLogs: isAdmin ? adminLogs : null,
     clearAdminLogs: isAdmin ? clearAdminLogs : null,
     activeUsers: isAdmin ? activeUsers : null,

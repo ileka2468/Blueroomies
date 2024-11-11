@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   User,
   Input,
@@ -12,38 +12,71 @@ import {
 import useSocket from "../../WebSockets/webSocketClient";
 import useUser from "../../Security/hooks/useUser";
 import MessageList from "./MessageList";
+import { useAxios } from "../../Security/axios/AxiosProvider";
 
-const mockUsers = [
-  {
-    id: 122,
-    username: "abc",
-    firstname: "abc",
-    lastname: "abc",
-    pfp: "https://i.pravatar.cc/150?u=alice",
-  },
-  {
-    id: 62,
-    username: "Test2",
-    firstname: "Test2",
-    lastname: "Test2",
-    pfp: "https://i.pravatar.cc/150?u=bob",
-  },
-];
+const getMatches = async (apiClient) => {
+  try {
+    const response = await apiClient.get("/matches/me");
+    return response.data.matches || [];
+  } catch (error) {
+    console.error("Error fetching matches:", error);
+    return [];
+  }
+};
 
 const MessageBox = () => {
+  const apiClient = useAxios();
+  const [matchdata, setMatchData] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
   const [messageInput, setMessageInput] = useState("");
+  const [conversationMessages, setConversationMessages] = useState([]); // DB messages loaded once
   const token = localStorage.getItem("accessToken");
   const [userData] = useUser();
+
+  // WebSocket live messages
   const {
-    messages,
+    messages: liveMessages,
     sendMessage,
     connected,
     error,
     appendLocalMessageOnSuccess,
-    adminLogs,
-    activeUsers,
-  } = useSocket(token, userData.username, false);
+  } = useSocket(token, userData.username, selectedUser, false);
+
+  useEffect(() => {
+    const fetchMatches = async () => {
+      const matches = await getMatches(apiClient);
+      setMatchData(matches);
+    };
+    fetchMatches();
+  }, [apiClient]);
+
+  // Load database messages only once when `selectedUser` changes
+  useEffect(() => {
+    const loadConversation = async () => {
+      if (selectedUser) {
+        try {
+          const response = await apiClient.get("/messages/conversation", {
+            params: { otherUser: selectedUser.username },
+          });
+          setConversationMessages(response.data); // Set DB messages
+        } catch (error) {
+          console.error("Error fetching conversation messages:", error);
+        }
+      }
+    };
+    loadConversation();
+  }, [apiClient, selectedUser]);
+
+  // Append live messages to `conversationMessages`
+  useEffect(() => {
+    if (liveMessages.length > 0) {
+      const latestLiveMessage = liveMessages[liveMessages.length - 1];
+      setConversationMessages((prevMessages) => [
+        ...prevMessages,
+        latestLiveMessage,
+      ]);
+    }
+  }, [liveMessages]);
 
   const handleSendMessage = () => {
     if (!selectedUser || !messageInput.trim()) return;
@@ -51,12 +84,36 @@ const MessageBox = () => {
     if (sent) {
       appendLocalMessageOnSuccess(messageInput.trim());
       setMessageInput("");
+
+      // setConversationMessages((prevMessages) => [
+      //   ...prevMessages,
+      //   {
+      //     sender: userData.username,
+      //     receiver: selectedUser.username,
+      //     content: messageInput.trim(),
+      //     timestamp: new Date(),
+      //   },
+      // ]);
     }
   };
 
-  const handleSelectionChange = (userId) => {
-    const selected = mockUsers.find((user) => user.id === Number(userId));
+  // Handle selection change to load the selected user's conversation
+  const handleSelectionChange = async (userId) => {
+    const selected = matchdata.find((user) => user.id === Number(userId));
     setSelectedUser(selected);
+
+    // Clear previous messages and load new conversation
+    setConversationMessages([]);
+    if (selected) {
+      try {
+        const response = await apiClient.get("/messages/conversation", {
+          params: { otherUser: selected.username },
+        });
+        setConversationMessages(response.data); // Load selected user's messages
+      } catch (error) {
+        console.error("Error fetching conversation messages:", error);
+      }
+    }
   };
 
   return (
@@ -79,7 +136,7 @@ const MessageBox = () => {
             selectedKeys={selectedUser ? [selectedUser.id.toString()] : []}
             onChange={(e) => handleSelectionChange(e.target.value)}
           >
-            {mockUsers.map((user) => (
+            {matchdata.map((user) => (
               <SelectItem
                 key={user.id}
                 value={user.id}
@@ -103,7 +160,7 @@ const MessageBox = () => {
 
       <Card className="mt-4 w-full">
         <CardBody className="p-4 h-[400px] overflow-y-auto">
-          <MessageList messages={messages} userData={userData} />
+          <MessageList messages={conversationMessages} userData={userData} />
         </CardBody>
         <Divider />
         <CardBody className="flex items-center gap-4 p-4">
@@ -118,7 +175,7 @@ const MessageBox = () => {
           <Button
             onClick={handleSendMessage}
             disabled={!selectedUser || !messageInput.trim() || !connected}
-            color="primary"
+            className="bg-messageblue text-white"
           >
             Send
           </Button>

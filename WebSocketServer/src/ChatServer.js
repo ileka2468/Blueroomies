@@ -63,6 +63,7 @@ class ChatServer {
   async authenticate(socket, next) {
     try {
       const token = socket.handshake.auth.token;
+      console.log("Token during auth: " + token);
       if (!token) {
         throw new Error("No token provided");
       }
@@ -70,8 +71,8 @@ class ChatServer {
       console.log("Token received:", token.substring(0, 20) + "...");
       const backendURL =
         process.env.VITE_NODE_ENV === "dev"
-          ? "http://localhost:8080/api/messages/security/auth"
-          : "http://backend:8080/api/messages/security/auth";
+          ? "http://localhost:8080/api/messages/auth"
+          : "http://backend:8080/api/messages/auth";
 
       // Verify token with backend endpoint
       try {
@@ -88,6 +89,7 @@ class ChatServer {
           id: userData.id,
           username: userData.username,
           isAdmin: userData.userRoles[0].role.roleName == "ROLE_ADMIN" || false,
+          jwt: token,
         };
 
         await this.handleExistingSession(userData.username);

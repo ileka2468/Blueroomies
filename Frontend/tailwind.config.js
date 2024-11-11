@@ -10,6 +10,9 @@ export default {
   theme: {
     colors: {
       filtergrey: "#CFD8DC",
+      white: "#FFFFFF",
+      messageblue: "#218AFF",
+      messagegrey: "#d8d8d8",
     },
     extend: {},
   },

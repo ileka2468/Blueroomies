@@ -37,6 +37,7 @@ services:
       - "8085:8085"
     environment:
       VITE_NODE_ENV: ${VITE_NODE_ENV}
+      CHAT_SERVER_PORT: ${CHAT_SERVER_PORT}
     depends_on:
       - backend
       - nginx

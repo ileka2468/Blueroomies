@@ -53,7 +53,10 @@ public class SecurityConfig {
                             "/api/auth/register",
                             "/api/auth/login",
                             "/api/auth/logout",
-                            "/api/auth/refresh-token"
+                            "/api/auth/refresh-token",
+                            "/api/messages/create",
+                            "/api/messages/auth",
+                            "/api/messages/conversation"
                     ).permitAll();  // Public routes
 
                     auth.anyRequest().authenticated();  // Protect other routes

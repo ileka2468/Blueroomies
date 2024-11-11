@@ -1,7 +1,9 @@
 package edu.depaul.cdm.se452.rfa.roomate.service;
 
 
+import edu.depaul.cdm.se452.rfa.authentication.entity.User;
 import edu.depaul.cdm.se452.rfa.profileManagement.entity.Profile;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.*;
 
@@ -18,6 +20,17 @@ import java.util.*;
 public class RoommateMatcherService {
 
     private double[] weights;
+    private final MatchStorageService matchStorageService;
+
+    /**
+     * Constructor takes in the MatchStorageService as a parameter.
+     *
+     * @param matchStorageService   Service for storing matches.
+     */
+    @Autowired
+    public RoommateMatcherService(MatchStorageService matchStorageService) {
+        this.matchStorageService = matchStorageService;
+    }
 
     /**
      * Helper method for grabbing characteristics given a profile.
@@ -211,8 +224,8 @@ public class RoommateMatcherService {
      * It iterates through the preference set to obtain the key-value pair. It accommodates for differing
      * types of preferences (number, boolean, string) and handles them accordingly.
      * <p>
-     * FIXME NOTE: For now the String values are just ignored, since the only String sensitive variable
-     *             relevant to us has been filtered out.
+     * The String values are just ignored, since the only String sensitive variable relevant to us
+     * has been filtered out.
      *
      * @param currentCharacteristics    the current authenticated user's characteristic set.
      * @param preferences               the current roommate preferences corresponding current user's profile.
@@ -277,9 +290,9 @@ public class RoommateMatcherService {
      * the pair profile and distance (called ProfileDistance) will be added to the heap.
      * <p> 
      * In order to select the profiles with the smallest distance (more similar to the current profile),
-     * the function will utilize poll() and add that profile to the KNN list.
+     * the function will utilize poll() and add that profile to the KNN list. After adding to the neighbors
+     * list, the method will then automatically add the nearest neighbor (or match) to the {@link edu.depaul.cdm.se452.rfa.roomate.repository.RoommateMatchesRepository}.
      * <p>
-     * FIXME: consider the event that K is too large for the profiles pool.
      *
      * @param selectedProfile   current profile [user].
      * @param profiles          pool of profiles after filtering.
@@ -287,6 +300,11 @@ public class RoommateMatcherService {
      * @return                  list of nearest profiles
      */
     public List<Profile> findKNearestNeighbors(Profile selectedProfile, List<Profile> profiles, int k) {
+        // in the event k is too big for the number of profiles
+        if (k > profiles.size()) {
+            k = profiles.size();
+        }
+
         // initialize a priority queue to keep track of nearest neighbors
         PriorityQueue<ProfileDistance> minHeap = new PriorityQueue<>(Comparator.comparingDouble(d -> d.distance));
 
@@ -300,14 +318,34 @@ public class RoommateMatcherService {
             }
         }
 
+        int effectiveK = Math.min(k, minHeap.size());
         // initialize empty list to store the k-nearest-neighbors
-        List<Profile> KNN = new ArrayList<>();
+        List<Profile> KNN = new ArrayList<>(effectiveK);
+        User selectedUser = selectedProfile.getUser();
+
         // continue adding profiles to the KNN list until we have K-users or the minheap is empty
-        while (KNN.size() < k && !minHeap.isEmpty()) {
+        while (KNN.size() < effectiveK && !minHeap.isEmpty()) {
             // retrieve and remove the profile with the smallest distance from minheap and add that to the KNN list
-            KNN.add(minHeap.poll().profile);
+            ProfileDistance profileDistance = minHeap.poll();
+            Profile matchedProfile = profileDistance.profile;
+            double matchScore = profileDistance.distance == 0 ? 1.0 : 1 / profileDistance.distance;
+
+            // save match using MatchStorageService
+            saveMatchToRepo(selectedUser, matchedProfile.getUser(), matchScore);
+            KNN.add(matchedProfile);
         }
         return KNN;
+    }
+
+    /**
+     * Saves a match between two users with a given match score.
+     *
+     * @param user1         first user of match.
+     * @param user2         second user of match.
+     * @param matchScore    match score of both users.
+     */
+    public void saveMatchToRepo(User user1, User user2, double matchScore) {
+        matchStorageService.addMatch(user1, user2, matchScore);
     }
 
     /**

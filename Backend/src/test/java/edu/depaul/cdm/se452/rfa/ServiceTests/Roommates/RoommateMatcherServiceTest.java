@@ -1,6 +1,7 @@
 package edu.depaul.cdm.se452.rfa.ServiceTests.Roommates;
 
 import edu.depaul.cdm.se452.rfa.profileManagement.entity.Profile;
+import edu.depaul.cdm.se452.rfa.roomate.service.MatchStorageService;
 import edu.depaul.cdm.se452.rfa.roomate.service.RoommateMatcherService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,6 +11,7 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
 class RoommateMatcherServiceTest {
     private RoommateMatcherService roommateMatcherService;
+    private MatchStorageService matchStorageService;
 
     // dummy profiles
     private Profile profile1;
@@ -19,7 +21,7 @@ class RoommateMatcherServiceTest {
 
     @BeforeEach
     public void setUp() {
-        RoommateMatcherService matcherService = new RoommateMatcherService();
+        RoommateMatcherService matcherService = new RoommateMatcherService(matchStorageService);
 
         profile1 = new Profile();
         profile1.setId(1);

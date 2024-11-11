@@ -1,7 +1,6 @@
 package edu.depaul.cdm.se452.rfa.roomate.entity;
 
 import edu.depaul.cdm.se452.rfa.authentication.entity.User;
-import edu.depaul.cdm.se452.rfa.messaging.entity.Message;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -11,8 +10,7 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.LinkedHashSet;
-import java.util.Set;
+
 
 @Getter
 @Setter
@@ -59,4 +57,15 @@ public class RoommateMatch {
     public int hashCode() {
         return id != null ? id.hashCode() : 0;
     }
+    @Override
+    public String toString() {
+        return "RoommateMatch{" +
+                "id=" + id +
+                ", userId1=" + (userId1 != null ? userId1.getId() : "null") +
+                ", userId2=" + (userId2 != null ? userId2.getId() : "null") +
+                ", matchScore=" + matchScore +
+                ", matchTs=" + matchTs +
+                '}';
+    }
+
 }

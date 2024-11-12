@@ -199,7 +199,7 @@ const MessageBox = () => {
         // Show loading spinner while connecting
         <div className="flex flex-col items-center">
           <CircularProgress color="primary" />
-          <p className="mt-4 text-gray-500">Connecting to chat server...</p>
+          <p className="mt-4 text-gray-500">Loading...</p>
         </div>
       )}
     </div>

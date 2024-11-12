@@ -18,8 +18,10 @@ class MessageHandler {
       });
 
       await this.saveMessage(message, socket.user.jwt);
-      await this.deliverMessage(message);
-
+      if (this.userSessions.get(to)) {
+        await this.deliverMessage(message);
+        // throw new MessageError("Recipient not found"); // instead of throwing error do nothing as message was silently received by the database.
+      }
       return message;
     } catch (error) {
       throw new MessageError(error);
@@ -30,10 +32,6 @@ class MessageHandler {
     console.log(to, content);
     if (!to || !content) {
       throw new MessageError("Invalid message format");
-    }
-
-    if (!this.userSessions.get(to)) {
-      throw new MessageError("Recipient not found"); // instead of throwing error do nothing as message was silently received by the database.
     }
   }
 

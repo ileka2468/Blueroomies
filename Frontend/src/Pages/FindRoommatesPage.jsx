@@ -8,15 +8,45 @@ import useUser from "../Security/hooks/useUser";
 
 const FindRoommatesPage = () => {
   const [userData, setUserData, isUser] = useUser();
-  const [matches, setMatches] = useState([]);
+  // const [matches, setMatches] = useState([]);
 
   const apiClient = useAxios();
   const [filterValues, setFilterValues] = useState({});
-  //const location = useLocation();
-  //const currentPath = location.pathname;
 
-  // console.log(filterValues);
-
+  const [matches, setMatches] = useState([
+    {
+      user_id: 5,
+      match_score: 87,
+      profile: {
+        name: "John Doe",
+        bio: "Looking for a quiet roommate.",
+        avatarUrl: "https://i.pravatar.cc/150?img=5", // Placeholder image
+        budget: 900,
+        oncampus: false,
+        cleanliness: "High",
+        smoking: "Non-smoker",
+        pets: "No",
+        noise: "Quiet",
+        proximity: "Campus",
+      },
+    },
+    {
+      user_id: 8,
+      match_score: 82,
+      profile: {
+        name: "Jane Smith",
+        bio: "Night owl, loves pets.",
+        avatarUrl: "https://i.pravatar.cc/150?img=8", // Placeholder image
+        budget: 700,
+        oncampus: false,
+        cleanliness: "Medium",
+        smoking: "Non-smoker",
+        pets: "Yes",
+        noise: "Moderate",
+        proximity: "Off-campus",
+      },
+    },
+  ]);
   // Fetch matches from backend
 
   const getMatches = async () => {
@@ -245,13 +275,13 @@ const FindRoommatesPage = () => {
         <SideFilter
           filterValues={filterValues}
           setFilterValues={setFilterValues}
-          userCharacteristics={userData?.characteristics}
+          userCharacteristics={{}}
         />
       </div>
       {/* Roommate Results */}
       <div className="flex-grow px-4">
-        <h2 className="text-lg font-bold">Roommate Results</h2>
-        <RoommateResults matches={filteredMatches} />
+        <h2 className="text-2xl font-bold mb-4">Roommate Results</h2>
+        <RoommateResults matches={matches} />
       </div>
     </div>
   );

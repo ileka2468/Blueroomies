@@ -1,6 +1,8 @@
 package edu.depaul.cdm.se452.rfa.roomate.service;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.depaul.cdm.se452.rfa.authentication.entity.User;
 import edu.depaul.cdm.se452.rfa.profileManagement.entity.Profile;
 import edu.depaul.cdm.se452.rfa.profileManagement.service.ProfileService;
@@ -394,8 +396,10 @@ public class RoommateMatcherService {
      * @param userId    Authenticated user's id.
      * @return          Map<String, Object>
      */
-    public Map<String, Object> findMatchesForUser(int userId) {
+    public String findMatchesForUser(int userId) {
         List<RoommateMatch> matches = roommateMatchesRepository.findByUserId(userId);
+        List<Map<String, Object>> jsonMatchesList = new ArrayList<>();
+
 
         Map<String, Object> jsonMatches = new HashMap<>();
         for (RoommateMatch match : matches) {
@@ -412,8 +416,20 @@ public class RoommateMatcherService {
             jsonMatches.put("match_score: ", match.getMatchScore());
             jsonMatches.put("time_stamp: ", match.getMatchTs());
             jsonMatches.put("profile: ", profileJson);
+
+            jsonMatchesList.add(jsonMatches);
         };
 
-        return jsonMatches;
+        Map<String, Object> response = new HashMap<>();
+        response.put("matches", jsonMatchesList);
+
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            String jsonString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(response);
+            return jsonString;
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

@@ -410,7 +410,9 @@ class RoommateMatcherServiceTest {
 
     @Test
     void testRoommateMatchDTO() {
-        // FIXME
+        /**
+         * FIXME: null this.profileRepository
+         */
         ProfileService service = new ProfileService();
 
         User u1 = new User();

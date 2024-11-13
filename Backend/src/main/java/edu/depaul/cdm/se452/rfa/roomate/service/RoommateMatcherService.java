@@ -390,14 +390,30 @@ public class RoommateMatcherService {
     }
 
     /**
-     * Method for retrieving list of match DTO's given the current (authenticated) user's id.
+     * Method for retrieving list of matches in Json format, used for front end display.
      * @param userId    Authenticated user's id.
-     * @return          List of match DTO's.
+     * @return          Map<String, Object>
      */
-    public List<MatchDetailsDTO> findMatchesForUser(int userId) {
+    public Map<String, Object> findMatchesForUser(int userId) {
         List<RoommateMatch> matches = roommateMatchesRepository.findByUserId(userId);
-        return matches.stream()
-                .map(this::convertToMatchDetailsDTO)
-                .collect(Collectors.toList());
+
+        Map<String, Object> jsonMatches = new HashMap<>();
+        for (RoommateMatch match : matches) {
+            int user2Id = match.getUserId2().getId();
+            Profile user2Profile = profileService.getProfileByUserId(user2Id);
+            Map<String, Object> user2Characteristics = user2Profile.getCharacteristics();
+
+            Map<String, Object> profileJson = new HashMap<>();
+            for (Map.Entry<String, Object> entry : user2Characteristics.entrySet()) {
+                profileJson.put(entry.getKey(), entry.getValue());
+            }
+
+            jsonMatches.put("user_id: ", match.getUserId2().getId());
+            jsonMatches.put("match_score: ", match.getMatchScore());
+            jsonMatches.put("time_stamp: ", match.getMatchTs());
+            jsonMatches.put("profile: ", profileJson);
+        };
+
+        return jsonMatches;
     }
 }

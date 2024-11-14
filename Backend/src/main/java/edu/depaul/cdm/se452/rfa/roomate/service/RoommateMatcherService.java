@@ -394,30 +394,36 @@ public class RoommateMatcherService {
     /**
      * Method for retrieving list of matches in Json format, used for front end display.
      * @param userId    Authenticated user's id.
-     * @return          Map<String, Object>
+     * @return          String of Json matches.
      */
     public String findMatchesForUser(int userId) {
         List<RoommateMatch> matches = roommateMatchesRepository.findByUserId(userId);
         List<Map<String, Object>> jsonMatchesList = new ArrayList<>();
 
-
-        Map<String, Object> jsonMatches = new HashMap<>();
+//        Map<String, Object> jsonMatches = new HashMap<>();
         for (RoommateMatch match : matches) {
-            int user2Id = match.getUserId2().getId();
-            Profile user2Profile = profileService.getProfileByUserId(user2Id);
+            int matchedUserId = match.getUserId2().getId();
+            Profile user2Profile = profileService.getProfileByUserId(matchedUserId);
+
+            // skip match if no profile
+            if (user2Profile == null) {
+                continue;
+            }
             Map<String, Object> user2Characteristics = user2Profile.getCharacteristics();
+
+            Map<String, Object> jsonMatch = new HashMap<>();
 
             Map<String, Object> profileJson = new HashMap<>();
             for (Map.Entry<String, Object> entry : user2Characteristics.entrySet()) {
                 profileJson.put(entry.getKey(), entry.getValue());
             }
 
-            jsonMatches.put("user_id: ", match.getUserId2().getId());
-            jsonMatches.put("match_score: ", match.getMatchScore());
-            jsonMatches.put("time_stamp: ", match.getMatchTs());
-            jsonMatches.put("profile: ", profileJson);
+            jsonMatch.put("user_id", matchedUserId);
+            jsonMatch.put("match_score", match.getMatchScore());
+            jsonMatch.put("time_stamp", match.getMatchTs());
+            jsonMatch.put("profile", profileJson);
 
-            jsonMatchesList.add(jsonMatches);
+            jsonMatchesList.add(jsonMatch);
         };
 
         Map<String, Object> response = new HashMap<>();
@@ -429,7 +435,7 @@ public class RoommateMatcherService {
             return jsonString;
         } catch (JsonProcessingException e) {
             e.printStackTrace();
-            return null;
+            return "{}";
         }
     }
 }

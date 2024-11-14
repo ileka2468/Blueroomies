@@ -66,21 +66,6 @@ public class RoommateMatcherService {
     }
 
     /**
-     * Private method for grabbing the match DTO.
-     * @param match     RoommateMatch object
-     * @return          Match DTO.
-     */
-    private MatchDetailsDTO convertToMatchDetailsDTO(RoommateMatch match){
-        ProfilesDTO profileDTO = new ProfilesDTO(
-            match.getUserId2().getFirstName() + " " + match.getUserId2().getLastName(),
-            "default",
-            getMatchedProfile(match.getUserId2().getId()).get().getCharacteristics()
-        );
-
-        return new MatchDetailsDTO(match.getUserId1().getId(), match.getMatchScore(), profileDTO);
-    }
-
-    /**
      * Protected method for checking gender compatibilities between two profiles.
      * This method checks if the "gender_preference" characteristic matches.
      *

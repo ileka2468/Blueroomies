@@ -1,5 +1,7 @@
 package edu.depaul.cdm.se452.rfa.messaging.service;
 
+import edu.depaul.cdm.se452.rfa.authentication.entity.User;
+import edu.depaul.cdm.se452.rfa.authentication.service.CustomUserDetailsService;
 import edu.depaul.cdm.se452.rfa.messaging.entity.Message;
 import edu.depaul.cdm.se452.rfa.messaging.repository.MessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +14,11 @@ import java.util.Optional;
 public class MessageService {
 
     private final MessageRepository messageRepository;
+    private final CustomUserDetailsService customUserDetailsService;
 
-    @Autowired
-    public MessageService(MessageRepository messageRepository) {
+    public MessageService(MessageRepository messageRepository, CustomUserDetailsService customUserDetailsService) {
         this.messageRepository = messageRepository;
+        this.customUserDetailsService = customUserDetailsService;
     }
 
     public Message createMessage(Message message) {
@@ -42,4 +45,10 @@ public class MessageService {
             return messageRepository.save(message);
         }).orElseThrow(() -> new RuntimeException("Message not found, ID: " + id));
     }
-}//class
+
+    public List<Message> getMessagesBetweenUsers(String currentUsername, String otherUsername) {
+        User currentUser = customUserDetailsService.getUserByUsername(currentUsername);
+        User otherUser = customUserDetailsService.getUserByUsername(otherUsername);
+        return messageRepository.findMessagesBetweenUsers(currentUser.getId(), otherUser.getId());
+    }
+}

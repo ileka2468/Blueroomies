@@ -1,31 +1,27 @@
 package edu.depaul.cdm.se452.rfa.messaging.entity;
 
 import edu.depaul.cdm.se452.rfa.authentication.entity.User;
-import edu.depaul.cdm.se452.rfa.roomate.entity.RoommateMatch;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import java.time.LocalDateTime;
 
-@Getter
-@Setter
+@Data
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "messages", schema = "public")
 public class Message {
     @Id
     @ColumnDefault("nextval('messages_message_id_seq')")
     @Column(name = "message_id", nullable = false)
     private Integer id;
-
-    @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "match_id", nullable = false)
-    private RoommateMatch match;
 
     @Size(max = 500)
     @NotNull
@@ -43,5 +39,8 @@ public class Message {
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "receiver_id", nullable = false)
     private User receiver;
+
+    @NotNull
+    private LocalDateTime timestamp;
 
 }

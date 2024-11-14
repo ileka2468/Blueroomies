@@ -1,7 +1,6 @@
 package edu.depaul.cdm.se452.rfa.roomate.entity;
 
 import edu.depaul.cdm.se452.rfa.authentication.entity.User;
-import edu.depaul.cdm.se452.rfa.messaging.entity.Message;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -11,8 +10,7 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.LinkedHashSet;
-import java.util.Set;
+
 
 @Getter
 @Setter
@@ -45,9 +43,20 @@ public class RoommateMatch {
     @Column(name = "match_ts", nullable = false)
     private LocalDate matchTs;
 
-    @OneToMany(mappedBy = "match")
-    private Set<Message> messages = new LinkedHashSet<>();
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
+        RoommateMatch that = (RoommateMatch) o;
+
+        return id != null && id.equals(that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
+    }
     @Override
     public String toString() {
         return "RoommateMatch{" +

@@ -14,6 +14,6 @@ public interface RoommateMatchesRepository extends JpaRepository<RoommateMatch, 
     public RoommateMatch findRoommateMatchById(int id);
     @Query("SELECT rm FROM RoommateMatch rm WHERE rm.userId1 = :user OR rm.userId2 = :user")
     List<RoommateMatch> findMatchesByUser(@Param("user") User user);
-    List<RoommateMatch> findByUserId(int userId);
+
 }
 

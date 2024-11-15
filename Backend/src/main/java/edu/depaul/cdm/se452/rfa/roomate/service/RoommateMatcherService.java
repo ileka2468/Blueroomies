@@ -1,17 +1,11 @@
 package edu.depaul.cdm.se452.rfa.roomate.service;
 
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.depaul.cdm.se452.rfa.authentication.entity.User;
 import edu.depaul.cdm.se452.rfa.profileManagement.entity.Profile;
-import edu.depaul.cdm.se452.rfa.profileManagement.service.ProfileService;
-import edu.depaul.cdm.se452.rfa.roomate.entity.RoommateMatch;
-import edu.depaul.cdm.se452.rfa.roomate.repository.RoommateMatchesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * The Roommate Matcher Service is a service class for the spring framework that implements the
@@ -25,12 +19,8 @@ import java.util.stream.Collectors;
 @Service
 public class RoommateMatcherService {
 
-    private final RoommateMatchesRepository roommateMatchesRepository;
     private double[] weights;
     private final MatchStorageService matchStorageService;
-
-    @Autowired
-    private ProfileService profileService;
 
     /**
      * Constructor takes in the MatchStorageService as a parameter.
@@ -38,9 +28,8 @@ public class RoommateMatcherService {
      * @param matchStorageService   Service for storing matches.
      */
     @Autowired
-    public RoommateMatcherService(MatchStorageService matchStorageService, RoommateMatchesRepository roommateMatchesRepository) {
+    public RoommateMatcherService(MatchStorageService matchStorageService) {
         this.matchStorageService = matchStorageService;
-        this.roommateMatchesRepository = roommateMatchesRepository;
     }
 
     /**
@@ -60,10 +49,6 @@ public class RoommateMatcherService {
      * each filter takes in a list of profiles parameter derived from the previous filter
      *
      */
-
-    private Optional<Profile> getMatchedProfile(int userId) {
-        return profileService.getProfileById(userId);
-    }
 
     /**
      * Protected method for checking gender compatibilities between two profiles.
@@ -377,50 +362,23 @@ public class RoommateMatcherService {
     }
 
     /**
-     * Method for retrieving list of matches in Json format, used for front end display.
-     * @param userId    Authenticated user's id.
-     * @return          String of Json matches.
+     * Returns a double[] that holds weights of the current profile [user's] preferences.
+     * <p>
+     * TODO: not immediately needed, but nice to have ready for other stuff.
+     *
+     * @param profile   get weights from preferences json
      */
-    public String findMatchesForUser(int userId) {
-        List<RoommateMatch> matches = roommateMatchesRepository.findByUserId(userId);
-        List<Map<String, Object>> jsonMatchesList = new ArrayList<>();
+    private void getWeights(Profile profile) {
+        // utilize json parser to get double[] weights and assign to weights;
+    }
 
-//        Map<String, Object> jsonMatches = new HashMap<>();
-        for (RoommateMatch match : matches) {
-            int matchedUserId = match.getUserId2().getId();
-            Profile user2Profile = profileService.getProfileByUserId(matchedUserId);
-
-            // skip match if no profile
-            if (user2Profile == null) {
-                continue;
-            }
-            Map<String, Object> user2Characteristics = user2Profile.getCharacteristics();
-
-            Map<String, Object> jsonMatch = new HashMap<>();
-
-            Map<String, Object> profileJson = new HashMap<>();
-            for (Map.Entry<String, Object> entry : user2Characteristics.entrySet()) {
-                profileJson.put(entry.getKey(), entry.getValue());
-            }
-
-            jsonMatch.put("user_id", matchedUserId);
-            jsonMatch.put("match_score", match.getMatchScore());
-            jsonMatch.put("time_stamp", match.getMatchTs());
-            jsonMatch.put("profile", profileJson);
-
-            jsonMatchesList.add(jsonMatch);
-        };
-
-        Map<String, Object> response = new HashMap<>();
-        response.put("matches", jsonMatchesList);
-
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            String jsonString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(response);
-            return jsonString;
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-            return "{}";
-        }
+    /**
+     * Returns a Map<String, Object> of normalized preferences.
+     * <p>
+     * TODO: may need if we decide to add more filtering criteria.
+     *
+     * @param preferences   raw preferences value before it is normalized for cases such as booleans and strings.
+     */
+    private void normalizePreferences(Map<String, Object> preferences) {
     }
 }

@@ -9,7 +9,7 @@ import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -46,6 +46,6 @@ public class Agreement {
     private Integer status;
 
     @Column(name = "date_sent")
-    private Instant dateSent;
+    private LocalDateTime dateSent;
 
 }

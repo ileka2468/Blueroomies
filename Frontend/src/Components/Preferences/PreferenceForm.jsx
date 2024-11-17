@@ -7,6 +7,7 @@ import SliderPref from "./SliderPref.jsx";
 
 const PreferencesForm = () => {
   const [userData] = useUser();
+  console.log(userData);
   const [preferences, setPreferences] = useState({
     genderPreference: "",
     smokingPreference: "",
@@ -46,19 +47,13 @@ const PreferencesForm = () => {
     setMessage("");
 
     const token = localStorage.getItem("accessToken");
-    const response = await apiClient
-      .put(
-        `${import.meta.env.VITE_API_URL}/preferences/${userData.id}`, // TODO this url wont work
-        preferences
-      )
-      .then((response) => {
-        console.log("Access Token before submitting:", token);
-        console.log("Preferences updated", response);
-        setButtonText("Preferences Submitted Successfully");
-      })
-      .catch((error) => {
-        console.error("Error saving preferences:", error);
-      });
+    const env = import.meta.env.VITE_NODE_ENV;
+
+    const response = await apiClient.put(
+      "/preferences/save", // TODO this url wont work
+      preferences
+    );
+    console.log(response);
   };
 
   return (

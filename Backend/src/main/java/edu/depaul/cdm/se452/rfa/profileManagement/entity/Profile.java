@@ -1,5 +1,4 @@
 package edu.depaul.cdm.se452.rfa.profileManagement.entity;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import edu.depaul.cdm.se452.rfa.authentication.entity.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -27,7 +26,6 @@ public class Profile {
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "user_id", nullable = false)
-    @JsonIgnore
     private User user;
 
     @NotNull

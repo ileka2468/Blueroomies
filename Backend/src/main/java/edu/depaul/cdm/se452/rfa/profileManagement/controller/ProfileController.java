@@ -1,6 +1,7 @@
-package edu.depaul.cdm.se452.rfa.profilemanagement.controller;
-import edu.depaul.cdm.se452.rfa.profilemanagement.entity.Profile;
-import edu.depaul.cdm.se452.rfa.profilemanagement.service.ProfileService;
+package edu.depaul.cdm.se452.rfa.profileManagement.controller;
+import edu.depaul.cdm.se452.rfa.authentication.entity.User;
+import edu.depaul.cdm.se452.rfa.profileManagement.entity.Profile;
+import edu.depaul.cdm.se452.rfa.profileManagement.service.ProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

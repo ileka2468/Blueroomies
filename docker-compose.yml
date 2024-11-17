@@ -6,7 +6,7 @@ services:
     image: ileka2468/rfa-backend:latest
     deploy:
       mode: replicated
-      replicas: 5
+      replicas: 25
     environment:
       JWT_SECRET: ${JWT_SECRET}
       JWT_EXPIRATION_IN_MS: ${JWT_EXPIRATION_IN_MS}

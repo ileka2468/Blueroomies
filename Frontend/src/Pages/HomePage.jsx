@@ -78,9 +78,10 @@ const HomePage = () => {
         {/* Centered Text Over Hero */}
         <div className="absolute inset-0 flex items-center justify-center">
           <h1
-            className="text-4xl font-bold text-center"
+            className="text-4xl font-extrabold text-center"
             style={{
               fontFamily: 'Lora', 
+              fontWeight: '900',
               color: '#161717',
               textShadow: '0 0 5px rgba(255, 255, 255, 0.7), 0 0 10px rgba(255, 255, 255, 0.5)',
               animation: 'textMove 2s ease-in-out infinite alternate'
@@ -91,22 +92,18 @@ const HomePage = () => {
         </div>
       </div>
   
-      <div className="flex flex-col items-center mt-8 p-4 text-center">
-        <h2 className="text-xl font-bold mb-4">About RoommateFinder</h2>
+      {/* About BlueRoomies Section with Blue Background, directly under Hero Image */}
+      <div className="flex flex-col items-center w-full bg-blue-500 text-center p-8" style={{ backgroundColor: '#9bb3e6' }}>
+        <h3 className="text-2xl font-bold mb-4">About BlueRoomies</h3>
         <p className="mb-4">
-          At <strong>RoommateFinder</strong>, we believe that finding the perfect roommate should 
+          At <strong>BlueRoomies</strong>, we believe that finding the perfect roommate should 
           be a seamless and enjoyable experience. Our mission is to connect individuals based on 
           their preferences, lifestyles, and personalities to create harmonious living arrangements.
         </p>
-        <p className="mb-4">
-          <strong>Join Us</strong><br />
-          Want to see how easy it is to find your ideal roommate with RoommateFinder?<br />
-          Sign up today and take the first step towards a more fulfilling living experience!
-        </p>
       </div>
-      
+
       {/* Steps Section */}
-      <div className="flex flex-col items-center mt-8" ref={stepsRef}>
+      <div className="flex flex-col items-center p-8" ref={stepsRef}>
         <h2 className="text-xl font-bold mb-4" style={{ fontFamily: 'Rubik' }}>How It Works:</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full max-w-4xl">
           {steps.map((step, index) => (
@@ -123,10 +120,20 @@ const HomePage = () => {
         </div>
       </div>
 
+      {/* Separate Join Us Section */}
+      <div className="flex flex-col items-center w-full bg-blue-500 text-center p-8" style={{ backgroundColor: '#EBE2D6' }}>
+        <p className="mb-4 text-center">
+          <strong>Join Us</strong><br />
+          Want to see how easy it is to find your ideal roommate with BlueRoomies?<br />
+          Sign up today and take the first step towards a more fulfilling living experience!
+        </p>
+      </div>
+      
+      
       {/* Google Fonts Import */}
       <style>
         {`
-          @import url('https://fonts.googleapis.com/css2?family=Lora:wght@400&family=Rubik:wght@300;400;500;600;700&display=swap');
+          @import url('https://fonts.googleapis.com/css2?family=Lora:wght@500&family=Rubik:wght@300;400;500;600;700&display=swap');
         `}
       </style>
     </div>

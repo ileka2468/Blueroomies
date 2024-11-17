@@ -11,18 +11,21 @@ import { AxiosProvider } from "./Security/axios/AxiosProvider.jsx";
 import Profile from "./Components/Profile/Profile.jsx";
 import HomePage from "./Pages/HomePage.jsx";
 import Dashboard from "./Pages/Dashboard.jsx";
+import PastMatches from "./Pages/PastMatches.jsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Root />,
-    children: [{ path: "find-roommates", element: <FindRoommatesPage /> },
-            { path: "messages", element: <MessagesPage />},
-            { path: "profile", element: <Profile />},
-            { path: "", element: <HomePage />},
-            { path: "agreements", element: <AgreementsPage />},
-            { path: "notifications", element: <NotificationsPage />},
-            { path: "dashboard", element: <Dashboard /> }
+    children: [
+      { path: "find-roommates", element: <FindRoommatesPage /> },
+      { path: "messages", element: <MessagesPage /> },
+      { path: "profile", element: <Profile /> },
+      { path: "", element: <HomePage /> },
+      { path: "agreements", element: <AgreementsPage /> },
+      { path: "notifications", element: <NotificationsPage /> },
+      { path: "dashboard", element: <Dashboard /> },
+      { path: "past-matches", element: <PastMatches /> },
     ],
   },
 ]);

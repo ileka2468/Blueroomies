@@ -362,23 +362,52 @@ public class RoommateMatcherService {
     }
 
     /**
-     * Returns a double[] that holds weights of the current profile [user's] preferences.
-     * <p>
-     * TODO: not immediately needed, but nice to have ready for other stuff.
-     *
-     * @param profile   get weights from preferences json
+     * Method for retrieving list of matches in Json format, used for front end display.
+     * @param user    Authenticated user's user object.
+     * @return          String of Json matches.
      */
-    private void getWeights(Profile profile) {
-        // utilize json parser to get double[] weights and assign to weights;
-    }
+    public String findMatchesForUser(User user) {
+        List<RoommateMatch> matches = roommateMatchesRepository.findMatchesByUser(user);
+        List<Map<String, Object>> jsonMatchesList = new ArrayList<>();
 
-    /**
-     * Returns a Map<String, Object> of normalized preferences.
-     * <p>
-     * TODO: may need if we decide to add more filtering criteria.
-     *
-     * @param preferences   raw preferences value before it is normalized for cases such as booleans and strings.
-     */
-    private void normalizePreferences(Map<String, Object> preferences) {
+//        Map<String, Object> jsonMatches = new HashMap<>();
+        for (RoommateMatch match : matches) {
+            int matchedUserId = match.getUserId2().getId();
+            Profile user2Profile = profileService.getProfileByUserId(matchedUserId);
+
+            // skip match if no profile
+            if (user2Profile == null) {
+                continue;
+            }
+            Map<String, Object> user2Characteristics = user2Profile.getCharacteristics();
+
+            Map<String, Object> jsonMatch = new HashMap<>();
+
+            Map<String, Object> profileJson = new HashMap<>();
+            for (Map.Entry<String, Object> entry : user2Characteristics.entrySet()) {
+                profileJson.put(entry.getKey(), entry.getValue());
+            }
+
+            jsonMatch.put("user_id", matchedUserId);
+            jsonMatch.put("match_score", match.getMatchScore());
+            jsonMatch.put("time_stamp", match.getMatchTs());
+            jsonMatch.put("profile", profileJson);
+
+            jsonMatchesList.add(jsonMatch);
+        };
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("matches", jsonMatchesList);
+
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.findAndRegisterModules();
+        try {
+            String jsonString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(response);
+            return jsonString;
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            return "{}";
+        }
+
     }
 }

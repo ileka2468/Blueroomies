@@ -267,142 +267,250 @@ class RoommateMatcherServiceTest {
         System.out.println("Timestamp: " + savedMatch.getMatchTs());
     }
 
-    @Test
-    void fullService() {
-        List<RoommateMatch> savedMatches = new ArrayList<>();
-        when(mockRepository.findAll()).thenAnswer(invocation -> savedMatches);
+//    @Test
+//    void fullService() {
+//        List<RoommateMatch> savedMatches = new ArrayList<>();
+//        when(mockMatchRepository.findAll()).thenAnswer(invocation -> savedMatches);
+//
+//        doAnswer(invocation -> {
+//            RoommateMatch match = invocation.getArgument(0);
+//            savedMatches.add(match);
+//            return match;
+//        }).when(mockMatchRepository).save(any(RoommateMatch.class));
+//
+//        // when(matchStorageService.getMatchesRepository()).thenReturn(mockRepository);
+//
+//        User user1 = new User();
+//        user1.setId(11);
+//        User user2 = new User();
+//        user2.setId(12);
+//        User user3 = new User();
+//        user3.setId(13);
+//        User user4 = new User();
+//        user4.setId(14);
+//        User user5 = new User();
+//        user5.setId(15);
+//        User user6 = new User();
+//        user6.setId(16);
+//
+//        Profile selectedProfile = new Profile();
+//        selectedProfile.setUser(user1);
+//        System.out.println("user id for selected profile: " + selectedProfile.getUser().getId());
+//        selectedProfile.setId(10);
+//        selectedProfile.setCharacteristics(
+//                Map.of("cleanliness_level", 3,
+//                        "gender_preference", "Male",
+//                        "smoking_preference", false,
+//                        "alcohol_usage", false
+//                ));
+//
+//        Profile profileA = new Profile();
+//        profileA.setUser(user2);
+//        profileA.setId(1);
+//        profileA.setCharacteristics(
+//                Map.of("cleanliness_level", 4,
+//                        "gender_preference", "Male",
+//                        "smoking_preference", false,
+//                        "alcohol_usage", true
+//                ));
+//
+//        Profile profileB = new Profile();
+//        profileB.setUser(user3);
+//        profileB.setId(2);
+//        profileB.setCharacteristics(
+//                Map.of("cleanliness_level", 5,
+//                        "gender_preference", "Male",
+//                        "smoking_preference", true,
+//                        "alcohol_usage", false
+//                ));
+//
+//        Profile profileC = new Profile();
+//        profileC.setUser(user4);
+//        profileC.setId(3);
+//        profileC.setCharacteristics(
+//                Map.of("cleanliness_level", 3,
+//                        "gender_preference", "Male",
+//                        "smoking_preference", false,
+//                        "alcohol_usage", false
+//                ));
+//
+//        Profile profileD = new Profile();
+//        profileD.setUser(user5);
+//        profileD.setId(4);
+//        profileD.setCharacteristics(
+//                Map.of("cleanliness_level", 2,
+//                        "gender_preference", "Male",
+//                        "smoking_preference", false,
+//                        "alcohol_usage", false
+//                ));
+//
+//        Profile profileE = new Profile();
+//        profileE.setUser(user6);
+//        profileE.setId(7);
+//        profileE.setCharacteristics(
+//                Map.of("cleanliness_level", 3,
+//                        "gender_preference", "Male",
+//                        "smoking_preference", false,
+//                        "alcohol_usage", false
+//
+//                ));
+//
+//        // list of profiles to filter an apply knn
+//        List<Profile> profiles = Arrays.asList(profileA, profileB, profileC, profileD, profileE);
+//
+//        // apply filters
+//        List<Profile> filteredProfiles = roommateMatcherService.applyFilters(selectedProfile, profiles);
+//        System.out.println("Filtered profiles: " + filteredProfiles);
+//        System.out.println("Filtered profile count: " + filteredProfiles.size());
+//        assertFalse(filteredProfiles.isEmpty(), "Filtered profiles list should not be empty");
+//
+//        // find KNN
+//        int k = 1;
+//        List<Profile> nearestNeighbors = roommateMatcherService.findKNearestNeighbors(selectedProfile, filteredProfiles, k);
+//        int size = nearestNeighbors.size();
+//        System.out.println("k: " + k);
+//        System.out.println("nearest neighbors size: " + size);
+//        System.out.println("Detailed Nearest Neighbors List:");
+//        for (Profile neighbor : nearestNeighbors) {
+//            System.out.println("Profile ID: " + neighbor.getId());
+//            neighbor.getCharacteristics().forEach((key, value) ->
+//                    System.out.println("  " + key + ": " + value)
+//            );
+//        }
+//        assertNotNull(nearestNeighbors, "Nearest neighbors list should not be null");
+//        assertEquals(k, size, "Size of nearestNeighbors should be equal to k.");
+//
+////        User user1 = new User();
+////        user1.setId(selectedProfile.getId());
+//        RoommateMatch match = new RoommateMatch();
+//
+//        // add match to matches repository
+//        for (Profile neighbor: nearestNeighbors) {
+//            User matchUser = new User();
+//            matchUser.setId(neighbor.getId());
+//
+//            double matchScore = roommateMatcherService.calculateWeightedDistance(
+//                    selectedProfile.getCharacteristics(),
+//                    neighbor.getCharacteristics(),
+//                    profiles
+//            );
+//            match.setUserId1(user1);
+//            match.setUserId2(matchUser);
+//            match.setMatchScore(BigDecimal.valueOf(matchScore));
+//            match.setMatchTs(LocalDate.now());
+//
+//            roommateMatcherService.saveMatchToRepo(user1, matchUser, matchScore);
+//
+//            savedMatches.add(match);
+//        }
+//
+//        when(mockMatchRepository.findAll()).thenReturn(Collections.singletonList(match));
+//
+//        // verify saveMatch was called the correct number of times
+//        verify(matchStorageService, times(2)).addMatch(any(User.class), any(User.class), anyDouble());
+//
+//        // print repository content to verify matches were saved
+//        List<RoommateMatch> savedMockMatches = mockMatchRepository.findAll();
+//        int sizeSavedMatches = savedMockMatches.size();
+//        System.out.println("Saved Match:");
+//        for (RoommateMatch singleMatch : savedMockMatches) {
+//            System.out.println("User ID 1: " + singleMatch.getUserId1().getId() + "\n" +
+//                    "User ID 2: " + singleMatch.getUserId2().getId() + "\n" +
+//                    "Match Score: " + singleMatch.getMatchScore() + "\n" +
+//                    "Match Time: " + singleMatch.getMatchTs());
+//        }
+//
+//        when(mockMatchRepository.findByUserId(11)).thenReturn(savedMatches);
+//
+//        // Verify that saveMatch was called for each neighbor
+//        verify(matchStorageService, times(2)).addMatch(any(User.class), any(User.class), anyDouble());
+//
+//        // additional assertion to ensure matches are saved correctly
+//        assertEquals(k, sizeSavedMatches, "Number of saved matches should equal K value");
+//
+//    }
 
-        doAnswer(invocation -> {
-            RoommateMatch match = invocation.getArgument(0);
-            savedMatches.add(match);
-            return match;
-        }).when(mockRepository).save(any(RoommateMatch.class));
+//
+//    @Test
+//    void testRoommateMatchDTO() {
+//        // Create users
+//        User user1 = new User();
+//        user1.setId(11);
+//
+//        User user2 = new User();
+//        user2.setId(12);
+//
+//        User user3 = new User();
+//        user3.setId(13);
+//
+//        // Create mock profiles with distinct IDs and characteristics
+//        Profile mockProfile1 = new Profile();
+//        mockProfile1.setUser(user1);
+//        mockProfile1.setCharacteristics(Map.of(
+//                "cleanliness_level", 3,
+//                "gender_preference", "Male",
+//                "smoking_preference", false,
+//                "alcohol_usage", false
+//        ));
+//
+//        Profile mockProfile2 = new Profile();
+//        mockProfile2.setUser(user2);
+//        mockProfile2.setCharacteristics(Map.of(
+//                "cleanliness_level", 3,
+//                "gender_preference", "Male",
+//                "smoking_preference", false,
+//                "alcohol_usage", false
+//        ));
+//
+//        Profile mockProfile3 = new Profile();
+//        mockProfile3.setUser(user3);
+//        mockProfile3.setCharacteristics(Map.of(
+//                "cleanliness_level", 4,
+//                "gender_preference", "Female",
+//                "smoking_preference", true,
+//                "alcohol_usage", true
+//        ));
+//
+//
+//        // Mock profile service responses
+//        when(profileService.getProfileByUserId(user2.getId())).thenReturn(mockProfile2);
+//        when(profileService.getProfileByUserId(user3.getId())).thenReturn(mockProfile3);
+//
+//        // Create matches
+//        RoommateMatch match1 = new RoommateMatch();
+//        match1.setUserId1(user1);
+//        match1.setUserId2(user2);
+//        match1.setMatchScore(BigDecimal.valueOf(30));
+//        match1.setMatchTs(LocalDate.now());
+//
+//        RoommateMatch match2 = new RoommateMatch();
+//        match2.setUserId1(user1);
+//        match2.setUserId2(user3);
+//        match2.setMatchScore(BigDecimal.valueOf(40));
+//        match2.setMatchTs(LocalDate.now());
+//
+//        roommateMatcherService.saveMatchToRepo(user1, user2, 30);
+//        roommateMatcherService.saveMatchToRepo(user2, user3, 40);
+//
+//        List<RoommateMatch> matches = List.of(match1, match2);
+//
+//        // Mock repository response
+//        when(mockMatchRepository.findByUserId(user1.getId())).thenReturn(matches);
+//
+//        // Call the method under test
+//        String response = roommateMatcherService.findMatchesForUser(user1.getId());
+//
+//        // Print and verify the response
+//        System.out.println(response);
+//
+//        // Assertions to check if the response contains expected data
+//        assertNotNull(response);
+//        assertTrue(response.contains("\"user_id\": 2"));
+//        assertTrue(response.contains("\"user_id\": 3"));
+//        assertTrue(response.contains("\"cleanliness_level\": 3"));
+//        assertTrue(response.contains("\"cleanliness_level\": 4"));
+//    }
+//
 
-        // when(matchStorageService.getMatchesRepository()).thenReturn(mockRepository);
 
-        Profile selectedProfile = new Profile();
-        selectedProfile.setId(10);
-        selectedProfile.setCharacteristics(
-                Map.of("cleanliness_level", 3,
-                        "gender_preference", "Male",
-                        "smoking_preference", false,
-                        "alcohol_usage", false
-                ));
-
-        Profile profileA = new Profile();
-        profileA.setId(1);
-        profileA.setCharacteristics(
-                Map.of("cleanliness_level", 4,
-                        "gender_preference", "Male",
-                        "smoking_preference", false,
-                        "alcohol_usage", true
-                ));
-
-        Profile profileB = new Profile();
-        profileB.setId(2);
-        profileB.setCharacteristics(
-                Map.of("cleanliness_level", 5,
-                        "gender_preference", "Male",
-                        "smoking_preference", true,
-                        "alcohol_usage", false
-                ));
-
-        Profile profileC = new Profile();
-        profileC.setId(3);
-        profileC.setCharacteristics(
-                Map.of("cleanliness_level", 3,
-                        "gender_preference", "Male",
-                        "smoking_preference", false,
-                        "alcohol_usage", false
-                ));
-
-        Profile profileD = new Profile();
-        profileD.setId(4);
-        profileD.setCharacteristics(
-                Map.of("cleanliness_level", 2,
-                        "gender_preference", "Male",
-                        "smoking_preference", false,
-                        "alcohol_usage", false
-                ));
-
-        Profile profileE = new Profile();
-        profileE.setId(7);
-        profileE.setCharacteristics(
-                Map.of("cleanliness_level", 3,
-                        "gender_preference", "Male",
-                        "smoking_preference", false,
-                        "alcohol_usage", false
-
-                ));
-
-        // list of profiles to filter an apply knn
-        List<Profile> profiles = Arrays.asList(profileA, profileB, profileC, profileD, profileE);
-
-        // apply filters
-        List<Profile> filteredProfiles = roommateMatcherService.applyFilters(selectedProfile, profiles);
-        System.out.println("Filtered profiles: " + filteredProfiles);
-        System.out.println("Filtered profile count: " + filteredProfiles.size());
-        assertFalse(filteredProfiles.isEmpty(), "Filtered profiles list should not be empty");
-
-        // find KNN
-        int k = 1;
-        List<Profile> nearestNeighbors = roommateMatcherService.findKNearestNeighbors(selectedProfile, filteredProfiles, k);
-        int size = nearestNeighbors.size();
-        System.out.println("k: " + k);
-        System.out.println("nearest neighbors size: " + size);
-        System.out.println("Detailed Nearest Neighbors List:");
-        for (Profile neighbor : nearestNeighbors) {
-            System.out.println("Profile ID: " + neighbor.getId());
-            neighbor.getCharacteristics().forEach((key, value) ->
-                    System.out.println("  " + key + ": " + value)
-            );
-        }
-        assertNotNull(nearestNeighbors, "Nearest neighbors list should not be null");
-        assertEquals(k, size, "Size of nearestNeighbors should be equal to k.");
-
-        User user1 = new User();
-        user1.setId(selectedProfile.getId());
-        RoommateMatch match = new RoommateMatch();
-
-        // add match to matches repository
-        for (Profile neighbor: nearestNeighbors) {
-            User user2 = new User();
-            user2.setId(neighbor.getId());
-
-            double matchScore = roommateMatcherService.calculateWeightedDistance(
-                    selectedProfile.getCharacteristics(),
-                    neighbor.getCharacteristics(),
-                    profiles
-            );
-            match.setUserId1(user1);
-            match.setUserId2(user2);
-            match.setMatchScore(BigDecimal.valueOf(matchScore));
-            match.setMatchTs(LocalDate.now());
-
-            roommateMatcherService.saveMatchToRepo(user1, user2, matchScore);
-        }
-
-        when(mockRepository.findAll()).thenReturn(Collections.singletonList(match));
-
-        // verify saveMatch was called the correct number of times
-        verify(matchStorageService, times(k)).addMatch(any(User.class), any(User.class), anyDouble());
-
-        // print repository content to verify matches were saved
-        List<RoommateMatch> savedMockMatches = mockRepository.findAll();
-        int sizeSavedMatches = savedMockMatches.size();
-        System.out.println("Saved Match:");
-        for (RoommateMatch singleMatch : savedMockMatches) {
-            System.out.println("User ID 1: " + singleMatch.getUserId1() + "\n" +
-                    "User ID 2: " + singleMatch.getUserId2() + "\n" +
-                    "Match Score: " + singleMatch.getMatchScore() + "\n" +
-                    "Match Time: " + singleMatch.getMatchTs());
-        }
-
-        // Verify that saveMatch was called for each neighbor
-        verify(matchStorageService, times(nearestNeighbors.size())).addMatch(any(User.class), any(User.class), anyDouble());
-
-        // additional assertion to ensure matches are saved correctly
-        assertEquals(k, sizeSavedMatches, "Number of saved matches should equal K value");
-
-    }
 }

@@ -2,6 +2,11 @@ import { useEffect, useState } from "react";
 import useUser from "../../Security/hooks/useUser";
 import apiClient from "../../Security/axios/apiClient";
 import EditProfile from "./EditProfile";
+import { Button, Card } from "@nextui-org/react";  // Removed Loading
+
+const CustomLoadingSpinner = () => {
+    return <div className="loading-spinner">Loading...</div>;
+};
 
 const Profile = () => {
     const [userData] = useUser();
@@ -40,38 +45,42 @@ const Profile = () => {
     };
 
     if (error) {
-        return <p>Error loading profile: {error}</p>;
+        return <p>Error loading profile: {error}</p>;  // Error message
     }
 
     if (isLoading) {
-        return <p>Loading profile data...</p>;
+        return <CustomLoadingSpinner />; // Custom Loading spinner
     }
 
     return (
-        <div style={{ padding: '20px', maxWidth: '600px', margin: '0 auto' }}>
-            <h2>Profile Page</h2>
-            {isEditing ? (
-                <EditProfile
-                    profileData={profileData}
-                    onUpdate={handleProfileUpdate}
-                    onCancel={handleEditToggle}
-                />
-            ) : (
-                <div style={{ border: '1px solid #ccc', padding: '20px', borderRadius: '10px', background: '#f9f9f9' }}>
-                    <h3>User Information</h3>
-                    {profileData ? (
-                        <>
-                            <p><strong>Username:</strong> {userData.username}</p>
-                            <p><strong>First Name:</strong> {userData.firstname}</p>
-                            <p><strong>Last Name:</strong> {userData.lastname}</p>
-                            <p><strong>Bio:</strong> {profileData.bio || "No bio available."}</p>
-                        </>
-                    ) : (
-                        <p>No profile data available.</p>
-                    )}
-                    <button onClick={handleEditToggle}>Edit</button> {/* Edit button */}
-                </div>
-            )}
+        <div style={{ padding: '20px', maxWidth: '800px', margin: '0 auto' }}>
+            <Card css={{ padding: '20px', borderRadius: '10px' }}>
+                <h2 style={{ textAlign: 'center' }}>Profile Page</h2>
+                {isEditing ? (
+                    <EditProfile
+                        profileData={profileData}
+                        onUpdate={handleProfileUpdate}
+                        onCancel={handleEditToggle}
+                    />
+                ) : (
+                    <div>
+                        {profileData ? (
+                            <div>
+                                <h3>User Information</h3>
+                                <p><strong>Username:</strong> {userData.username}</p>
+                                <p><strong>First Name:</strong> {userData.firstName}</p>
+                                <p><strong>Last Name:</strong> {userData.lastName}</p>
+                                <p><strong>Bio:</strong> {profileData.bio || "No bio available."}</p>
+                            </div>
+                        ) : (
+                            <p>No profile data available.</p>
+                        )}
+                        <Button onClick={handleEditToggle} css={{ marginTop: '20px' }} color="primary">
+                            Edit Profile
+                        </Button>
+                    </div>
+                )}
+            </Card>
         </div>
     );
 };

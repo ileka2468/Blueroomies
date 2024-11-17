@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -64,6 +66,33 @@ public class ProfileController {
     public ResponseEntity<Void> deleteProfile(@PathVariable Integer profileId) {
         profileService.deleteProfile(profileId);
         return ResponseEntity.noContent().build(); // Return 204 No Content
+    }
+
+    @GetMapping("/user-details/{userId}")
+    public ResponseEntity<Map<String, String>> getUserDetails(@PathVariable Integer userId) {
+        Profile profile = profileService.getProfileByUserId(userId);
+        User user = profile != null ? profile.getUser() : null;
+
+        if (user != null && profile != null) {
+            Map<String, String> details = new HashMap<>();
+            details.put("firstName", user.getFirstName());
+            details.put("lastName", user.getLastName());
+            details.put("pfp", profile.getPfpImage());
+            return ResponseEntity.ok(details);
+        }
+
+        return ResponseEntity.notFound().build();
+    }
+
+    @GetMapping("/characteristics/{userId}")
+    public ResponseEntity<Map<String, Object>> getUserCharacteristics(@PathVariable Integer userId) {
+        Profile profile = profileService.getProfileByUserId(userId);
+
+        if (profile != null && profile.getCharacteristics() != null) {
+            return ResponseEntity.ok(profile.getCharacteristics());
+        }
+
+        return ResponseEntity.notFound().build();
     }
 
 }

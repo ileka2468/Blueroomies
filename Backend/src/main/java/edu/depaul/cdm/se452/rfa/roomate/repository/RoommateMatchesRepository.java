@@ -11,9 +11,11 @@ import java.util.List;
 
 @Repository
 public interface RoommateMatchesRepository extends JpaRepository<RoommateMatch, Integer> {
-    public RoommateMatch findRoommateMatchById(int id);
+    RoommateMatch findRoommateMatchById(int id);
+
     @Query("SELECT rm FROM RoommateMatch rm WHERE rm.userId1 = :user OR rm.userId2 = :user")
     List<RoommateMatch> findMatchesByUser(@Param("user") User user);
 
+//    List<RoommateMatch> findByUserId(int userId);
 }
 

@@ -38,7 +38,7 @@ public class PreferencesService {
             // Create new preferences for the user
             Preference newPreference = new Preference();
             newPreference.setUserId(userId); // Lombok-generated setter
-            newPreference.setPrefCharacteristics(prefCharacteristics); // Lombok-generated setter
+            newPreference.setPrefCharacteristics(prefCharacteristics); // Lombok-generated setter (TODO use Preferences.toMap() to generate preferences, we shouldnt set db values directly from the frontend)
             return preferenceRepository.save(newPreference);
         }
     }

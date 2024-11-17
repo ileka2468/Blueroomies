@@ -378,11 +378,11 @@ public class RoommateMatcherService {
 
     /**
      * Method for retrieving list of matches in Json format, used for front end display.
-     * @param userId    Authenticated user's id.
+     * @param user    Authenticated user's user object.
      * @return          String of Json matches.
      */
-    public String findMatchesForUser(int userId) {
-        List<RoommateMatch> matches = roommateMatchesRepository.findByUserId(userId);
+    public String findMatchesForUser(User user) {
+        List<RoommateMatch> matches = roommateMatchesRepository.findMatchesByUser(user);
         List<Map<String, Object>> jsonMatchesList = new ArrayList<>();
 
 //        Map<String, Object> jsonMatches = new HashMap<>();
@@ -415,6 +415,7 @@ public class RoommateMatcherService {
         response.put("matches", jsonMatchesList);
 
         ObjectMapper mapper = new ObjectMapper();
+        mapper.findAndRegisterModules();
         try {
             String jsonString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(response);
             return jsonString;

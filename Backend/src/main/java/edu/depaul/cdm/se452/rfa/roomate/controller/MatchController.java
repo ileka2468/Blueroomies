@@ -1,5 +1,7 @@
 package edu.depaul.cdm.se452.rfa.roomate.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.depaul.cdm.se452.rfa.authentication.entity.User;
 import edu.depaul.cdm.se452.rfa.authentication.security.JwtTokenProvider;
 import edu.depaul.cdm.se452.rfa.authentication.service.CustomUserDetailsService;
@@ -48,9 +50,6 @@ public class MatchController {
 
     @PostMapping("/run")
     public ResponseEntity<?> runMatchingAlgorithm(HttpServletRequest request) {
-
-        // matcher service needs all the profiles (fetched from repository or postgresql, maybe)
-        // use static method from RoommateMatcherService to apply filters
         String username = jwtTokenProvider.getUsernameFromJWT(jwtTokenProvider.getJwtFromRequest(request));
         User user = userRepository.findByUsername(username).orElse(null);
 
@@ -58,25 +57,73 @@ public class MatchController {
             return ResponseEntity.status(401).build();
         }
 
-         List<Profile> allProfiles = profileRepository.findAll();
-//         log.info(allProfiles.toString());
-         Profile currentProfile = profileRepository.findProfileByUser(user).orElse(null);
+        List<Profile> allProfiles = profileRepository.findAll();
+        Profile currentProfile = profileRepository.findProfileByUser(user).orElse(null);
 
-         if (currentProfile == null) {
-             return ResponseEntity.status(401).build();
-         }
-//         log.info(String.valueOf(currentProfile));
+        if (currentProfile == null) {
+            return ResponseEntity.status(401).build();
+        }
 
-         // apply filters and get corresponding profiles
-         List<Profile> filteredProfiles = roommateMatcherService.applyFilters(currentProfile, allProfiles);
-         log.info(filteredProfiles.toString());
-         int numOfMatches = 5;
-         List<Profile> topMatches = roommateMatcherService.findKNearestNeighbors(currentProfile, filteredProfiles, numOfMatches);
-         log.info(topMatches.toString());
+        // apply filters and get corresponding profiles
+        List<Profile> filteredProfiles = roommateMatcherService.applyFilters(currentProfile, allProfiles);
+        log.info(filteredProfiles.toString());
+        int numOfMatches = 5;
+        List<Profile> topMatches = roommateMatcherService.findKNearestNeighbors(currentProfile, filteredProfiles, numOfMatches);
+        log.info(topMatches.toString());
 
-         String response = roommateMatcherService.findMatchesForUser(user.getId());
+        String response = convertCurrentRunToJson(topMatches, user);
+        return ResponseEntity.ok(response);
+    }
 
-         return ResponseEntity.ok(response);
+    private String convertCurrentRunToJson(List<Profile> topMatches, User currentUser) {
+        List<Map<String, Object>> jsonMatchesList = new ArrayList<>();
+
+        for (Profile matchedProfile : topMatches) {
+            User matchedUser = matchedProfile.getUser();
+
+            // Skip if we're looking at the current user's profile
+            if (matchedUser.getId().equals(currentUser.getId())) {
+                continue;
+            }
+
+            // Get the most recent match record for these users
+            List<RoommateMatch> matches = roommateMatchesRepository.findMatchesByUser(currentUser);
+            Optional<RoommateMatch> latestMatch = matches.stream()
+                    .filter(m -> (m.getUserId1().equals(currentUser) && m.getUserId2().equals(matchedUser)) ||
+                            (m.getUserId1().equals(matchedUser) && m.getUserId2().equals(currentUser)))
+                    .max(Comparator.comparing(RoommateMatch::getMatchTs));
+
+            if (latestMatch.isPresent()) {
+                Map<String, Object> jsonMatch = new HashMap<>();
+                RoommateMatch match = latestMatch.get();
+
+                jsonMatch.put("user_id", matchedUser.getId());
+                jsonMatch.put("match_score", match.getMatchScore());
+                jsonMatch.put("time_stamp", match.getMatchTs());
+
+                // Add profile characteristics
+                Map<String, Object> profileJson = new HashMap<>();
+                Map<String, Object> characteristics = matchedProfile.getCharacteristics();
+                for (Map.Entry<String, Object> entry : characteristics.entrySet()) {
+                    profileJson.put(entry.getKey(), entry.getValue().toString());
+                }
+                jsonMatch.put("profile", profileJson);
+
+                jsonMatchesList.add(jsonMatch);
+            }
+        }
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("matches", jsonMatchesList);
+
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.findAndRegisterModules();
+        try {
+            return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(response);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            return "{}";
+        }
     }
 
     @GetMapping("/me")

@@ -127,7 +127,11 @@ const MessageBox = () => {
                 isLoading={loadingMatches}
                 isDisabled={loadingMatches}
               >
-                {matchdata.map((user) => (
+                {[
+                  ...new Map(
+                    matchdata.map((user) => [user.id, user]) // Map ensures unique `id` keys
+                  ).values(), // Extract unique users
+                ].map((user) => (
                   <SelectItem
                     key={user.id}
                     value={user.id}

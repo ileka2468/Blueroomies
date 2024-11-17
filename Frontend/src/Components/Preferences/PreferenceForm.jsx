@@ -3,6 +3,7 @@ import { Input, Button, Slider } from "@nextui-org/react";
 import axios from 'axios';
 import useUser from '../../Security/hooks/useUser.js';
 import apiClient from "../../Security/axios/apiClient.js";
+import SliderPref from "./SliderPref.jsx";
 
 
 const PreferencesForm = () => {
@@ -30,7 +31,7 @@ const PreferencesForm = () => {
         decoratingStyle: ''
     });
 
-    const [loading, setLoading] = useState(false);
+    const [buttonText, setButtonText] = useState('Submit Preferences');
     const [message, setMessage] = useState('');
 
     const handleChange = (e) => {
@@ -43,7 +44,6 @@ const PreferencesForm = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setLoading(true);
         setMessage('');
 
         
@@ -53,6 +53,7 @@ const PreferencesForm = () => {
         ).then(response => {
             console.log("Access Token before submitting:", token);
             console.log("Preferences updated", response);
+            setButtonText('Preferences Submitted Successfully');
             })
             .catch(error => {
             console.error("Error saving preferences:", error);
@@ -118,29 +119,21 @@ const PreferencesForm = () => {
                     <option value="no-preference">No Preference</option>
                 </select>
                 
-                <Slider
+                <SliderPref
                     name="cleanlinessLevel"
                     value={preferences.cleanlinessLevel}
-                    min={1}
-                    max={5}
-                    step={1}
                     onChange={(value) => setPreferences(prev => ({ ...prev, cleanlinessLevel: value }))}
                     label="Cleanliness Level"
                 />
-                <Slider
+                <SliderPref
                     name="noiseTolerance"
                     value={preferences.noiseTolerance}
-                    min={1}
-                    max={5}
-                    step={1}
                     onChange={(value) => setPreferences(prev => ({ ...prev, noiseTolerance: value }))}
                     label="Noise Tolerance"
                 />
-                <Slider
+                <SliderPref
                     name="hygiene"
                     value={preferences.hygiene}
-                    min={1}
-                    max={5}
                     onChange={(value) => setPreferences(prev => ({ ...prev, hygiene: value }))}
                     label="Hygiene Level"
                 />
@@ -157,7 +150,7 @@ const PreferencesForm = () => {
                     <option value="night-owl">Night Owl</option>
                     <option value="flexible">Flexible</option>
                 </select>
-                <Slider
+                <SliderPref
                     name="guestsVisitors"
                     value={preferences.guestsVisitors}
                     min={1}
@@ -165,7 +158,7 @@ const PreferencesForm = () => {
                     onChange={(value) => setPreferences(prev => ({ ...prev, guestsVisitors: value }))}
                     label="Guests/Visitors Tolerance"
                 />
-                <Slider
+                <SliderPref
                     name="workStudyFromHome"
                     value={preferences.workStudyFromHome}
                     min={1}
@@ -173,43 +166,33 @@ const PreferencesForm = () => {
                     onChange={(value) => setPreferences(prev => ({ ...prev, workStudyFromHome: value }))}
                     label="Work/Study from Home Preference"
                 />
-                <Slider
+                <SliderPref
                     name="petTolerance"
                     value={preferences.petTolerance}
-                    min={1}
-                    max={5}
                     onChange={(value) => setPreferences(prev => ({ ...prev, petTolerance: value }))}
                     label="Pet Tolerance"
                 />
-                <Slider
+                <SliderPref
                     name="sharedExpenses"
                     value={preferences.sharedExpenses}
-                    min={1}
-                    max={5}
                     onChange={(value) => setPreferences(prev => ({ ...prev, sharedExpenses: value }))}
                     label="Shared Expenses Preference"
                 />
-                <Slider
+                <SliderPref
                     name="studyHabits"
                     value={preferences.studyHabits}
-                    min={1}
-                    max={5}
                     onChange={(value) => setPreferences(prev => ({ ...prev, studyHabits: value }))}
                     label="Study Habits"
                 />
-                <Slider
+                <SliderPref
                     name="roomPrivacy"
                     value={preferences.roomPrivacy}
-                    min={1}
-                    max={5}
                     onChange={(value) => setPreferences(prev => ({ ...prev, roomPrivacy: value }))}
                     label="Room Privacy Preference"
                 />
-                <Slider
+                <SliderPref
                     name="cookingFrequency"
                     value={preferences.cookingFrequency}
-                    min={1}
-                    max={5}
                     onChange={(value) => setPreferences(prev => ({ ...prev, cookingFrequency: value }))}
                     label="Cooking Frequency"
                 />
@@ -226,11 +209,9 @@ const PreferencesForm = () => {
                     <option value="no">False</option>
                     <option value="no-preference">No Preference</option>
                 </select>
-                <Slider
+                <SliderPref
                     name="exerciseFrequency"
                     value={preferences.exerciseFrequency}
-                    min={1}
-                    max={5}
                     onChange={(value) => setPreferences(prev => ({ ...prev, exerciseFrequency: value }))}
                     label="Exercise Frequency"
                 />
@@ -247,19 +228,15 @@ const PreferencesForm = () => {
                     <option value="extroverted">Extroverted</option>
                     <option value="ambivert">Ambivert</option>
                 </select>
-                <Slider
+                <SliderPref
                     name="sharedLivingSpaceUse"
                     value={preferences.sharedLivingSpaceUse}
-                    min={1}
-                    max={5}
                     onChange={(value) => setPreferences(prev => ({ ...prev, sharedLivingSpaceUse: value }))}
                     label="Shared Living Space Use"
                 />
-                <Slider
+                <SliderPref
                     name="roomTemperaturePreference"
                     value={preferences.roomTemperaturePreference}
-                    min={1}
-                    max={5}
                     onChange={(value) => setPreferences(prev => ({ ...prev, roomTemperaturePreference: value }))}
                     label="Room Temperature Preference"
                 />
@@ -279,7 +256,7 @@ const PreferencesForm = () => {
                 </select>
                 
                 <Button type="submit" style={{ marginTop: '20px' }}>
-                {loading ? 'Saving...' : 'Submit Preferences'}
+                {buttonText}
                 </Button>
             </form>
         

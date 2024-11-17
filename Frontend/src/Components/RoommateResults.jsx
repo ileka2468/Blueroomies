@@ -23,6 +23,7 @@ import {
   Users,
 } from "lucide-react";
 import { useAxios } from "../Security/axios/AxiosProvider";
+import { Link } from "react-router-dom";
 
 const userDetailsCache = new Map();
 
@@ -80,6 +81,8 @@ const RoommateResults = ({ matches, isLoading, onRefresh }) => {
   const [userDetails, setUserDetails] = useState({});
   const [loadingDetails, setLoadingDetails] = useState(false);
   const [expandedCard, setExpandedCard] = useState(null);
+
+  // const navigator = useNavigate();
 
   useEffect(() => {
     const fetchUserDetails = async () => {
@@ -303,6 +306,11 @@ const RoommateResults = ({ matches, isLoading, onRefresh }) => {
                     color="primary"
                     size="sm"
                     startContent={<MessageCircle size={16} />}
+                    as={Link}
+                    to={{
+                      pathname: "/messages",
+                      search: `?user=${match.user_id}`,
+                    }}
                   >
                     Message
                   </Button>
@@ -310,6 +318,11 @@ const RoommateResults = ({ matches, isLoading, onRefresh }) => {
                     color="success"
                     size="sm"
                     startContent={<FileText size={16} />}
+                    as={Link}
+                    to={{
+                      pathname: "/agreements",
+                      search: `?uid=${match.user_id}`,
+                    }}
                   >
                     Create Agreement
                   </Button>

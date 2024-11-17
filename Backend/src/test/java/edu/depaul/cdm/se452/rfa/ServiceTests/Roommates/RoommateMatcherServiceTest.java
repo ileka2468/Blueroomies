@@ -19,35 +19,35 @@ class RoommateMatcherServiceTest {
     private Profile profile3;
     private Profile selectedProfile;
 
-    @BeforeEach
-    public void setUp() {
-        RoommateMatcherService matcherService = new RoommateMatcherService(matchStorageService);
-
-        profile1 = new Profile();
-        profile1.setId(1);
-        profile1.setCharacteristics(new HashMap<>(Map.of(
-                "cleanliness_level", 4,
-                "gender_preference", "Male",
-                "smoking_preference", false,
-                "alcohol_usage", true
-        )));
-        profile2 = new Profile();
-        profile2.setId(2);
-        profile2.setCharacteristics(new HashMap<>(Map.of(
-                "cleanliness_level", 5,
-                "gender_preference", "Male",
-                "smoking_preference", true,
-                "alcohol_usage", false
-        )));
-        profile3 = new Profile();
-        profile3.setId(3);
-        profile3.setCharacteristics(new HashMap<>(Map.of(
-                "cleanliness_level", 3,
-                "gender_preference", "Female",
-                "smoking_preference", false,
-                "alcohol_usage", true
-        )));
-    }
+//    @BeforeEach
+//    public void setUp() {
+//        RoommateMatcherService matcherService = new RoommateMatcherService(matchStorageService);
+//
+//        profile1 = new Profile();
+//        profile1.setId(1);
+//        profile1.setCharacteristics(new HashMap<>(Map.of(
+//                "cleanliness_level", 4,
+//                "gender_preference", "Male",
+//                "smoking_preference", false,
+//                "alcohol_usage", true
+//        )));
+//        profile2 = new Profile();
+//        profile2.setId(2);
+//        profile2.setCharacteristics(new HashMap<>(Map.of(
+//                "cleanliness_level", 5,
+//                "gender_preference", "Male",
+//                "smoking_preference", true,
+//                "alcohol_usage", false
+//        )));
+//        profile3 = new Profile();
+//        profile3.setId(3);
+//        profile3.setCharacteristics(new HashMap<>(Map.of(
+//                "cleanliness_level", 3,
+//                "gender_preference", "Female",
+//                "smoking_preference", false,
+//                "alcohol_usage", true
+//        )));
+//    }
 
     @Test
     void filterByGender() {

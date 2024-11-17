@@ -14,6 +14,7 @@ import useSocket from "../../WebSockets/webSocketClient";
 import useUser from "../../Security/hooks/useUser";
 import MessageList from "./MessageList";
 import { useAxios } from "../../Security/axios/AxiosProvider";
+import { useLocation } from "react-router-dom";
 
 const getMatches = async (apiClient) => {
   try {
@@ -34,6 +35,9 @@ const MessageBox = () => {
   const [conversationMessages, setConversationMessages] = useState([]);
   const [loadingMessages, setLoadingMessages] = useState(false);
   const token = localStorage.getItem("accessToken");
+  const location = useLocation();
+  const userParam = new URLSearchParams(location.search).get("user");
+  console.log(userParam);
   const [userData] = useUser();
 
   const {
@@ -86,6 +90,15 @@ const MessageBox = () => {
     }
   }, [liveMessages]);
 
+  useEffect(() => {
+    if (userParam && matchdata.length > 0) {
+      const matchedUser = matchdata.find(
+        (user) => user.id === Number(userParam)
+      );
+      setSelectedUser(matchedUser || null);
+    }
+  }, [userParam, matchdata]);
+
   const handleSendMessage = () => {
     if (!selectedUser || !messageInput.trim()) return;
     const sent = sendMessage(selectedUser.username, messageInput.trim());
@@ -128,9 +141,7 @@ const MessageBox = () => {
                 isDisabled={loadingMatches}
               >
                 {[
-                  ...new Map(
-                    matchdata.map((user) => [user.id, user]) // Map ensures unique `id` keys
-                  ).values(), // Extract unique users
+                  ...new Map(matchdata.map((user) => [user.id, user])).values(),
                 ].map((user) => (
                   <SelectItem
                     key={user.id}

@@ -1,8 +1,13 @@
 package edu.depaul.cdm.se452.rfa.roomate.service;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.depaul.cdm.se452.rfa.authentication.entity.User;
 import edu.depaul.cdm.se452.rfa.profileManagement.entity.Profile;
+import edu.depaul.cdm.se452.rfa.profileManagement.service.ProfileService;
+import edu.depaul.cdm.se452.rfa.roomate.entity.RoommateMatch;
+import edu.depaul.cdm.se452.rfa.roomate.repository.RoommateMatchesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.*;
@@ -19,8 +24,12 @@ import java.util.*;
 @Service
 public class RoommateMatcherService {
 
+    private final RoommateMatchesRepository roommateMatchesRepository;
     private double[] weights;
     private final MatchStorageService matchStorageService;
+
+    @Autowired
+    private ProfileService profileService;
 
     /**
      * Constructor takes in the MatchStorageService as a parameter.
@@ -28,8 +37,9 @@ public class RoommateMatcherService {
      * @param matchStorageService   Service for storing matches.
      */
     @Autowired
-    public RoommateMatcherService(MatchStorageService matchStorageService) {
+    public RoommateMatcherService(MatchStorageService matchStorageService, RoommateMatchesRepository roommateMatchesRepository) {
         this.matchStorageService = matchStorageService;
+        this.roommateMatchesRepository = roommateMatchesRepository;
     }
 
     /**
@@ -49,6 +59,10 @@ public class RoommateMatcherService {
      * each filter takes in a list of profiles parameter derived from the previous filter
      *
      */
+
+    private Optional<Profile> getMatchedProfile(int userId) {
+        return profileService.getProfileById(userId);
+    }
 
     /**
      * Protected method for checking gender compatibilities between two profiles.

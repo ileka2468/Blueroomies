@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 import edu.depaul.cdm.se452.rfa.preferences.entity.Preference;
 import edu.depaul.cdm.se452.rfa.preferences.service.PreferencesService;
-import edu.depaul.cdm.se452.rfa.profilemanagement.service.ProfileService;
+import edu.depaul.cdm.se452.rfa.profileManagement.service.ProfileService;
 
 import java.util.List;
 import java.util.Map;

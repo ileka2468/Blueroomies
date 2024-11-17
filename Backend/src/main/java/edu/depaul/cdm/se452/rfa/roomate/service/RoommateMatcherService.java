@@ -11,7 +11,6 @@ import edu.depaul.cdm.se452.rfa.roomate.repository.RoommateMatchesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * The Roommate Matcher Service is a service class for the spring framework that implements the

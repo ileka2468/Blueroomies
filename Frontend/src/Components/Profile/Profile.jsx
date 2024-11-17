@@ -68,7 +68,7 @@ const Profile = () => {
                     alignItems: "center",
                     minHeight: "400px",
                     height: "auto",
-                    overflow: "auto",
+                    overflow: "auto", 
                 }}
             >
                 {/* Profile Picture */}
@@ -104,7 +104,7 @@ const Profile = () => {
                 )}
 
                 {/* User Info */}
-
+                
                 <p><strong>Username:</strong> {userData.username}</p>
                 <p><strong>First Name:</strong> {userData.firstname}</p>
                 <p><strong>Last Name:</strong> {userData.lastname}</p>

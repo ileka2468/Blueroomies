@@ -422,5 +422,6 @@ public class RoommateMatcherService {
             e.printStackTrace();
             return "{}";
         }
+
     }
 }

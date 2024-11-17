@@ -16,9 +16,9 @@ import edu.depaul.cdm.se452.rfa.authentication.security.JwtTokenProvider;
 import edu.depaul.cdm.se452.rfa.authentication.service.CustomUserDetailsService;
 import edu.depaul.cdm.se452.rfa.authentication.util.UserPrincipal;
 import edu.depaul.cdm.se452.rfa.invalidatedtokens.service.InvalidateTokenService;
-import edu.depaul.cdm.se452.rfa.profilemanagement.entity.Profile;
-import edu.depaul.cdm.se452.rfa.preferences.InvalidPreferenceException;
-import edu.depaul.cdm.se452.rfa.profilemanagement.service.ProfileService;
+import edu.depaul.cdm.se452.rfa.profileManagement.entity.Profile;
+import edu.depaul.cdm.se452.rfa.profileManagement.service.InvalidCharacteristicException;
+import edu.depaul.cdm.se452.rfa.profileManagement.service.ProfileService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -136,7 +136,7 @@ public class AuthController {
             response.addCookie(refreshTokenCookie);
 
             return ResponseEntity.ok(new AuthDataResponse(user.getUsername(), user.getFirstName(), user.getLastName(), profile.getPfpImage()));
-        } catch (InvalidPreferenceException e) {
+        } catch (InvalidCharacteristicException e) {
             log.error("Profile creation failed for user {}: {}", user.getUsername(), e.getMessage());
             return ResponseEntity.badRequest().body(e.getMessage());
         }

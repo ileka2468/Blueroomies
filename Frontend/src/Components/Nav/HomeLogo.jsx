@@ -13,9 +13,9 @@ const HomeLogo = () => {
       <g opacity="100%" mask="url(#mask_9prwcnmmc)">
         <text
           x="35"
-          y="25"
+          y="27"
           fontFamily="Rubik"
-          fontSize="22"
+          fontSize="26"
           fill="#000"
           letterSpacing="-0.6"
           fontWeight="normal"

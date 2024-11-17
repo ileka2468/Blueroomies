@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import useUser from "../../Security/hooks/useUser";
 import apiClient from "../../Security/axios/apiClient";
 import EditProfile from "./EditProfile";
-import { Button, Card } from "@nextui-org/react";  
+import { Button, Card } from "@nextui-org/react";
 
 const CustomLoadingSpinner = () => {
     return <div className="loading-spinner">Loading...</div>;

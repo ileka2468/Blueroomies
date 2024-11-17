@@ -1,17 +1,11 @@
 import React, { useState } from 'react';
-import { Input, Button, Slider } from "@nextui-org/react";
-import axios from 'axios';
-import useUser from '../../Security/hooks/useUser.js';
-import apiClient from "../../Security/axios/apiClient.js";
-import SliderPref from "./SliderPref.jsx";
-
+import { Input, Checkbox, Button, Slider } from "@nextui-org/react";
 
 const PreferencesForm = () => {
-    const [userData] = useUser();
-    const [preferences, setPreferences] = useState({
+    const [formData, setFormData] = useState({
         genderPreference: '',
-        smokingPreference: '',
-        alcoholUsage: '',
+        smokingPreference: false,
+        alcoholUsage: false,
         cleanlinessLevel: 3,
         noiseTolerance: 3,
         hygiene: 3,
@@ -23,7 +17,7 @@ const PreferencesForm = () => {
         studyHabits: 3,
         roomPrivacy: 3,
         cookingFrequency: 3,
-        foodSharing: '',
+        foodSharing: false,
         exerciseFrequency: 3,
         personalityType: '',
         sharedLivingSpaceUse: 3,
@@ -31,235 +25,232 @@ const PreferencesForm = () => {
         decoratingStyle: ''
     });
 
-    const [buttonText, setButtonText] = useState('Submit Preferences');
-    const [message, setMessage] = useState('');
-
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
-        setPreferences(prevState => ({
+        setFormData(prevState => ({
             ...prevState,
             [name]: type === 'checkbox' ? checked : value
         }));
     };
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
-        setMessage('');
-
-        
-        const token = localStorage.getItem("accessToken");
-        const response = await apiClient.put(`${import.meta.env.VITE_API_URL}/preferences/${userData.id}`,
-            preferences
-        ).then(response => {
-            console.log("Access Token before submitting:", token);
-            console.log("Preferences updated", response);
-            setButtonText('Preferences Submitted Successfully');
-            })
-            .catch(error => {
-            console.error("Error saving preferences:", error);
-        });
-         
+        // Submit form data to the API endpoint (POST /api/preferences/create)
+        console.log(formData); 
     };
 
     return (
-       
-        <form onSubmit={handleSubmit} style={{ 
+        <div style={{ 
             display: 'flex', 
-            flexDirection: 'column', 
-            gap: '10px', 
-            width: '100%', 
-            maxWidth: '600px', 
-            backgroundColor: '#fff', 
-            padding: '20px', 
-            borderRadius: '8px', 
-            boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' 
+            justifyContent: 'center', 
+            alignItems: 'center', 
+            minHeight: '100vh', 
+            padding: '20px' 
         }}>
-            {message && <div style={{ marginBottom: '10px', color: 'red' }}>{message}</div>}
+            <form onSubmit={handleSubmit} style={{ 
+                display: 'flex', 
+                flexDirection: 'column', 
+                gap: '10px', 
+                width: '100%', 
+                maxWidth: '600px', 
+                backgroundColor: '#fff', 
+                padding: '20px', 
+                borderRadius: '8px', 
+                boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' 
+            }}>
+                 <label htmlFor="genderPreference">Gender Preference:</label>
+            <select
+                name="genderPreference"
+                id="genderPreference"
+                value={formData.genderPreference}
+                onChange={handleChange}
+                style={{ padding: '8px', borderRadius: '4px' }}
+            >
+                <option value="">Select Gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="nonbinary">Nonbinary</option>
+                <option value="no-preference">No Preference</option>
+            </select>
+            
+            <label htmlFor="smokingPreference">Smoking Preference:</label>
+            <select
+                name="smokingPreference"
+                id="smokingPreference"
+                value={formData.smokingPreference}
+                onChange={handleChange}
+                style={{ padding: '8px', borderRadius: '4px' }}
+            >
+                <option value="">Select Smoking Preference</option>
+                <option value="smoking">Smoking</option>
+                <option value="no-smoking">No Smoking</option>
+                <option value="no-preference">No Preference</option>
+            </select>
 
-                <label htmlFor="genderPreference">Gender Preference:</label>
-                <select
-                    name="genderPreference"
-                    id="genderPreference"
-                    value={preferences.genderPreference}
-                    onChange={handleChange}
-                    style={{ padding: '8px', borderRadius: '4px' }}
-                >
-                    <option value="">Select Gender</option>
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                    <option value="nonbinary">Nonbinary</option>
-                    <option value="no-preference">No Preference</option>
-                </select>
-                
-                <label htmlFor="smokingPreference">Smoking Preference:</label>
-                <select
-                    name="smokingPreference"
-                    id="smokingPreference"
-                    value={preferences.smokingPreference}
-                    onChange={handleChange}
-                    style={{ padding: '8px', borderRadius: '4px' }}
-                >
-                    <option value="">Select Smoking Preference</option>
-                    <option value="smoking">Smoking</option>
-                    <option value="no-smoking">No Smoking</option>
-                    <option value="no-preference">No Preference</option>
-                </select>
-
-                <label htmlFor="alcoholUsage">Alcohol Usage Preference:</label>
-                <select
-                    name="alcoholUsage"
-                    id="alcoholUsage"
-                    value={preferences.alcoholUsage}
-                    onChange={handleChange}
-                    style={{ padding: '8px', borderRadius: '4px' }}
-                >
-                    <option value="">Select Alcohol Preference</option>
-                    <option value="alcohol">Drinks Alcohol</option>
-                    <option value="no-alcohol">No Alcohol</option>
-                    <option value="no-preference">No Preference</option>
-                </select>
-                
-                <SliderPref
+            <label htmlFor="alcoholUsage">Alcohol Usage Preference:</label>
+            <select
+                name="alcoholUsage"
+                id="alcoholUsage"
+                value={formData.alcoholUsage}
+                onChange={handleChange}
+                style={{ padding: '8px', borderRadius: '4px' }}
+            >
+                <option value="">Select Alcohol Preference</option>
+                <option value="alcohol">Drinks Alcohol</option>
+                <option value="no-alcohol">No Alcohol</option>
+                <option value="no-preference">No Preference</option>
+            </select>
+            
+                <Slider
                     name="cleanlinessLevel"
-                    value={preferences.cleanlinessLevel}
-                    onChange={(value) => setPreferences(prev => ({ ...prev, cleanlinessLevel: value }))}
+                    value={formData.cleanlinessLevel}
+                    min={1}
+                    max={5}
+                    step={1}
+
+                    onChange={(value) => setFormData(prev => ({ ...prev, cleanlinessLevel: value }))}
                     label="Cleanliness Level"
                 />
-                <SliderPref
+                <Slider
                     name="noiseTolerance"
-                    value={preferences.noiseTolerance}
-                    onChange={(value) => setPreferences(prev => ({ ...prev, noiseTolerance: value }))}
+                    value={formData.noiseTolerance}
+                    min={1}
+                    max={5}
+                    step={1}
+                    onChange={(value) => setFormData(prev => ({ ...prev, noiseTolerance: value }))}
                     label="Noise Tolerance"
                 />
-                <SliderPref
+                <Slider
                     name="hygiene"
-                    value={preferences.hygiene}
-                    onChange={(value) => setPreferences(prev => ({ ...prev, hygiene: value }))}
+                    value={formData.hygiene}
+                    min={1}
+                    max={5}
+                    onChange={(value) => setFormData(prev => ({ ...prev, hygiene: value }))}
                     label="Hygiene Level"
                 />
-                <label htmlFor="sleepSchedule">Sleep Schedule Preference:</label>
-                <select
-                    name="sleepSchedule"
-                    id="sleepSchedule"
-                    value={preferences.sleepSchedule}
-                    onChange={handleChange}
-                    style={{ padding: '8px', borderRadius: '4px' }}
-                >
-                    <option value="">Select Sleep Schedule Preference</option>
-                    <option value="early-riser">Early Riser</option>
-                    <option value="night-owl">Night Owl</option>
-                    <option value="flexible">Flexible</option>
-                </select>
-                <SliderPref
+            <label htmlFor="sleepSchedule">Sleep Schedule Preference:</label>
+            <select
+                name="sleepSchedule"
+                id="sleepSchedule"
+                value={formData.sleepSchedule}
+                onChange={handleChange}
+                style={{ padding: '8px', borderRadius: '4px' }}
+            >
+                <option value="">Select Sleep Schedule Preference</option>
+                <option value="alcohol">Early Bird</option>
+                <option value="no-alcohol">Night Owl</option>
+                <option value="no-preference">No Preference</option>
+            </select>
+                <Slider
                     name="guestsVisitors"
-                    value={preferences.guestsVisitors}
+                    value={formData.guestsVisitors}
                     min={1}
                     max={5}
-                    onChange={(value) => setPreferences(prev => ({ ...prev, guestsVisitors: value }))}
+                    onChange={(value) => setFormData(prev => ({ ...prev, guestsVisitors: value }))}
                     label="Guests/Visitors Tolerance"
                 />
-                <SliderPref
+                <Slider
                     name="workStudyFromHome"
-                    value={preferences.workStudyFromHome}
+                    value={formData.workStudyFromHome}
                     min={1}
                     max={5}
-                    onChange={(value) => setPreferences(prev => ({ ...prev, workStudyFromHome: value }))}
+                    onChange={(value) => setFormData(prev => ({ ...prev, workStudyFromHome: value }))}
                     label="Work/Study from Home Preference"
                 />
-                <SliderPref
+                <Slider
                     name="petTolerance"
-                    value={preferences.petTolerance}
-                    onChange={(value) => setPreferences(prev => ({ ...prev, petTolerance: value }))}
+                    value={formData.petTolerance}
+                    min={1}
+                    max={5}
+                    onChange={(value) => setFormData(prev => ({ ...prev, petTolerance: value }))}
                     label="Pet Tolerance"
                 />
-                <SliderPref
+                <Slider
                     name="sharedExpenses"
-                    value={preferences.sharedExpenses}
-                    onChange={(value) => setPreferences(prev => ({ ...prev, sharedExpenses: value }))}
+                    value={formData.sharedExpenses}
+                    min={1}
+                    max={5}
+                    onChange={(value) => setFormData(prev => ({ ...prev, sharedExpenses: value }))}
                     label="Shared Expenses Preference"
                 />
-                <SliderPref
+                <Slider
                     name="studyHabits"
-                    value={preferences.studyHabits}
-                    onChange={(value) => setPreferences(prev => ({ ...prev, studyHabits: value }))}
+                    value={formData.studyHabits}
+                    min={1}
+                    max={5}
+                    onChange={(value) => setFormData(prev => ({ ...prev, studyHabits: value }))}
                     label="Study Habits"
                 />
-                <SliderPref
+                <Slider
                     name="roomPrivacy"
-                    value={preferences.roomPrivacy}
-                    onChange={(value) => setPreferences(prev => ({ ...prev, roomPrivacy: value }))}
+                    value={formData.roomPrivacy}
+                    min={1}
+                    max={5}
+                    onChange={(value) => setFormData(prev => ({ ...prev, roomPrivacy: value }))}
                     label="Room Privacy Preference"
                 />
-                <SliderPref
+                <Slider
                     name="cookingFrequency"
-                    value={preferences.cookingFrequency}
-                    onChange={(value) => setPreferences(prev => ({ ...prev, cookingFrequency: value }))}
+                    value={formData.cookingFrequency}
+                    min={1}
+                    max={5}
+                    onChange={(value) => setFormData(prev => ({ ...prev, cookingFrequency: value }))}
                     label="Cooking Frequency"
                 />
-                <label htmlFor="foodSharing">Food Sharing Preference:</label>
-                <select
-                    name="foodSharing"
-                    id="foodSharing"
-                    value={preferences.foodSharing}
-                    onChange={handleChange}
-                    style={{ padding: '8px', borderRadius: '4px' }}
-                >
-                    <option value="">Select Food Sharing Preference</option>
-                    <option value="yes">True</option>
-                    <option value="no">False</option>
-                    <option value="no-preference">No Preference</option>
-                </select>
-                <SliderPref
+            <label htmlFor="foodSharing">Food Sharing Preference:</label>
+            <select
+                name="foodSharing"
+                id="foodSharing"
+                value={formData.foodSharing}
+                onChange={handleChange}
+                style={{ padding: '8px', borderRadius: '4px' }}
+            >
+                <option value="">Select Food Sharing Preference</option>
+                <option value="alcohol">Ok with food sharing</option>
+                <option value="no-alcohol">I do not like to share my food</option>
+                <option value="no-preference">No Preference</option>
+            </select>
+                <Slider
                     name="exerciseFrequency"
-                    value={preferences.exerciseFrequency}
-                    onChange={(value) => setPreferences(prev => ({ ...prev, exerciseFrequency: value }))}
+                    value={formData.exerciseFrequency}
+                    min={1}
+                    max={5}
+                    onChange={(value) => setFormData(prev => ({ ...prev, exerciseFrequency: value }))}
                     label="Exercise Frequency"
                 />
-                <label htmlFor="personalityType">Your Personality Type:</label>
-                <select
+                <Input
+                    label="Personality Type"
                     name="personalityType"
-                    id="personalityType"
-                    value={preferences.personalityType}
+                    value={formData.personalityType}
                     onChange={handleChange}
-                    style={{ padding: '8px', borderRadius: '4px' }}
-                >
-                    <option value="">Select Your Personality Type</option>
-                    <option value="introverted">Introverted</option>
-                    <option value="extroverted">Extroverted</option>
-                    <option value="ambivert">Ambivert</option>
-                </select>
-                <SliderPref
+                    fullWidth
+                />
+                <Slider
                     name="sharedLivingSpaceUse"
-                    value={preferences.sharedLivingSpaceUse}
-                    onChange={(value) => setPreferences(prev => ({ ...prev, sharedLivingSpaceUse: value }))}
+                    value={formData.sharedLivingSpaceUse}
+                    min={1}
+                    max={5}
+                    onChange={(value) => setFormData(prev => ({ ...prev, sharedLivingSpaceUse: value }))}
                     label="Shared Living Space Use"
                 />
-                <SliderPref
+                <Slider
                     name="roomTemperaturePreference"
-                    value={preferences.roomTemperaturePreference}
-                    onChange={(value) => setPreferences(prev => ({ ...prev, roomTemperaturePreference: value }))}
+                    value={formData.roomTemperaturePreference}
+                    min={1}
+                    max={5}
+                    onChange={(value) => setFormData(prev => ({ ...prev, roomTemperaturePreference: value }))}
                     label="Room Temperature Preference"
                 />
-                <label htmlFor="decoratingStyle">Decorating Style Preference:</label>
-                <select
+                <Input
+                    label="Decorating Style"
                     name="decoratingStyle"
-                    id="decoratingStyle"
-                    value={preferences.decoratingStyle}
+                    value={formData.decoratingStyle}
                     onChange={handleChange}
-                    style={{ padding: '8px', borderRadius: '4px' }}
-                >
-                    <option value="">Select Decorating Style</option>
-                    <option value="minimalist">Minimalist</option>
-                    <option value="cozy">Cozy</option>
-                    <option value="modern">Modern</option>
-                    <option value="traditional">Traditional</option>
-                </select>
-                
-                <Button type="submit" style={{ marginTop: '20px' }}>
-                {buttonText}
-                </Button>
+                    fullWidth
+                />
+                <Button type="submit">Submit</Button>
             </form>
-        
+        </div>
     );
 };
 

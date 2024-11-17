@@ -1,12 +1,12 @@
-package edu.depaul.cdm.se452.rfa.profilemanagement.service;
+package edu.depaul.cdm.se452.rfa.profileManagement.service;
 
 import edu.depaul.cdm.se452.rfa.authentication.repository.UserRepository;
-import edu.depaul.cdm.se452.rfa.profilemanagement.entity.Profile;
+import edu.depaul.cdm.se452.rfa.profileManagement.entity.Profile;
 import edu.depaul.cdm.se452.rfa.authentication.entity.User;
-import edu.depaul.cdm.se452.rfa.profilemanagement.repository.ProfileRepository;
+import edu.depaul.cdm.se452.rfa.profileManagement.repository.ProfileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import edu.depaul.cdm.se452.rfa.preferences.*;
+
 import java.util.Map;
 import java.util.Optional;
 
@@ -59,6 +59,6 @@ public class ProfileService {
     }
 
     public Map<String, Object> generateDefaultCharacteristics () {
-        return new Preferences().toMap();
+        return new Characteristics().toMap();
     }
 }

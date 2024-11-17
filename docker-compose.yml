@@ -4,8 +4,9 @@ services:
       context: ./Backend
       dockerfile: Dockerfile
     image: ileka2468/rfa-backend:latest
-    ports:
-      - "8080:8080"
+    deploy:
+      mode: replicated
+      replicas: 10
     environment:
       JWT_SECRET: ${JWT_SECRET}
       JWT_EXPIRATION_IN_MS: ${JWT_EXPIRATION_IN_MS}
@@ -24,7 +25,7 @@ services:
     volumes:
       - ./default.conf:/etc/nginx/conf.d/default.conf:ro
       - ./dist:/usr/share/nginx/html:ro
-      - ./certs:/etc/nginx/ssl:ro # https
+      - ./certs:/etc/nginx/ssl:ro
     depends_on:
       - backend
 

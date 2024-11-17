@@ -1,0 +1,961 @@
+
+    <html>
+    <head>
+        <title>Authorship Report</title>
+        <link rel="stylesheet" href="styles.css">
+        <script src="scripts.js" defer></script>
+    </head>
+    <body>
+        <h1>Authorship Report</h1>
+        <input type="text" id="searchInput" onkeyup="applyFilters()" placeholder="Search by file or author name...">
+
+        <select id="contributorSelect" onchange="applyFilters()">
+            <option value="">All Contributors</option>
+<option value="Cristian Axel Jaimes">Cristian Axel Jaimes (2650 lines)</option>
+<option value="Harshita Ambati">Harshita Ambati (5108 lines)</option>
+<option value="Ken Yu">Ken Yu (671 lines)</option>
+<option value="Matt">Matt (1257 lines)</option>
+<option value="Nathan Ho">Nathan Ho (161 lines)</option>
+<option value="Not Committed Yet">Not Committed Yet (3 lines)</option>
+<option value="Saqib Motlani">Saqib Motlani (373 lines)</option>
+<option value="Will">Will (476 lines)</option>
+<option value="William Ileka">William Ileka (17275 lines)</option>
+<option value="cristianaxeljaimes">cristianaxeljaimes (224 lines)</option>
+<option value="nkh361">nkh361 (1190 lines)</option>
+
+        </select>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>File</th>
+                    <th>Authors & Contribution (%)</th>
+                </tr>
+            </thead>
+            <tbody>
+    
+            <tr data-authors="William Ileka">
+                <td>.github/workflows/deploy.yml</td>
+                <td>William Ileka: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="Nathan Ho">
+                <td>.gitignore</td>
+                <td>Nathan Ho: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="Ken Yu,William Ileka">
+                <td>Backend/.gitignore</td>
+                <td>Ken Yu: 92.86%<br>William Ileka: 7.14%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka">
+                <td>Backend/Dockerfile</td>
+                <td>William Ileka: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="Ken Yu">
+                <td>Backend/mvnw</td>
+                <td>Ken Yu: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="Ken Yu">
+                <td>Backend/mvnw.cmd</td>
+                <td>Ken Yu: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka,Ken Yu,Will,cristianaxeljaimes,Nathan Ho">
+                <td>Backend/pom.xml</td>
+                <td>William Ileka: 70.93%<br>Ken Yu: 22.67%<br>cristianaxeljaimes: 3.49%<br>Nathan Ho: 1.74%<br>Will: 1.16%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka">
+                <td>Backend/src/main/java/edu/depaul/cdm/se452/rfa/RoommateFinderApp.java</td>
+                <td>William Ileka: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="cristianaxeljaimes,Matt">
+                <td>Backend/src/main/java/edu/depaul/cdm/se452/rfa/agreements/controller/AgreementController.java</td>
+                <td>Matt: 77.73%<br>cristianaxeljaimes: 22.27%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka,Matt">
+                <td>Backend/src/main/java/edu/depaul/cdm/se452/rfa/agreements/entity/Agreement.java</td>
+                <td>Matt: 98.04%<br>William Ileka: 1.96%</td>
+            </tr>
+            
+            <tr data-authors="cristianaxeljaimes,Matt,William Ileka">
+                <td>Backend/src/main/java/edu/depaul/cdm/se452/rfa/agreements/package-info.java</td>
+                <td>cristianaxeljaimes: 71.43%<br>Matt: 14.29%<br>William Ileka: 14.29%</td>
+            </tr>
+            
+            <tr data-authors="Matt">
+                <td>Backend/src/main/java/edu/depaul/cdm/se452/rfa/agreements/payload/Agreement.java</td>
+                <td>Matt: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="Matt">
+                <td>Backend/src/main/java/edu/depaul/cdm/se452/rfa/agreements/payload/AgreementActionRequest.java</td>
+                <td>Matt: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="Matt">
+                <td>Backend/src/main/java/edu/depaul/cdm/se452/rfa/agreements/payload/AgreementCreateRequest.java</td>
+                <td>Matt: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="Matt">
+                <td>Backend/src/main/java/edu/depaul/cdm/se452/rfa/agreements/payload/AgreementViewResponse.java</td>
+                <td>Matt: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="Matt">
+                <td>Backend/src/main/java/edu/depaul/cdm/se452/rfa/agreements/repository/AgreementsRepository.java</td>
+                <td>Matt: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="cristianaxeljaimes,Matt">
+                <td>Backend/src/main/java/edu/depaul/cdm/se452/rfa/agreements/service/AgreementService.java</td>
+                <td>cristianaxeljaimes: 54.65%<br>Matt: 45.35%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka,Harshita Ambati,Will,Saqib Motlani">
+                <td>Backend/src/main/java/edu/depaul/cdm/se452/rfa/authentication/controller/AuthController.java</td>
+                <td>William Ileka: 97.11%<br>Saqib Motlani: 1.65%<br>Harshita Ambati: 0.83%<br>Will: 0.41%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka">
+                <td>Backend/src/main/java/edu/depaul/cdm/se452/rfa/authentication/entity/Role.java</td>
+                <td>William Ileka: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka">
+                <td>Backend/src/main/java/edu/depaul/cdm/se452/rfa/authentication/entity/User.java</td>
+                <td>William Ileka: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka,Cristian Axel Jaimes">
+                <td>Backend/src/main/java/edu/depaul/cdm/se452/rfa/authentication/entity/UserRole.java</td>
+                <td>William Ileka: 92.31%<br>Cristian Axel Jaimes: 7.69%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka">
+                <td>Backend/src/main/java/edu/depaul/cdm/se452/rfa/authentication/entity/UserRoleId.java</td>
+                <td>William Ileka: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka">
+                <td>Backend/src/main/java/edu/depaul/cdm/se452/rfa/authentication/package-info.java</td>
+                <td>William Ileka: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka">
+                <td>Backend/src/main/java/edu/depaul/cdm/se452/rfa/authentication/payload/AuthDataResponse.java</td>
+                <td>William Ileka: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka">
+                <td>Backend/src/main/java/edu/depaul/cdm/se452/rfa/authentication/payload/LoginRequest.java</td>
+                <td>William Ileka: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka">
+                <td>Backend/src/main/java/edu/depaul/cdm/se452/rfa/authentication/payload/RegisterRequest.java</td>
+                <td>William Ileka: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka">
+                <td>Backend/src/main/java/edu/depaul/cdm/se452/rfa/authentication/payload/TokenType.java</td>
+                <td>William Ileka: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka">
+                <td>Backend/src/main/java/edu/depaul/cdm/se452/rfa/authentication/repository/RoleRepository.java</td>
+                <td>William Ileka: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka">
+                <td>Backend/src/main/java/edu/depaul/cdm/se452/rfa/authentication/repository/UserRepository.java</td>
+                <td>William Ileka: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka">
+                <td>Backend/src/main/java/edu/depaul/cdm/se452/rfa/authentication/repository/UserRoleRepository.java</td>
+                <td>William Ileka: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka">
+                <td>Backend/src/main/java/edu/depaul/cdm/se452/rfa/authentication/security/AuthEntryPoint.java</td>
+                <td>William Ileka: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka">
+                <td>Backend/src/main/java/edu/depaul/cdm/se452/rfa/authentication/security/FilterConfig.java</td>
+                <td>William Ileka: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka">
+                <td>Backend/src/main/java/edu/depaul/cdm/se452/rfa/authentication/security/JwtAuthenticationFilter.java</td>
+                <td>William Ileka: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka">
+                <td>Backend/src/main/java/edu/depaul/cdm/se452/rfa/authentication/security/JwtTokenProvider.java</td>
+                <td>William Ileka: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka">
+                <td>Backend/src/main/java/edu/depaul/cdm/se452/rfa/authentication/security/SecurityConfig.java</td>
+                <td>William Ileka: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka">
+                <td>Backend/src/main/java/edu/depaul/cdm/se452/rfa/authentication/security/TokenExpiredException.java</td>
+                <td>William Ileka: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka">
+                <td>Backend/src/main/java/edu/depaul/cdm/se452/rfa/authentication/service/AuthResponse.java</td>
+                <td>William Ileka: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka">
+                <td>Backend/src/main/java/edu/depaul/cdm/se452/rfa/authentication/service/CustomUserDetailsService.java</td>
+                <td>William Ileka: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka">
+                <td>Backend/src/main/java/edu/depaul/cdm/se452/rfa/authentication/service/TokenValidationService.java</td>
+                <td>William Ileka: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka">
+                <td>Backend/src/main/java/edu/depaul/cdm/se452/rfa/authentication/util/UserPrincipal.java</td>
+                <td>William Ileka: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka">
+                <td>Backend/src/main/java/edu/depaul/cdm/se452/rfa/config/ApplicationProperties.java</td>
+                <td>William Ileka: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka">
+                <td>Backend/src/main/java/edu/depaul/cdm/se452/rfa/config/Config.java</td>
+                <td>William Ileka: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka">
+                <td>Backend/src/main/java/edu/depaul/cdm/se452/rfa/invalidatedtokens/entity/Invalidatedtoken.java</td>
+                <td>William Ileka: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka">
+                <td>Backend/src/main/java/edu/depaul/cdm/se452/rfa/invalidatedtokens/package-info.java</td>
+                <td>William Ileka: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka">
+                <td>Backend/src/main/java/edu/depaul/cdm/se452/rfa/invalidatedtokens/repository/InvalidatedTokensRepository.java</td>
+                <td>William Ileka: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka">
+                <td>Backend/src/main/java/edu/depaul/cdm/se452/rfa/invalidatedtokens/service/InvalidateTokenService.java</td>
+                <td>William Ileka: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="cristianaxeljaimes,William Ileka">
+                <td>Backend/src/main/java/edu/depaul/cdm/se452/rfa/messaging/controller/MessageController.java</td>
+                <td>William Ileka: 62.91%<br>cristianaxeljaimes: 37.09%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka">
+                <td>Backend/src/main/java/edu/depaul/cdm/se452/rfa/messaging/entity/Message.java</td>
+                <td>William Ileka: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="cristianaxeljaimes">
+                <td>Backend/src/main/java/edu/depaul/cdm/se452/rfa/messaging/package-info.java</td>
+                <td>cristianaxeljaimes: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka">
+                <td>Backend/src/main/java/edu/depaul/cdm/se452/rfa/messaging/payload/Message.java</td>
+                <td>William Ileka: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="Cristian Axel Jaimes">
+                <td>Backend/src/main/java/edu/depaul/cdm/se452/rfa/messaging/payload/SocketsAuthResponse.java</td>
+                <td>Cristian Axel Jaimes: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="cristianaxeljaimes,William Ileka">
+                <td>Backend/src/main/java/edu/depaul/cdm/se452/rfa/messaging/repository/MessageRepository.java</td>
+                <td>William Ileka: 52.63%<br>cristianaxeljaimes: 47.37%</td>
+            </tr>
+            
+            <tr data-authors="cristianaxeljaimes,William Ileka">
+                <td>Backend/src/main/java/edu/depaul/cdm/se452/rfa/messaging/service/MessageService.java</td>
+                <td>cristianaxeljaimes: 77.78%<br>William Ileka: 22.22%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka">
+                <td>Backend/src/main/java/edu/depaul/cdm/se452/rfa/package-info.java</td>
+                <td>William Ileka: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="Harshita Ambati">
+                <td>Backend/src/main/java/edu/depaul/cdm/se452/rfa/preferences/InvalidPreferenceException.java</td>
+                <td>Harshita Ambati: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="Harshita Ambati">
+                <td>Backend/src/main/java/edu/depaul/cdm/se452/rfa/preferences/PreferenceData.java</td>
+                <td>Harshita Ambati: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="Harshita Ambati,William Ileka">
+                <td>Backend/src/main/java/edu/depaul/cdm/se452/rfa/preferences/PreferenceDataWithOptions.java</td>
+                <td>William Ileka: 80.0%<br>Harshita Ambati: 20.0%</td>
+            </tr>
+            
+            <tr data-authors="Harshita Ambati">
+                <td>Backend/src/main/java/edu/depaul/cdm/se452/rfa/preferences/PreferenceType.java</td>
+                <td>Harshita Ambati: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="Harshita Ambati,William Ileka">
+                <td>Backend/src/main/java/edu/depaul/cdm/se452/rfa/preferences/Preferences.java</td>
+                <td>William Ileka: 84.23%<br>Harshita Ambati: 15.77%</td>
+            </tr>
+            
+            <tr data-authors="Harshita Ambati,William Ileka,Not Committed Yet">
+                <td>Backend/src/main/java/edu/depaul/cdm/se452/rfa/preferences/controller/PreferenceController.java</td>
+                <td>Harshita Ambati: 62.0%<br>William Ileka: 32.0%<br>Not Committed Yet: 6.0%</td>
+            </tr>
+            
+            <tr data-authors="Harshita Ambati">
+                <td>Backend/src/main/java/edu/depaul/cdm/se452/rfa/preferences/entity/Preference.java</td>
+                <td>Harshita Ambati: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="Harshita Ambati">
+                <td>Backend/src/main/java/edu/depaul/cdm/se452/rfa/preferences/package-info.java</td>
+                <td>Harshita Ambati: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="Harshita Ambati">
+                <td>Backend/src/main/java/edu/depaul/cdm/se452/rfa/preferences/repository/PreferenceRepository.java</td>
+                <td>Harshita Ambati: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="Harshita Ambati,William Ileka">
+                <td>Backend/src/main/java/edu/depaul/cdm/se452/rfa/preferences/service/PreferencesService.java</td>
+                <td>Harshita Ambati: 97.78%<br>William Ileka: 2.22%</td>
+            </tr>
+            
+            <tr data-authors="Saqib Motlani,William Ileka">
+                <td>Backend/src/main/java/edu/depaul/cdm/se452/rfa/profileManagement/controller/ProfileController.java</td>
+                <td>Saqib Motlani: 69.39%<br>William Ileka: 30.61%</td>
+            </tr>
+            
+            <tr data-authors="Will,William Ileka,Saqib Motlani">
+                <td>Backend/src/main/java/edu/depaul/cdm/se452/rfa/profileManagement/entity/Profile.java</td>
+                <td>William Ileka: 92.31%<br>Will: 5.77%<br>Saqib Motlani: 1.92%</td>
+            </tr>
+            
+            <tr data-authors="Saqib Motlani,Will">
+                <td>Backend/src/main/java/edu/depaul/cdm/se452/rfa/profileManagement/package-info.java</td>
+                <td>Saqib Motlani: 80.0%<br>Will: 20.0%</td>
+            </tr>
+            
+            <tr data-authors="Will,William Ileka,Saqib Motlani">
+                <td>Backend/src/main/java/edu/depaul/cdm/se452/rfa/profileManagement/repository/ProfileRepository.java</td>
+                <td>William Ileka: 78.57%<br>Will: 14.29%<br>Saqib Motlani: 7.14%</td>
+            </tr>
+            
+            <tr data-authors="Will">
+                <td>Backend/src/main/java/edu/depaul/cdm/se452/rfa/profileManagement/service/CharacteristicData.java</td>
+                <td>Will: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="Will,William Ileka">
+                <td>Backend/src/main/java/edu/depaul/cdm/se452/rfa/profileManagement/service/CharacteristicDataWithOptions.java</td>
+                <td>William Ileka: 80.0%<br>Will: 20.0%</td>
+            </tr>
+            
+            <tr data-authors="Will">
+                <td>Backend/src/main/java/edu/depaul/cdm/se452/rfa/profileManagement/service/CharacteristicType.java</td>
+                <td>Will: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="Will,William Ileka">
+                <td>Backend/src/main/java/edu/depaul/cdm/se452/rfa/profileManagement/service/Characteristics.java</td>
+                <td>William Ileka: 84.23%<br>Will: 15.77%</td>
+            </tr>
+            
+            <tr data-authors="Will">
+                <td>Backend/src/main/java/edu/depaul/cdm/se452/rfa/profileManagement/service/InvalidCharacteristicException.java</td>
+                <td>Will: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="Will,William Ileka,Saqib Motlani">
+                <td>Backend/src/main/java/edu/depaul/cdm/se452/rfa/profileManagement/service/ProfileService.java</td>
+                <td>Will: 42.57%<br>William Ileka: 34.65%<br>Saqib Motlani: 22.77%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka,nkh361">
+                <td>Backend/src/main/java/edu/depaul/cdm/se452/rfa/roomate/controller/MatchController.java</td>
+                <td>William Ileka: 95.86%<br>nkh361: 4.14%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka,nkh361">
+                <td>Backend/src/main/java/edu/depaul/cdm/se452/rfa/roomate/entity/RoommateMatch.java</td>
+                <td>William Ileka: 84.51%<br>nkh361: 15.49%</td>
+            </tr>
+            
+            <tr data-authors="nkh361,Matt">
+                <td>Backend/src/main/java/edu/depaul/cdm/se452/rfa/roomate/package-info.java</td>
+                <td>nkh361: 80.0%<br>Matt: 20.0%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka,nkh361">
+                <td>Backend/src/main/java/edu/depaul/cdm/se452/rfa/roomate/repository/RoommateMatchesRepository.java</td>
+                <td>William Ileka: 66.67%<br>nkh361: 33.33%</td>
+            </tr>
+            
+            <tr data-authors="Will">
+                <td>Backend/src/main/java/edu/depaul/cdm/se452/rfa/roomate/service/MatchResponse.java</td>
+                <td>Will: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="nkh361">
+                <td>Backend/src/main/java/edu/depaul/cdm/se452/rfa/roomate/service/MatchStorageService.java</td>
+                <td>nkh361: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="nkh361,William Ileka">
+                <td>Backend/src/main/java/edu/depaul/cdm/se452/rfa/roomate/service/RoommateMatcherService.java</td>
+                <td>nkh361: 95.78%<br>William Ileka: 4.22%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka">
+                <td>Backend/src/main/resources/application.properties</td>
+                <td>William Ileka: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="Ken Yu">
+                <td>Backend/src/main/resources/log4j2.xml</td>
+                <td>Ken Yu: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="Matt">
+                <td>Backend/src/test/java/edu/depaul/cdm/se452/rfa/RepositoryTests/Agreement/AgreementRepositoryTest.java</td>
+                <td>Matt: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka,Saqib Motlani">
+                <td>Backend/src/test/java/edu/depaul/cdm/se452/rfa/RepositoryTests/Profile/ProfileRepositoryTest.java</td>
+                <td>Saqib Motlani: 97.01%<br>William Ileka: 2.99%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka">
+                <td>Backend/src/test/java/edu/depaul/cdm/se452/rfa/RepositoryTests/Role/RoleRepositoryTest.java</td>
+                <td>William Ileka: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka">
+                <td>Backend/src/test/java/edu/depaul/cdm/se452/rfa/RepositoryTests/User/UserRepositoryTest.java</td>
+                <td>William Ileka: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka">
+                <td>Backend/src/test/java/edu/depaul/cdm/se452/rfa/RepositoryTests/UserRole/UserRoleRepositoryTest.java</td>
+                <td>William Ileka: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="Will,William Ileka">
+                <td>Backend/src/test/java/edu/depaul/cdm/se452/rfa/ServiceTests/Roommates/RoommateMatcherServiceTest.java</td>
+                <td>Will: 87.22%<br>William Ileka: 12.78%</td>
+            </tr>
+            
+            <tr data-authors="Will">
+                <td>Backend/src/test/java/edu/depaul/cdm/se452/rfa/profileManagement/controller/ProfileControllerTest.java</td>
+                <td>Will: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="nkh361">
+                <td>Backend/src/test/java/edu/depaul/cdm/se452/rfa/roomate/service/MatchStorageServiceTest.java</td>
+                <td>nkh361: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="nkh361,William Ileka">
+                <td>Backend/src/test/java/edu/depaul/cdm/se452/rfa/roomate/service/RoommateMatcherServiceTest.java</td>
+                <td>nkh361: 69.61%<br>William Ileka: 30.39%</td>
+            </tr>
+            
+            <tr data-authors="Ken Yu">
+                <td>Backend/src/test/resources/log4j2.xml</td>
+                <td>Ken Yu: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="Nathan Ho">
+                <td>Database/.gitignore</td>
+                <td>Nathan Ho: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="Nathan Ho,William Ileka">
+                <td>Database/scripts/setup.sql</td>
+                <td>Nathan Ho: 96.3%<br>William Ileka: 3.7%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka">
+                <td>Documentation/Meeting/Meeting_1_Itinerary.md</td>
+                <td>William Ileka: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka">
+                <td>Documentation/Meeting/Meeting_2_itinerary.md</td>
+                <td>William Ileka: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka">
+                <td>Documentation/Project/api_endpoints_plan.md</td>
+                <td>William Ileka: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka">
+                <td>Documentation/Project/images/analysis.png</td>
+                <td>William Ileka: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="Nathan Ho,William Ileka">
+                <td>Documentation/Project/images/roommate-matcher-schema.png</td>
+                <td>William Ileka: 99.66%<br>Nathan Ho: 0.34%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka">
+                <td>Documentation/Project/project_team_structure.md</td>
+                <td>William Ileka: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="nkh361,Nathan Ho">
+                <td>Documentation/Project/roommate_matching_plan.md</td>
+                <td>nkh361: 94.59%<br>Nathan Ho: 5.41%</td>
+            </tr>
+            
+            <tr data-authors="Nathan Ho,William Ileka,Matt">
+                <td>Documentation/Project/schema_plan.md</td>
+                <td>William Ileka: 55.1%<br>Nathan Ho: 31.63%<br>Matt: 13.27%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka">
+                <td>Frontend/.gitignore</td>
+                <td>William Ileka: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka">
+                <td>Frontend/Dockerfile</td>
+                <td>William Ileka: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka">
+                <td>Frontend/README.md</td>
+                <td>William Ileka: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka">
+                <td>Frontend/eslint.config.js</td>
+                <td>William Ileka: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka">
+                <td>Frontend/index.html</td>
+                <td>William Ileka: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka,Cristian Axel Jaimes">
+                <td>Frontend/package-lock.json</td>
+                <td>William Ileka: 99.05%<br>Cristian Axel Jaimes: 0.95%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka,Harshita Ambati,Cristian Axel Jaimes">
+                <td>Frontend/package.json</td>
+                <td>William Ileka: 89.74%<br>Cristian Axel Jaimes: 7.69%<br>Harshita Ambati: 2.56%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka">
+                <td>Frontend/postcss.config.js</td>
+                <td>William Ileka: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka">
+                <td>Frontend/public/vite.svg</td>
+                <td>William Ileka: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="Matt">
+                <td>Frontend/src/Components/Agreements/AgreementBox.jsx</td>
+                <td>Matt: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="Matt">
+                <td>Frontend/src/Components/Agreements/data.js</td>
+                <td>Matt: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka">
+                <td>Frontend/src/Components/Authentication/LockIcon.jsx</td>
+                <td>William Ileka: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka,Harshita Ambati">
+                <td>Frontend/src/Components/Authentication/LoginModal.jsx</td>
+                <td>William Ileka: 92.37%<br>Harshita Ambati: 7.63%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka">
+                <td>Frontend/src/Components/Authentication/MailIcon.jsx</td>
+                <td>William Ileka: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka,Harshita Ambati">
+                <td>Frontend/src/Components/Authentication/RegisterModal.jsx</td>
+                <td>William Ileka: 97.59%<br>Harshita Ambati: 2.41%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka">
+                <td>Frontend/src/Components/Dashboard/Icons/NotificationIcon.jsx</td>
+                <td>William Ileka: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka,Harshita Ambati">
+                <td>Frontend/src/Components/Dashboard/Nav/HomeLogo.jsx</td>
+                <td>William Ileka: 98.82%<br>Harshita Ambati: 1.18%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka,Harshita Ambati,Matt">
+                <td>Frontend/src/Components/Dashboard/Nav/Nav.jsx</td>
+                <td>William Ileka: 95.02%<br>Harshita Ambati: 3.98%<br>Matt: 1.0%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka">
+                <td>Frontend/src/Components/Filter/AutocompleteBox.jsx</td>
+                <td>William Ileka: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka">
+                <td>Frontend/src/Components/Filter/Filters.json</td>
+                <td>William Ileka: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka">
+                <td>Frontend/src/Components/Filter/SideFilter.jsx</td>
+                <td>William Ileka: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka">
+                <td>Frontend/src/Components/Filter/Slider.jsx</td>
+                <td>William Ileka: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="Matt">
+                <td>Frontend/src/Components/Messages/FrontendBackendFlow.txt</td>
+                <td>Matt: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="Matt">
+                <td>Frontend/src/Components/Messages/ListboxReceived.jsx</td>
+                <td>Matt: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="Matt">
+                <td>Frontend/src/Components/Messages/ListboxSent.jsx</td>
+                <td>Matt: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka,Matt,Cristian Axel Jaimes">
+                <td>Frontend/src/Components/Messages/MessageBox.jsx</td>
+                <td>William Ileka: 85.27%<br>Cristian Axel Jaimes: 8.93%<br>Matt: 5.8%</td>
+            </tr>
+            
+            <tr data-authors="Cristian Axel Jaimes,William Ileka">
+                <td>Frontend/src/Components/Messages/MessageBubble.jsx</td>
+                <td>Cristian Axel Jaimes: 65.22%<br>William Ileka: 34.78%</td>
+            </tr>
+            
+            <tr data-authors="Cristian Axel Jaimes,William Ileka">
+                <td>Frontend/src/Components/Messages/MessageList.jsx</td>
+                <td>Cristian Axel Jaimes: 56.52%<br>William Ileka: 43.48%</td>
+            </tr>
+            
+            <tr data-authors="Matt">
+                <td>Frontend/src/Components/Messages/TODO.txt</td>
+                <td>Matt: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="Matt">
+                <td>Frontend/src/Components/Messages/data.js</td>
+                <td>Matt: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka,Harshita Ambati">
+                <td>Frontend/src/Components/Nav/HomeLogo.jsx</td>
+                <td>William Ileka: 97.65%<br>Harshita Ambati: 2.35%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka,Harshita Ambati,Matt">
+                <td>Frontend/src/Components/Nav/Nav.jsx</td>
+                <td>William Ileka: 95.26%<br>Matt: 2.59%<br>Harshita Ambati: 2.16%</td>
+            </tr>
+            
+            <tr data-authors="Matt">
+                <td>Frontend/src/Components/Notifications/NotificationBox.jsx</td>
+                <td>Matt: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="Matt">
+                <td>Frontend/src/Components/Notifications/NotificationDropdown.jsx</td>
+                <td>Matt: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="Matt">
+                <td>Frontend/src/Components/Notifications/data.js</td>
+                <td>Matt: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka,Harshita Ambati">
+                <td>Frontend/src/Components/Preferences/PreferenceForm.jsx</td>
+                <td>William Ileka: 93.86%<br>Harshita Ambati: 6.14%</td>
+            </tr>
+            
+            <tr data-authors="Harshita Ambati">
+                <td>Frontend/src/Components/Preferences/PreferenceFormLogic</td>
+                <td>Harshita Ambati: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="Harshita Ambati">
+                <td>Frontend/src/Components/Preferences/SliderPref.jsx</td>
+                <td>Harshita Ambati: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="Saqib Motlani">
+                <td>Frontend/src/Components/Profile/EditProfile.jsx</td>
+                <td>Saqib Motlani: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="Saqib Motlani,Harshita Ambati,Will">
+                <td>Frontend/src/Components/Profile/Profile.jsx</td>
+                <td>Saqib Motlani: 96.34%<br>Harshita Ambati: 2.44%<br>Will: 1.22%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka">
+                <td>Frontend/src/Components/RoommateResults.jsx</td>
+                <td>William Ileka: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka,Harshita Ambati">
+                <td>Frontend/src/Components/root/Root.jsx</td>
+                <td>William Ileka: 90.38%<br>Harshita Ambati: 9.62%</td>
+            </tr>
+            
+            <tr data-authors="Matt">
+                <td>Frontend/src/Pages/AgreementsPage.jsx</td>
+                <td>Matt: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="Harshita Ambati">
+                <td>Frontend/src/Pages/Dashboard.jsx</td>
+                <td>Harshita Ambati: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka">
+                <td>Frontend/src/Pages/FindRoommatesPage.jsx</td>
+                <td>William Ileka: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="Harshita Ambati">
+                <td>Frontend/src/Pages/HomePage.jsx</td>
+                <td>Harshita Ambati: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="Matt">
+                <td>Frontend/src/Pages/MessagesPage.jsx</td>
+                <td>Matt: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="Matt">
+                <td>Frontend/src/Pages/NotificationsPage.jsx</td>
+                <td>Matt: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka">
+                <td>Frontend/src/Pages/PastMatches.jsx</td>
+                <td>William Ileka: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka,Harshita Ambati">
+                <td>Frontend/src/Security/axios/AxiosProvider.jsx</td>
+                <td>William Ileka: 73.68%<br>Harshita Ambati: 26.32%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka">
+                <td>Frontend/src/Security/axios/apiClient.js</td>
+                <td>William Ileka: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka,Harshita Ambati">
+                <td>Frontend/src/Security/hooks/useUser.js</td>
+                <td>William Ileka: 97.37%<br>Harshita Ambati: 2.63%</td>
+            </tr>
+            
+            <tr data-authors="Cristian Axel Jaimes,William Ileka">
+                <td>Frontend/src/WebSockets/webSocketClient.js</td>
+                <td>Cristian Axel Jaimes: 79.22%<br>William Ileka: 20.78%</td>
+            </tr>
+            
+            <tr data-authors="Harshita Ambati">
+                <td>Frontend/src/assets/connect.svg</td>
+                <td>Harshita Ambati: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="Harshita Ambati">
+                <td>Frontend/src/assets/findroommate.svg</td>
+                <td>Harshita Ambati: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="Harshita Ambati">
+                <td>Frontend/src/assets/form.svg</td>
+                <td>Harshita Ambati: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="Harshita Ambati">
+                <td>Frontend/src/assets/homepageimg.png</td>
+                <td>Harshita Ambati: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka">
+                <td>Frontend/src/assets/react.svg</td>
+                <td>William Ileka: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka">
+                <td>Frontend/src/index.css</td>
+                <td>William Ileka: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka,Matt,Saqib Motlani,Harshita Ambati">
+                <td>Frontend/src/main.jsx</td>
+                <td>William Ileka: 77.5%<br>Matt: 10.0%<br>Harshita Ambati: 10.0%<br>Saqib Motlani: 2.5%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka">
+                <td>Frontend/tailwind.config.js</td>
+                <td>William Ileka: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka">
+                <td>Frontend/vite.config.js</td>
+                <td>William Ileka: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka">
+                <td>Project Utils/AuthorshipReports.py</td>
+                <td>William Ileka: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="nkh361">
+                <td>Project Utils/FakeUsers.json</td>
+                <td>nkh361: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="nkh361">
+                <td>Project Utils/GenerateFakeUsers.py</td>
+                <td>nkh361: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="Cristian Axel Jaimes,William Ileka">
+                <td>Project Utils/authorship_report.html</td>
+                <td>Cristian Axel Jaimes: 62.79%<br>William Ileka: 37.21%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka">
+                <td>Project Utils/authorship_report.zip</td>
+                <td>William Ileka: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="Cristian Axel Jaimes,William Ileka">
+                <td>Project Utils/scripts.js</td>
+                <td>Cristian Axel Jaimes: 64.29%<br>William Ileka: 35.71%</td>
+            </tr>
+            
+            <tr data-authors="Cristian Axel Jaimes,William Ileka">
+                <td>Project Utils/styles.css</td>
+                <td>Cristian Axel Jaimes: 87.5%<br>William Ileka: 12.5%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka,Harshita Ambati,Saqib Motlani">
+                <td>README.md</td>
+                <td>William Ileka: 65.87%<br>Harshita Ambati: 33.33%<br>Saqib Motlani: 0.79%</td>
+            </tr>
+            
+            <tr data-authors="Cristian Axel Jaimes">
+                <td>WebSocketServer/.gitignore</td>
+                <td>Cristian Axel Jaimes: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka">
+                <td>WebSocketServer/Dockerfile</td>
+                <td>William Ileka: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="Cristian Axel Jaimes">
+                <td>WebSocketServer/package-lock.json</td>
+                <td>Cristian Axel Jaimes: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="Cristian Axel Jaimes,William Ileka">
+                <td>WebSocketServer/package.json</td>
+                <td>Cristian Axel Jaimes: 84.21%<br>William Ileka: 15.79%</td>
+            </tr>
+            
+            <tr data-authors="Cristian Axel Jaimes,William Ileka">
+                <td>WebSocketServer/src/ChatServer.js</td>
+                <td>Cristian Axel Jaimes: 91.53%<br>William Ileka: 8.47%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka">
+                <td>WebSocketServer/src/ChatServerConfigurationError.js</td>
+                <td>William Ileka: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka">
+                <td>WebSocketServer/src/ChatServerFactory.js</td>
+                <td>William Ileka: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka,Cristian Axel Jaimes">
+                <td>WebSocketServer/src/MessageHandler.js</td>
+                <td>Cristian Axel Jaimes: 61.05%<br>William Ileka: 38.95%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka">
+                <td>WebSocketServer/src/index.js</td>
+                <td>William Ileka: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka">
+                <td>default.conf</td>
+                <td>William Ileka: 100.0%</td>
+            </tr>
+            
+            <tr data-authors="William Ileka">
+                <td>docker-compose.yml</td>
+                <td>William Ileka: 100.0%</td>
+            </tr>
+            
+            </tbody>
+        </table>
+    </body>
+    </html>
+    

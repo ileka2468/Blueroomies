@@ -9,8 +9,9 @@ const SliderPref = ({ min, max, step, value, onChange, label }) => (
             max={5}
             step={1}
             value={value}
-            onChange={(e) => onChange(e.target.value)}
+            onChange={(e) => onChange(parseInt(e.target.value, 6))} 
             style={{ width: '100%' }}
+            
         />
         <div>{value}</div>
     </div>

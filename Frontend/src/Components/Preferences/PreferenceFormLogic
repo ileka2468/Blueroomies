@@ -1,1 +1,30 @@
-The Preference Form will only be displayed to authneticated users. Thereafter, preference form will be preset with values in 
+The Preference Form will only be displayed to authneticated users. 
+Only newly registered users fill out this form, and their set preferences will be populated in the profile page. As of right now, if a user would like to update their preferences, they must re-fill out the form displayed in the dashboard. 
+
+Once the form is filled out it populates the preferences table in the database. Since the matching algorithm focuses on the profiles table, there is a trigger and function on the database that automatically updates the characteristics(preferences) column in the Profiles table from the updated Preferences table based on userId. 
+
+CREATE OR REPLACE FUNCTION public.update_profile_characteristics()
+    RETURNS trigger
+    LANGUAGE 'plpgsql'
+    COST 100
+    VOLATILE NOT LEAKPROOF
+AS $BODY$
+BEGIN
+    -- Update the 'characteristics' field in the Profiles table based on user_id
+    UPDATE Profiles
+    SET characteristics = NEW.pref_characteristics
+    WHERE user_id = NEW.user_id;
+
+    -- Return the new row for the insert to complete
+    RETURN NEW;
+END;
+$BODY$;
+
+ALTER FUNCTION public.update_profile_characteristics()
+    OWNER TO "username";
+
+CREATE TRIGGER profile_characteristics_trigger
+    AFTER INSERT OR UPDATE 
+    ON public.preferences
+    FOR EACH ROW
+    EXECUTE FUNCTION public.update_profile_characteristics();

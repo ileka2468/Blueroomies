@@ -21,9 +21,9 @@ public class Config {
     ApplicationProperties appProperties() {
 
         ApplicationProperties props = ApplicationProperties.builder()
-                .dataSourceUrl(env.getProperty("spring.datasource.url"))
-                .dataSourceUsername(env.getProperty("spring.datasource.username"))
-                .dataSourcePassword(env.getProperty("spring.datasource.password"))
+        .dataSourceUrl(env.getProperty("spring.datasource.url"))
+        .dataSourceUsername(env.getProperty("spring.datasource.username"))
+        .dataSourcePassword(env.getProperty("spring.datasource.password"))
                 .hikariIdleTimeout(Integer.parseInt(Objects.requireNonNull(env.getProperty("spring.datasource.hikari.idle-timeout"))))
                 .hikariMaxLifetime(Integer.parseInt(Objects.requireNonNull(env.getProperty("spring.datasource.hikari.max-lifetime"))))
                 .hikariMinimumIdleConnections(Integer.parseInt(Objects.requireNonNull(env.getProperty("spring.datasource.hikari.minimum-idle"))))
@@ -33,7 +33,6 @@ public class Config {
                 .refreshTokenExpirationInMs(Integer.parseInt(Objects.requireNonNull(env.getProperty("app.refreshtokenExpirationInMs"))))
                 .env(env.getProperty("app.viteNodeEnv"))
                 .build();
-        System.out.println(props.getEnv());
         return props;
     }
 

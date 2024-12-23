@@ -1,12 +1,14 @@
-# Frontend Dockerfile
-
-FROM node:18-alpine AS build
-
+FROM node:18-alpine AS builder
 WORKDIR /app
-
-COPY package.json package-lock.json ./
+COPY package*.json ./
 RUN npm install
-
 COPY . .
-
 RUN npm run build
+
+FROM node:18-alpine
+WORKDIR /app
+RUN npm install -g serve
+COPY --from=builder /app/dist /app/dist
+
+EXPOSE 3003
+CMD ["serve", "-s", "dist", "-l", "3003"]
